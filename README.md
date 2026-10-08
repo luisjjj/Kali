@@ -1,7 +1,21 @@
 # Kali — start a call, no fuss
 
-A friendly Zoom clone. Next.js (App Router, TypeScript) + Tailwind + LiveKit Cloud +
+A friendly Zoom clone. Next.js 16 (App Router, TypeScript) + Tailwind v4 + LiveKit Cloud (SFU) +
 Neon Postgres (Drizzle) + Neon Auth. Deploy target: Vercel.
+
+## Features
+
+- **Auth** — sign up / sign in / sign out via Neon Auth (`@neondatabase/auth`). Guests join by link with a display name.
+- **Dashboard** — instant meeting, scheduling, join-with-code, upcoming + past lists.
+- **Shareable rooms** — short `xxx-xxx-xxx` room codes, links at `/m/[room_code]`.
+- **Pre-join lobby** — camera/mic preview, live mic meter, device pickers, display name.
+- **Meeting room** — speaker-highlighted video grid, floating pill control bar (mic, camera,
+  screen share, chat, people, leave), per-participant connection quality, audio-only
+  low-bandwidth mode, copy-link. Simulcast + adaptive stream + dynacast enabled.
+- **Chat** — LiveKit data channel (`useChat`) for live delivery, persisted to Postgres so history survives refresh.
+- **Host controls** — mute / remove participant, end for everyone. All enforced server-side
+  with the LiveKit server SDK; host flag is derived from `meetings.host_user_id`, never from client claims.
+- **Ended handling** — "call has ended" screen, 15s ended-polling + disconnect routing for guests.
 
 ## Quick start
 
@@ -11,39 +25,46 @@ Neon Postgres (Drizzle) + Neon Auth. Deploy target: Vercel.
 cp .env.example .env.local
 ```
 
-Required: `DATABASE_URL`, `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`.
-Meeting/video features (next step) also need `LIVEKIT_URL`, `LIVEKIT_API_KEY`,
-`LIVEKIT_API_SECRET`. See `LIVEKIT_SETUP.md` for the LiveKit Cloud walkthrough.
+| Var | Where from |
+| --- | --- |
+| `DATABASE_URL` | Neon Console → project → connection string |
+| `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET` | Neon Console → Auth → Enable Auth → Configuration (`openssl rand -base64 32` for the secret) |
+| `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` | LiveKit Cloud → project → Keys (see `LIVEKIT_SETUP.md`) |
+| `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` locally, your Vercel URL in prod |
 
-2. Install + run:
+2. Install + push schema + run:
 
 ```bash
 npm install
+npm run db:push
 npm run dev
 ```
 
-Open http://localhost:3000.
-
-3. Database:
-
-```bash
-npm run db:push     # push drizzle schema to Neon (needs DATABASE_URL)
-```
-
-Auth tables are managed by Neon Auth itself — Kali only creates
+Auth tables are managed by Neon Auth itself — Kali creates
 `meetings`, `participants`, `messages` (see `lib/db/schema.ts`).
+
+## Deploy to Vercel
+
+1. Push to GitHub (already at `github.com/luisjjj/Kali`).
+2. Vercel → Add New Project → import the repo.
+3. Add all env vars from the table above (production values).
+4. Deploy. No build config needed (`next build`).
 
 ## Project map
 
 - `app/page.tsx` — landing page (pink hero, chunky cards)
 - `app/auth/sign-in|sign-up` — Neon Auth email/password forms (zod-validated)
-- `app/dashboard` — protected placeholder (meetings list lands next)
+- `app/dashboard` — New / Schedule / Join + meeting lists
+- `app/m/[roomCode]` — lobby → room → left/ended flow
+- `app/api/meetings` — create/list (auth), meeting info (public), end-for-all (host), chat history/persist (public, code-gated)
+- `app/api/livekit/token|mute|remove` — signed JWTs + server-side host controls
 - `components/ui` — Kali design system: `button`, `card`, `input`, `badge`,
   `brand` (wordmark + video tile), `states` (loader/empty/error)
+- `components/meeting` — `lobby`, `room`, `video grid`, `chat-panel`, `participants-panel`, `ended-screen`
 - `lib/db` — Drizzle schema + Neon HTTP client
 - `lib/auth` — Neon Auth server/client (follows current `@neondatabase/auth` docs)
-- `proxy.ts` — protects `/dashboard/*` + `/api/meetings/*`
-- `LIVEKIT_SETUP.md` — what to do in the LiveKit Cloud dashboard before we wire video
+- `lib/livekit.ts` — server-only token signing + `RoomServiceClient`
+- `proxy.ts` — protects `/dashboard/*` (meeting APIs auth themselves so guests work)
 
 ## Design tokens
 
