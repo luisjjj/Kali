@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-kali-pink: #ffa8cd;
+  --color-kali-pink-hover: #ff8cbf;
+  --color-kali-pink-pale: #ffe3ef;
+  --color-kali-ink: #17120f;
+  --color-kali-paper: #fffbf9;
+  --color-kali-success: #2ebd6b;
+  --color-kali-danger: #e63950;
+  --color-kali-muted: #8a7f7a;
+
+  --color-background: #fffbf9;
+  --color-foreground: #17120f;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  /* Kali brand tokens — Klarna-inspired, original assets only */
+  --kali-pink: #ffa8cd;
+  --kali-pink-hover: #ff8cbf;
+  --kali-pink-pale: #ffe3ef;
+  --kali-ink: #17120f;
+  --kali-paper: #fffbf9;
+  --kali-white: #ffffff;
+  --kali-success: #2ebd6b;
+  --kali-danger: #e63950;
+  --kali-muted: #8a7f7a;
+
+  --background: var(--kali-paper);
+  --foreground: var(--kali-ink);
+
+  --radius-pill: 9999px;
+  --radius-card: 28px;
+  --radius-tile: 24px;
+}
+
+.dark {
+  --background: var(--kali-ink);
+  --foreground: var(--kali-paper);
+  --kali-pink-pale: #3a2a33;
+  --kali-muted: #b8a9a3;
+  --color-background: #17120f;
+  --color-foreground: #fffbf9;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Springy press animation for big tap targets */
+.kali-press {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.kali-press:active {
+  transform: scale(0.96);
+}
+
+/* Active speaker pink ring */
+.kali-speaking {
+  box-shadow: 0 0 0 3px var(--kali-pink);
+}
+
+/* Friendly focus rings — soft fills over outlines */
+.kali-focus:focus-visible {
+  outline: 3px solid var(--kali-pink);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--kali-pink);
+  color: var(--kali-ink);
+}
