@@ -5,5 +5,7 @@ export default auth.middleware({
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/api/meetings/:path*"],
+  // Dashboard stays behind login. Meeting + token + chat APIs enforce auth
+  // inside each handler so guests can join by link and use chat.
+  matcher: ["/dashboard/:path*"],
 };
