@@ -171,7 +171,7 @@ export default async function Home() {
               <br />
               no fuss<span className="text-kali-ink">.</span>
             </h1>
-            <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed text-kali-ink/75">
+            <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed text-kali-ink/75 dark:text-kali-paper/75">
               Kali is the video app that skips the boring parts. Instant rooms, guest links, live
               chat that saves itself — free while we&apos;re little.
             </p>
@@ -262,13 +262,13 @@ export default async function Home() {
 
         {/* Features */}
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
-          <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
+          <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase dark:text-kali-paper/70">
             Why Kali
           </p>
           <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
             Everything you need. None of the blah<span className="text-kali-ink">.</span>
           </h2>
-          <p className="mt-3 max-w-lg text-lg text-kali-ink/70">
+          <p className="mt-3 max-w-lg text-lg text-kali-ink/70 dark:text-kali-paper/70">
             Built for friend groups, study sessions, standups and long-distance gossip — not board
             meetings.
           </p>
@@ -330,13 +330,13 @@ export default async function Home() {
         <section id="hosts" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
           <div className="grid items-center gap-8 lg:grid-cols-2">
             <div>
-              <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
+              <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase dark:text-kali-paper/70">
                 For hosts
               </p>
               <h2 className="display-tight mt-2 text-4xl font-semibold sm:text-5xl">
                 You&apos;re the host. Act like it<span className="text-kali-ink">.</span>
               </h2>
-              <p className="mt-3 max-w-md text-lg text-kali-ink/70">
+              <p className="mt-3 max-w-md text-lg text-kali-ink/70 dark:text-kali-paper/70">
                 Real host powers that always work — no fine print, no funny business.
               </p>
               <ul className="mt-6 flex flex-col gap-3">
@@ -382,7 +382,7 @@ export default async function Home() {
 
         {/* FAQ */}
         <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
-          <p className="text-center text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
+          <p className="text-center text-sm font-semibold tracking-widest text-kali-ink/70 uppercase dark:text-kali-paper/70">
             FAQ
           </p>
           <h2 className="display-tight mt-2 text-center text-4xl font-semibold sm:text-5xl">
@@ -442,10 +442,10 @@ export default async function Home() {
       <footer className="border-t border-kali-ink/15">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
           <KaliWordmark />
-          <p className="text-sm font-semibold text-kali-ink/60">
+          <p className="text-sm font-semibold text-kali-ink/60 dark:text-kali-paper/60">
             Made with care by Kali. Be kind on calls.
           </p>
-          <div className="flex gap-5 text-sm font-bold text-kali-ink/75">
+          <div className="flex gap-5 text-sm font-bold text-kali-ink/75 dark:text-kali-paper/75">
             <Link href="/join" className="hover:underline">
               Join
             </Link>

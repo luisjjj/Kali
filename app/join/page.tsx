@@ -35,7 +35,7 @@ export default function JoinPage() {
   return (
     <div className="flex min-h-screen flex-col bg-kali-pink">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
-        <KaliWordmark />
+        <KaliWordmark tone="ink" />
         <Link href="/">
           <Button variant="ghost" size="sm" className="bg-white/60 hover:bg-white">
             Home

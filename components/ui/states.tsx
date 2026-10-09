@@ -31,8 +31,8 @@ export function EmptyState({
       className="flex flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/60 px-8 py-12 text-center"
     >
       <div className="text-4xl">🫧</div>
-      <h3 className="text-xl font-bold">{title}</h3>
-      {body && <p className="max-w-sm leading-relaxed text-kali-ink/65 dark:text-kali-paper/65">{body}</p>}
+      <h3 className="text-xl font-bold text-kali-ink">{title}</h3>
+      {body && <p className="max-w-sm leading-relaxed text-kali-ink/65">{body}</p>}
       {action}
     </motion.div>
   );

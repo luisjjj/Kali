@@ -2,15 +2,27 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /** Kali's own simple wordmark — lowercase, chunky, with a pink dot. Original, no trademarks. */
-export function KaliWordmark({ className, dark }: { className?: string; dark?: boolean }) {
+export function KaliWordmark({
+  className,
+  dark,
+  tone = "auto",
+}: {
+  className?: string;
+  dark?: boolean;
+  /** "ink" / "paper" pin the color (use on always-pink panels); "auto" follows light/dark mode. */
+  tone?: "ink" | "paper" | "auto";
+}) {
+  const color =
+    tone === "ink"
+      ? "text-kali-ink"
+      : tone === "paper"
+        ? "text-kali-paper"
+        : dark
+          ? "text-kali-paper"
+          : "text-kali-ink dark:text-kali-paper";
   return (
     <Link href="/" className={cn("inline-flex items-center gap-1 select-none", className)}>
-      <span
-        className={cn(
-          "text-3xl font-bold tracking-tighter",
-          dark ? "text-kali-paper" : "text-kali-ink dark:text-kali-paper"
-        )}
-      >
+      <span className={cn("text-3xl font-bold tracking-tighter", color)}>
         kali
         <span className="text-kali-pink">.</span>
       </span>

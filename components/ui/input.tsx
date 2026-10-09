@@ -7,7 +7,7 @@ export function Input({ className, ...props }: InputProps) {
   return (
     <input
       className={cn(
-        "kali-focus h-13 w-full rounded-2xl bg-kali-pink-pale/50 px-5 py-3.5 text-base font-medium text-kali-ink placeholder:text-kali-ink/40 border-2 border-transparent focus:border-kali-pink",
+        "kali-focus h-13 w-full rounded-2xl bg-kali-pink-pale px-5 py-3.5 text-base font-medium text-kali-ink placeholder:text-kali-ink/40 border-2 border-transparent focus:border-kali-pink",
         "dark:bg-white/10 dark:text-kali-paper dark:placeholder:text-kali-paper/40",
         className
       )}

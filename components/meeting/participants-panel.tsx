@@ -49,7 +49,7 @@ export function ParticipantsPanel({
         <button
           onClick={onClose}
           aria-label="Close participants"
-          className="kali-press rounded-full bg-kali-pink-pale p-2"
+          className="kali-press rounded-full bg-kali-pink-pale p-2 text-kali-ink"
         >
           <X className="h-4 w-4" />
         </button>

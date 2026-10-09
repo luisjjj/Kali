@@ -14,7 +14,7 @@ export default function SignUpPage() {
   return (
     <div className="flex min-h-screen bg-kali-paper dark:bg-kali-ink">
       <div className="hidden flex-1 flex-col justify-between bg-kali-pink p-10 lg:flex">
-        <KaliWordmark />
+        <KaliWordmark tone="ink" />
         <div>
           <h2 className="text-5xl font-bold tracking-tight text-kali-ink">
             Come say hi. Stay for the call.

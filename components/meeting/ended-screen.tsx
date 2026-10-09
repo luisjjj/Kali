@@ -8,8 +8,8 @@ export function EndedScreen({ title }: { title: string }) {
       <KaliWordmark />
       <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/70 px-8 py-12 text-center">
         <div className="text-4xl">👋</div>
-        <h1 className="text-2xl font-bold tracking-tight">This call has ended</h1>
-        <p className="font-medium text-kali-ink/65 dark:text-kali-paper/65">
+        <h1 className="text-2xl font-bold tracking-tight text-kali-ink">This call has ended</h1>
+        <p className="font-medium text-kali-ink/65">
           “{title}” is all wrapped up. Thanks for hanging out!
         </p>
         <div className="mt-2 flex flex-wrap justify-center gap-3">

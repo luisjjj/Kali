@@ -317,6 +317,7 @@ export function Lobby({
               onChange={(e) => setName(e.target.value)}
               placeholder="What should we call you?"
               maxLength={40}
+              className="bg-white"
               onKeyDown={(e) => {
                 if (e.key === "Enter") join();
               }}

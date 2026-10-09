@@ -39,13 +39,16 @@
   --radius-tile: 24px;
 }
 
-.dark {
-  --background: var(--kali-ink);
-  --foreground: var(--kali-paper);
-  --kali-pink-pale: #3a2a33;
-  --kali-muted: #b8a9a3;
-  --color-background: #17120f;
-  --color-foreground: #fffbf9;
+/* Sync with Tailwind's dark: variant (both follow the OS setting) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--kali-ink);
+    --foreground: var(--kali-paper);
+    --kali-pink-pale: #3a2a33;
+    --kali-muted: #b8a9a3;
+    --color-background: #17120f;
+    --color-foreground: #fffbf9;
+  }
 }
 
 body {
