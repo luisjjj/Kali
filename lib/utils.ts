@@ -27,9 +27,9 @@ export function generateRoomCode(length = 9): string {
 }
 
 export function meetingLink(roomCode: string, baseUrl?: string): string {
-  const base =
-    baseUrl ??
-    (typeof process !== "undefined" && process.env.NEXT_PUBLIC_APP_URL) ??
-    "";
+  const vercelBase =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL &&
+    `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  const base = baseUrl ?? process.env.NEXT_PUBLIC_APP_URL ?? vercelBase ?? "";
   return base ? `${base.replace(/\/$/, "")}/m/${roomCode}` : `/m/${roomCode}`;
 }
