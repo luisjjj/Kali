@@ -17,7 +17,6 @@ import {
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
 
@@ -167,10 +166,6 @@ export default async function Home() {
         {/* Hero */}
         <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
           <div className="flex flex-col items-start gap-6">
-            <Badge tone="ink" className="animate-fade-up">
-              <span className="animate-pulse-dot inline-block h-2 w-2 rounded-full bg-kali-success" />
-              Now with audio-only mode for terrible wifi
-            </Badge>
             <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
               Start a call,
               <br />
@@ -366,13 +361,13 @@ export default async function Home() {
                 <ShieldCheck className="h-6 w-6" />
               </span>
               <h3 className="mt-4 text-2xl font-semibold tracking-tight text-kali-ink">
-                Under the hood
+                Good to know
               </h3>
               <dl className="mt-4 flex flex-col gap-3">
                 {[
-                  ["Media", "LiveKit's global SFU — no hand-rolled WebRTC, ever."],
-                  ["Data", "Neon Postgres stores rooms and chat; auth is Neon Auth."],
-                  ["Safety", "Every input zod-validated. Host claims re-checked server-side."],
+                  ["Calls", "Video and voice run on fast servers around the world, so calls stay smooth."],
+                  ["Memory", "Your rooms and chats are saved for you — pick up right where you left off."],
+                  ["Safety", "Only the host can mute, remove, or end a call. Guests can just relax."],
                 ].map(([k, v]) => (
                   <div key={k} className="rounded-2xl bg-kali-pink-pale/70 px-5 py-4">
                     <dt className="inline-block rounded-full bg-kali-ink px-3 py-0.5 text-[11px] font-semibold tracking-widest text-white uppercase">
