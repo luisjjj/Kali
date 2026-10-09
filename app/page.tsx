@@ -130,16 +130,16 @@ export default async function Home() {
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
           <KaliWordmark />
           <nav className="hidden items-center gap-6 text-sm font-bold text-kali-ink/70 md:flex dark:text-kali-paper/70">
-            <a href="#features" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+            <a href="#features" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
               Features
             </a>
-            <a href="#how" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+            <a href="#how" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
               How it works
             </a>
-            <a href="#hosts" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+            <a href="#hosts" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
               For hosts
             </a>
-            <a href="#faq" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+            <a href="#faq" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
               FAQ
             </a>
           </nav>
