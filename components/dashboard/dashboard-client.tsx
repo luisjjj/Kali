@@ -17,6 +17,7 @@ import { Card, CardText, CardTitle } from "@/components/ui/card";
 import { Field, Input, Label } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/states";
+import { SchedulePicker } from "@/components/dashboard/schedule-picker";
 import type { Meeting } from "@/lib/db/schema";
 
 export function DashboardClient({
@@ -30,7 +31,7 @@ export function DashboardClient({
 }) {
   const router = useRouter();
   const [title, setTitle] = useState("");
-  const [scheduledAt, setScheduledAt] = useState("");
+  const [scheduledAt, setScheduledAt] = useState<Date | null>(null);
   const [joinCode, setJoinCode] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -45,7 +46,7 @@ export function DashboardClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title.trim() || (kind === "instant" ? "Quick catch-up" : "Scheduled call"),
-          scheduledAt: kind === "scheduled" && scheduledAt ? new Date(scheduledAt).toISOString() : null,
+          scheduledAt: kind === "scheduled" && scheduledAt ? scheduledAt.toISOString() : null,
         }),
       });
       const data = await res.json();
@@ -132,19 +133,18 @@ export function DashboardClient({
               <Label htmlFor="when" className="text-white/80">
                 Date and time
               </Label>
-              <input
-                id="when"
-                type="datetime-local"
-                value={scheduledAt}
-                onChange={(e) => setScheduledAt(e.target.value)}
-                className="h-13 w-full rounded-2xl bg-white/10 px-5 py-3.5 text-base font-medium text-white outline-none [color-scheme:dark] focus:border-kali-pink"
-              />
+              <SchedulePicker value={scheduledAt} onChange={setScheduledAt} />
             </Field>
+            {scheduledAt !== null && scheduledAt.getTime() <= Date.now() && (
+              <p className="mt-2 text-xs font-bold text-kali-pink">
+                Pick a moment in the future. Time travel is not supported yet.
+              </p>
+            )}
             <Button
               variant="secondary"
               size="md"
               className="mt-3 w-full"
-              disabled={busy !== null || !scheduledAt}
+              disabled={busy !== null || scheduledAt === null || scheduledAt.getTime() <= Date.now()}
               onClick={() => create("scheduled")}
             >
               {busy === "scheduled" ? "Saving…" : "Schedule"}
