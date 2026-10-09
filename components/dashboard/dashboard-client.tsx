@@ -35,11 +35,13 @@ export function DashboardClient({
   const [joinCode, setJoinCode] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [savedNote, setSavedNote] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
 
   const create = async (kind: "instant" | "scheduled") => {
     setBusy(kind);
     setError(null);
+    setSavedNote(null);
     try {
       const res = await fetch("/api/meetings", {
         method: "POST",
@@ -51,7 +53,25 @@ export function DashboardClient({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Couldn't create the meeting.");
-      router.push(`/m/${data.meeting.roomCode}`);
+      if (kind === "instant") {
+        router.push(`/m/${data.meeting.roomCode}`);
+        return;
+      }
+      // Scheduled: stay here, refresh the lists, confirm what was saved.
+      setTitle("");
+      setScheduledAt(null);
+      setBusy(null);
+      const when = data.meeting.scheduledAt
+        ? new Date(data.meeting.scheduledAt).toLocaleString(undefined, {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            hour: "numeric",
+            minute: "2-digit",
+          })
+        : "anytime";
+      setSavedNote(`Saved for ${when}. See you then.`);
+      router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't create the meeting.");
       setBusy(null);
@@ -182,6 +202,11 @@ export function DashboardClient({
         {error && (
           <p className="mt-4 rounded-2xl bg-kali-danger px-4 py-3 text-sm font-bold text-white">
             {error}
+          </p>
+        )}
+        {savedNote && (
+          <p className="mt-4 flex items-center gap-2 rounded-2xl bg-kali-pink px-4 py-3 text-sm font-bold text-kali-ink">
+            <Check className="h-5 w-5 shrink-0" weight="bold" /> {savedNote}
           </p>
         )}
         <p className="mt-4 flex items-center gap-1.5 text-xs font-bold text-white/60">
