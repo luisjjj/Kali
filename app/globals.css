@@ -13,10 +13,9 @@
   --color-background: #fffbf9;
   --color-foreground: #17120f;
 
-  /* SF Pro via the native system stack (Apple license forbids bundling):
-     real SF Pro on Mac/iPhone, closest native sans everywhere else. */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Helvetica Neue", "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  /* Inter, self-hosted via next/font. Professional, neutral, minimal. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
 }
 
 :root {
@@ -54,11 +53,10 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Helvetica Neue", "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "ss01" on, "cv11" on;
 }
 
 /* SF-style display type. iOS-like: semibold at size, gentle tracking */

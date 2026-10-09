@@ -44,8 +44,8 @@ export default function JoinPage() {
       </header>
 
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 pb-16">
-        <div className="rounded-[32px] bg-white p-8 sm:p-10">
-          <p className="text-sm font-semibold tracking-widest text-kali-ink/50 uppercase">
+        <div className="rounded-[32px] bg-white p-8 shadow-xl shadow-kali-ink/10 sm:p-10">
+          <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
             Join as a guest
           </p>
           <h1 className="display-tight mt-1 text-3xl font-semibold sm:text-4xl">
@@ -66,7 +66,7 @@ export default function JoinPage() {
                 autoComplete="off"
                 autoCapitalize="none"
                 spellCheck={false}
-                className="bg-kali-pink-pale/50 text-center text-lg font-semibold tracking-widest"
+                className="border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-widest"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") join();
                 }}
