@@ -1,123 +1,476 @@
 import Link from "next/link";
+import {
+  ArrowRight,
+  Video,
+  MessageCircleHeart,
+  Crown,
+  Gauge,
+  ShieldCheck,
+  Zap,
+  Users,
+  Mic,
+  MonitorUp,
+  PhoneOff,
+  Check,
+  ChevronDown,
+} from "lucide-react";
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
-import { Card, CardText, CardTitle } from "@/components/ui/card";
-import { Badge, LiveDot } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
 
+const MARQUEE = [
+  "No downloads",
+  "Guests welcome",
+  "Live chat that saves",
+  "Host controls",
+  "Audio-only mode",
+  "Shareable links",
+  "Screen sharing",
+  "Free while we're little",
+];
+
+const FEATURES = [
+  {
+    icon: Zap,
+    tint: "bg-kali-pink",
+    title: "Instant rooms",
+    body: "One tap makes a room and a cute link. Share /m/your-code and you're live in seconds — no scheduling gymnastics.",
+  },
+  {
+    icon: Users,
+    tint: "bg-kali-ink text-white",
+    title: "Guests welcome",
+    body: "Friends join from any phone or laptop with just a display name. No account, no app store, no awkward onboarding.",
+  },
+  {
+    icon: MessageCircleHeart,
+    tint: "bg-kali-pink-pale",
+    title: "Chat that sticks around",
+    body: "In-call chat flies over live data channels and saves to history automatically. Refresh all you want — receipts kept.",
+  },
+  {
+    icon: Crown,
+    tint: "bg-kali-pink",
+    title: "Host stays in charge",
+    body: "Mute a loud mic, remove a party crasher, or end the call for everyone. Enforced on the server, not just vibes.",
+  },
+  {
+    icon: Gauge,
+    tint: "bg-kali-pink-pale",
+    title: "Survives bad wifi",
+    body: "Simulcast, adaptive streaming and per-person connection indicators come standard. Flip on audio-only mode when the train tunnel hits.",
+  },
+  {
+    icon: MonitorUp,
+    tint: "bg-kali-ink text-white",
+    title: "Present like a pro",
+    body: "One-tap screen sharing with its own spotlight tile, so your slides get the stage and faces stay in the wings.",
+  },
+];
+
+const STEPS = [
+  {
+    n: "1",
+    title: "Make a room",
+    body: "Sign in, hit New meeting, grab your link. Ten seconds, tops.",
+  },
+  {
+    n: "2",
+    title: "Share it anywhere",
+    body: "Text it, drop it in the group chat, shout it across the room. Guests join straight from the browser.",
+  },
+  {
+    n: "3",
+    title: "Talk, chat, bounce",
+    body: "Video, audio and live chat in one place. Host ends it for everyone when the gossip runs out.",
+  },
+];
+
+const FAQS = [
+  {
+    q: "Do guests need an account?",
+    a: "Nope. Anyone with your room link picks a display name and joins from their browser. Only hosts need a Kali account to create rooms.",
+  },
+  {
+    q: "Do I need to install anything?",
+    a: "Nothing. Kali runs entirely in the browser — phone, tablet, laptop, borrowed Chromebook. If it runs a modern browser, it runs Kali.",
+  },
+  {
+    q: "Is my call private?",
+    a: "Room codes are unguessable, media flows over encrypted LiveKit connections, and host powers (mute, remove, end) are enforced on our servers — not just hidden buttons in the UI.",
+  },
+  {
+    q: "What happens to chat history?",
+    a: "Every message is saved as it's sent, so history survives refreshes and re-joins. Ended rooms keep their story; new rooms start fresh.",
+  },
+  {
+    q: "My wifi is terrible. Will Kali cope?",
+    a: "That's literally what audio-only mode is for — one tap drops all video and keeps voices crystal clear. Connection indicators show who's struggling before they freeze mid-sentence.",
+  },
+  {
+    q: "How much does it cost?",
+    a: "Free while we're little. No tiers, no trials, no credit card ambush. We'll figure out grown-up pricing later and tell you first.",
+  },
+];
+
 export default async function Home() {
   const { data: session } = await auth.getSession();
+  const ctaHref = session?.user ? "/dashboard" : "/auth/sign-up";
 
   return (
     <div className="flex min-h-screen flex-col bg-kali-paper text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
-        <KaliWordmark />
-        <nav className="flex items-center gap-2 sm:gap-3">
-          {session?.user ? (
-            <>
+      {/* Sticky nav */}
+      <header className="sticky top-0 z-40 border-b border-kali-ink/5 bg-kali-paper/85 backdrop-blur-lg dark:bg-kali-ink/85">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
+          <KaliWordmark />
+          <nav className="hidden items-center gap-6 text-sm font-bold text-kali-ink/70 md:flex dark:text-kali-paper/70">
+            <a href="#features" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+              Features
+            </a>
+            <a href="#how" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+              How it works
+            </a>
+            <a href="#hosts" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+              For hosts
+            </a>
+            <a href="#faq" className="transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+              FAQ
+            </a>
+          </nav>
+          <div className="flex items-center gap-2">
+            {session?.user ? (
               <Link href="/dashboard">
-                <Button variant="ghost" size="sm">
-                  Dashboard
-                </Button>
-              </Link>
-              <form action="/auth/sign-out" method="post">
-                <Button variant="primary" size="sm" type="submit">
-                  Sign out
-                </Button>
-              </form>
-            </>
-          ) : (
-            <>
-              <Link href="/auth/sign-in">
-                <Button variant="ghost" size="sm">
-                  Sign in
-                </Button>
-              </Link>
-              <Link href="/auth/sign-up">
                 <Button variant="primary" size="sm">
-                  Get started
+                  Dashboard <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-            </>
-          )}
-        </nav>
+            ) : (
+              <>
+                <Link href="/auth/sign-in" className="hidden sm:block">
+                  <Button variant="ghost" size="sm">
+                    Sign in
+                  </Button>
+                </Link>
+                <Link href="/auth/sign-up">
+                  <Button variant="primary" size="sm">
+                    Get started
+                  </Button>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-10 px-5 pb-16">
-        <section className="grid gap-6 rounded-[32px] bg-kali-pink p-8 sm:p-12 lg:grid-cols-2 lg:items-center lg:p-16">
-          <div className="flex flex-col items-start gap-5">
-            <Badge tone="ink">
-              <LiveDot /> friendly video calls
+      <main className="flex flex-col">
+        {/* Hero */}
+        <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
+          <div className="flex flex-col items-start gap-6">
+            <Badge tone="pink" className="animate-fade-up">
+              <span className="animate-pulse-dot inline-block h-2 w-2 rounded-full bg-kali-success" />
+              Now with audio-only mode for terrible wifi
             </Badge>
-            <h1 className="text-5xl leading-[1.02] font-extrabold tracking-tight text-kali-ink sm:text-6xl lg:text-7xl">
-              Start a call, no fuss.
+            <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-extrabold sm:text-6xl lg:text-[4.6rem]">
+              Start a call,
+              <br />
+              no fuss<span className="text-kali-pink">.</span>
             </h1>
-            <p className="max-w-md text-lg leading-relaxed font-medium text-kali-ink/80">
-              Kali gives you an instant room, a cute link, and chat that sticks around. No downloads,
-              no drama.
+            <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed font-medium text-kali-ink/70 dark:text-kali-paper/70">
+              Kali is the video app that skips the boring parts. Instant rooms, guest links, live
+              chat that saves itself — free while we&apos;re little.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href={session?.user ? "/dashboard" : "/auth/sign-up"}>
+            <div className="animate-fade-up delay-3 flex flex-wrap gap-3">
+              <Link href={ctaHref}>
                 <Button variant="primary" size="lg">
-                  {session?.user ? "Go to dashboard" : "Start a free call"}
+                  {session?.user ? "Go to dashboard" : "Start a free call"}{" "}
+                  <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
               <Link href="/dashboard">
-                <Button variant="outline" size="lg" className="border-kali-ink/10">
-                  Join with code
+                <Button variant="ghost" size="lg">
+                  Join with a code
                 </Button>
               </Link>
             </div>
-            <p className="text-sm font-semibold text-kali-ink/60">
+            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-ink/60 dark:text-kali-paper/60">
+              {["Free, no card", "No downloads", "Guests in one tap"].map((t) => (
+                <span key={t} className="inline-flex items-center gap-1.5">
+                  <Check className="h-4 w-4 text-kali-success" strokeWidth={3} /> {t}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Product mock */}
+          <div className="animate-fade-up delay-2 relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="overflow-hidden rounded-[28px] bg-kali-ink p-4 shadow-2xl">
+              <div className="mb-3 flex items-center gap-1.5 px-1">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
+                <span className="h-2.5 w-2.5 rounded-full bg-kali-pink" />
+                <span className="ml-2 rounded-full bg-white/10 px-3 py-0.5 text-[11px] font-bold text-white/70">
+                  kali — friday gossip session
+                </span>
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                <MockTile name="Ada (you)" color="bg-kali-pink text-kali-ink" speaking />
+                <MockTile name="Grace" color="bg-white/15 text-white" />
+                <MockTile name="Hedy" color="bg-white/15 text-white" muted />
+                <MockTile name="Katherine 🖥" color="bg-white/15 text-white" />
+              </div>
+              <div className="mt-3 flex items-center justify-center gap-2 rounded-full bg-white/10 px-3 py-2.5">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
+                  <Mic className="h-4 w-4" />
+                </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
+                  <Video className="h-4 w-4" />
+                </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
+                  <MonitorUp className="h-4 w-4" />
+                </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-kali-danger text-white">
+                  <PhoneOff className="h-4 w-4" />
+                </span>
+              </div>
+            </div>
+            <div
+              className="animate-float absolute -top-5 -right-3 rounded-2xl bg-white px-4 py-3 shadow-xl dark:bg-white/10"
+              style={{ "--float-rot": "3deg" } as React.CSSProperties}
+            >
+              <p className="text-xs font-extrabold">Grace</p>
+              <p className="text-xs font-medium text-kali-muted">wait, you&apos;re muted 😭</p>
+            </div>
+            <div
+              className="animate-float absolute -bottom-5 -left-3 rounded-2xl bg-kali-pink px-4 py-3 shadow-xl"
+              style={{ "--float-rot": "-3deg", animationDelay: "1.2s" } as React.CSSProperties}
+            >
+              <p className="text-xs font-extrabold text-kali-ink">Link copied!</p>
+              <p className="text-xs font-bold text-kali-ink/60">kali/m/abc-def-ghi</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Marquee */}
+        <div className="overflow-hidden border-y border-kali-ink/8 bg-kali-pink py-3.5">
+          <div className="animate-marquee flex w-max gap-8 pr-8">
+            {[...MARQUEE, ...MARQUEE].map((t, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center gap-8 text-sm font-extrabold tracking-wide whitespace-nowrap text-kali-ink uppercase"
+              >
+                {t} <span className="text-kali-ink/40">✳</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Features */}
+        <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
+          <p className="text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase dark:text-kali-paper/50">
+            Why Kali
+          </p>
+          <h2 className="display-tight mt-2 max-w-xl text-4xl font-extrabold sm:text-5xl">
+            Everything you need. None of the blah<span className="text-kali-pink">.</span>
+          </h2>
+          <p className="mt-3 max-w-lg text-lg font-medium text-kali-ink/65 dark:text-kali-paper/65">
+            Built for friend groups, study sessions, standups and long-distance gossip — not board
+            meetings.
+          </p>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {FEATURES.map((f) => (
+              <article
+                key={f.title}
+                className="kali-lift rounded-[28px] bg-white p-7 dark:bg-white/5"
+              >
+                <span
+                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${f.tint}`}
+                >
+                  <f.icon className="h-6 w-6" />
+                </span>
+                <h3 className="mt-4 text-xl font-extrabold tracking-tight">{f.title}</h3>
+                <p className="mt-1.5 leading-relaxed font-medium text-kali-muted">{f.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section id="how" className="scroll-mt-20 bg-kali-pink">
+          <div className="mx-auto w-full max-w-6xl px-5 py-16 lg:py-24">
+            <p className="text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase">
+              How it works
+            </p>
+            <h2 className="display-tight mt-2 max-w-xl text-4xl font-extrabold text-kali-ink sm:text-5xl">
+              Live in three tiny steps<span className="text-white">.</span>
+            </h2>
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {STEPS.map((s) => (
+                <article key={s.n} className="rounded-[28px] bg-kali-ink p-7 text-white">
+                  <p className="display-tight text-5xl font-extrabold text-kali-pink">{s.n}</p>
+                  <h3 className="mt-2 text-xl font-extrabold">{s.title}</h3>
+                  <p className="mt-1.5 leading-relaxed font-medium text-white/65">{s.body}</p>
+                </article>
+              ))}
+            </div>
+            <Link href={ctaHref} className="mt-8 inline-block">
+              <Button variant="primary" size="lg">
+                Try step one now <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </section>
+
+        {/* Hosts / trust */}
+        <section id="hosts" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
+          <div className="grid items-center gap-8 lg:grid-cols-2">
+            <div>
+              <p className="text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase dark:text-kali-paper/50">
+                For hosts
+              </p>
+              <h2 className="display-tight mt-2 text-4xl font-extrabold sm:text-5xl">
+                You&apos;re the host. Act like it<span className="text-kali-pink">.</span>
+              </h2>
+              <p className="mt-3 max-w-md text-lg font-medium text-kali-ink/65 dark:text-kali-paper/65">
+                Real moderation power, enforced where it counts — on our servers, not as a polite
+                suggestion in the UI.
+              </p>
+              <ul className="mt-6 flex flex-col gap-3">
+                {[
+                  "Mute any mic mid-sentence (lovingly)",
+                  "Remove anyone, instantly",
+                  "End the whole call for everyone",
+                  "See who's struggling with live connection dots",
+                ].map((t) => (
+                  <li key={t} className="flex items-center gap-3 font-bold">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-kali-pink">
+                      <Check className="h-4 w-4 text-kali-ink" strokeWidth={3} />
+                    </span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-[28px] bg-kali-ink p-7 text-white sm:p-9">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-kali-pink text-kali-ink">
+                <ShieldCheck className="h-6 w-6" />
+              </span>
+              <h3 className="mt-4 text-2xl font-extrabold tracking-tight">Under the hood</h3>
+              <dl className="mt-4 flex flex-col gap-4">
+                {[
+                  ["Media", "LiveKit's global SFU — no hand-rolled WebRTC, ever."],
+                  ["Data", "Neon Postgres stores rooms and chat; auth is Neon Auth."],
+                  ["Safety", "Every input zod-validated. Host claims re-checked server-side."],
+                ].map(([k, v]) => (
+                  <div key={k} className="rounded-2xl bg-white/8 px-5 py-4">
+                    <dt className="text-xs font-extrabold tracking-widest text-kali-pink uppercase">
+                      {k}
+                    </dt>
+                    <dd className="mt-1 font-medium text-white/80">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
+          <p className="text-center text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase dark:text-kali-paper/50">
+            FAQ
+          </p>
+          <h2 className="display-tight mt-2 text-center text-4xl font-extrabold sm:text-5xl">
+            Asking for a friend<span className="text-kali-pink">?</span>
+          </h2>
+          <div className="mt-8 flex flex-col gap-3">
+            {FAQS.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-[24px] bg-white px-6 py-5 open:bg-kali-pink-pale/60 dark:bg-white/5 dark:open:bg-white/10"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-extrabold [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <ChevronDown className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="mt-2 leading-relaxed font-medium text-kali-muted">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section className="mx-auto w-full max-w-6xl px-5 pb-16">
+          <div className="flex flex-col items-center gap-5 rounded-[32px] bg-kali-ink px-8 py-14 text-center text-white sm:py-20">
+            <p className="text-sm font-extrabold tracking-widest text-kali-pink uppercase">
+              Last chance (not really)
+            </p>
+            <h2 className="display-tight max-w-2xl text-4xl font-extrabold sm:text-6xl">
+              Your next call could take ten seconds to start.
+            </h2>
+            <Link href={ctaHref}>
+              <Button variant="secondary" size="lg">
+                {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+            <p className="text-sm font-bold text-white/50">
               Free while we&apos;re little. Bring a friend.
             </p>
           </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-[24px] bg-kali-ink p-6 text-white">
-              <p className="text-4xl font-extrabold">1</p>
-              <p className="mt-1 font-bold">Make a room</p>
-              <p className="text-sm text-white/70">One tap, one link. That&apos;s it.</p>
-            </div>
-            <div className="mt-6 rounded-[24px] bg-white p-6">
-              <p className="text-4xl font-extrabold">2</p>
-              <p className="mt-1 font-bold">Share it</p>
-              <p className="text-sm text-kali-muted">Friends join from any phone.</p>
-            </div>
-            <div className="rounded-[24px] bg-white p-6">
-              <p className="text-4xl font-extrabold">3</p>
-              <p className="mt-1 font-bold">Chat + talk</p>
-              <p className="text-sm text-kali-muted">Video, audio, and live chat.</p>
-            </div>
-            <div className="mt-6 rounded-[24px] bg-kali-ink p-6 text-white">
-              <p className="text-4xl font-extrabold">✳</p>
-              <p className="mt-1 font-bold">All yours</p>
-              <p className="text-sm text-white/70">History saves automatically.</p>
-            </div>
-          </div>
-        </section>
-
-        <section className="grid gap-4 md:grid-cols-3">
-          <Card className="border-0 bg-white dark:bg-white/5">
-            <CardTitle>Instant rooms</CardTitle>
-            <CardText>New meeting in one click. Share /m/your-code and you&apos;re live.</CardText>
-          </Card>
-          <Card className="border-0 bg-kali-pink-pale/70 dark:bg-white/5">
-            <CardTitle>Guests welcome</CardTitle>
-            <CardText>No account needed to join. Just pick a display name and hop in.</CardText>
-          </Card>
-          <Card className="border-0 bg-white dark:bg-white/5">
-            <CardTitle>Host in control</CardTitle>
-            <CardText>Mute, remove, or end for everyone. Server-enforced, not just vibes.</CardText>
-          </Card>
         </section>
       </main>
 
-      <footer className="mx-auto w-full max-w-6xl px-5 pb-8 text-sm font-semibold text-kali-muted">
-        Made with care by Kali. Be kind on calls.
+      <footer className="border-t border-kali-ink/8">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
+          <KaliWordmark />
+          <p className="text-sm font-semibold text-kali-muted">
+            Made with care by Kali. Be kind on calls.
+          </p>
+          <div className="flex gap-5 text-sm font-bold text-kali-ink/70 dark:text-kali-paper/70">
+            <Link href="/dashboard" className="hover:underline">
+              Dashboard
+            </Link>
+            <Link href="/auth/sign-in" className="hover:underline">
+              Sign in
+            </Link>
+            <Link href="/auth/sign-up" className="hover:underline">
+              Sign up
+            </Link>
+          </div>
+        </div>
       </footer>
+    </div>
+  );
+}
+
+function MockTile({
+  name,
+  color,
+  speaking,
+  muted,
+}: {
+  name: string;
+  color: string;
+  speaking?: boolean;
+  muted?: boolean;
+}) {
+  return (
+    <div
+      className={`relative flex aspect-video items-center justify-center rounded-2xl ${color} ${speaking ? "kali-speaking" : ""}`}
+    >
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-sm font-extrabold">
+        {name[0]}
+      </span>
+      <span className="absolute bottom-1.5 left-1.5 max-w-[calc(100%-0.75rem)] truncate rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold text-white">
+        {name}
+      </span>
+      {muted && (
+        <span className="absolute right-1.5 bottom-1.5 rounded-full bg-kali-danger p-1 text-white">
+          <Mic className="h-2.5 w-2.5" />
+        </span>
+      )}
     </div>
   );
 }

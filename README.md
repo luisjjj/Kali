@@ -71,5 +71,6 @@ Auth tables are managed by Neon Auth itself — Kali creates
 Palette (`app/globals.css` + Tailwind `@theme`): `kali-pink #FFA8CD`,
 `kali-ink #17120F`, `kali-paper #FFFBF9`, `kali-pink-hover #FF8CBF`,
 `kali-pink-pale #FFE3EF`, success green, danger red. Dark mode uses the
-near-black base with pink accents. Type: Plus Jakarta Sans. Shapes: pills +
+near-black base with pink accents. Type: SF Pro via the native system stack
+(real SF Pro on Apple devices, closest native sans elsewhere). Shapes: pills +
 24–28px radii, soft fills over outlines.

@@ -13,7 +13,10 @@
   --color-background: #fffbf9;
   --color-foreground: #17120f;
 
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  /* SF Pro via the native system stack (Apple license forbids bundling):
+     real SF Pro on Mac/iPhone, closest native sans everywhere else. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", "Segoe UI", Inter, Roboto, Arial, sans-serif;
 }
 
 :root {
@@ -48,8 +51,16 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", "Segoe UI", Inter, Roboto, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01" on, "cv11" on;
+}
+
+/* SF-style super-tight display type */
+.display-tight {
+  letter-spacing: -0.045em;
 }
 
 /* Springy press animation for big tap targets */
@@ -59,6 +70,14 @@ body {
 }
 .kali-press:active {
   transform: scale(0.96);
+}
+
+/* Lift-on-hover for cards */
+.kali-lift {
+  transition: transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.25s ease;
+}
+.kali-lift:hover {
+  transform: translateY(-4px);
 }
 
 /* Active speaker pink ring */
@@ -75,4 +94,85 @@ body {
 ::selection {
   background: var(--kali-pink);
   color: var(--kali-ink);
+}
+
+/* Entrance + ambient motion (pure CSS so landing stays a server component) */
+@keyframes kali-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kali-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--float-rot, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--float-rot, 0deg));
+  }
+}
+
+@keyframes kali-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes kali-pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.65;
+  }
+}
+
+.animate-fade-up {
+  animation: kali-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float {
+  animation: kali-float 5s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: kali-marquee 28s linear infinite;
+}
+
+.animate-pulse-dot {
+  animation: kali-pulse-dot 1.6s ease-in-out infinite;
+}
+
+.delay-1 {
+  animation-delay: 0.08s;
+}
+.delay-2 {
+  animation-delay: 0.16s;
+}
+.delay-3 {
+  animation-delay: 0.24s;
+}
+.delay-4 {
+  animation-delay: 0.32s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-float,
+  .animate-marquee,
+  .animate-pulse-dot {
+    animation: none;
+  }
 }
