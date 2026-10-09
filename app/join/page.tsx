@@ -48,7 +48,7 @@ export default function JoinPage() {
           <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
             Join as a guest
           </p>
-          <h1 className="display-tight mt-1 text-3xl font-semibold sm:text-4xl">
+          <h1 className="display-tight mt-1 text-3xl font-semibold text-kali-ink sm:text-4xl">
             Got a code? You&apos;re in<span className="text-kali-pink">.</span>
           </h1>
           <p className="mt-2 text-kali-ink/65">
@@ -57,7 +57,7 @@ export default function JoinPage() {
 
           <div className="mt-6 flex flex-col gap-4">
             <Field>
-              <Label htmlFor="code">Room code</Label>
+              <Label htmlFor="code" className="dark:text-kali-ink">Room code</Label>
               <Input
                 id="code"
                 value={code}
@@ -66,20 +66,21 @@ export default function JoinPage() {
                 autoComplete="off"
                 autoCapitalize="none"
                 spellCheck={false}
-                className="border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-widest"
+                className="border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-widest dark:bg-kali-pink-pale/60 dark:text-kali-ink dark:placeholder:text-kali-ink/40"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") join();
                 }}
               />
             </Field>
             <Field>
-              <Label htmlFor="name">Your name (optional)</Label>
+              <Label htmlFor="name" className="dark:text-kali-ink">Your name (optional)</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="What should we call you?"
                 maxLength={40}
+                className="dark:bg-kali-pink-pale dark:text-kali-ink dark:placeholder:text-kali-ink/40"
                 onKeyDown={(e) => {
                   if (e.key === "Enter") join();
                 }}

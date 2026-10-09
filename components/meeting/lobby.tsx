@@ -270,7 +270,7 @@ export function Lobby({
                 id="mic"
                 value={audioId}
                 onChange={(e) => switchAudio(e.target.value)}
-                className="kali-focus h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold dark:bg-white/10"
+                className="kali-focus h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold text-kali-ink"
               >
                 <option value="">Default mic</option>
                 {audioIns.map((d) => (
@@ -286,7 +286,7 @@ export function Lobby({
                 id="cam"
                 value={videoId}
                 onChange={(e) => switchVideo(e.target.value)}
-                className="kali-focus h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold dark:bg-white/10"
+                className="kali-focus h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold text-kali-ink"
               >
                 <option value="">Default camera</option>
                 {videoIns.map((d) => (
@@ -309,7 +309,7 @@ export function Lobby({
             </h1>
           </div>
           <Field>
-            <Label htmlFor="displayName" className="text-kali-ink">
+            <Label htmlFor="displayName" className="text-kali-ink dark:text-kali-ink">
               Display name
             </Label>
             <Input
@@ -318,7 +318,7 @@ export function Lobby({
               onChange={(e) => setName(e.target.value)}
               placeholder="What should we call you?"
               maxLength={40}
-              className="bg-white"
+              className="bg-white dark:bg-white dark:text-kali-ink dark:placeholder:text-kali-ink/40"
               onKeyDown={(e) => {
                 if (e.key === "Enter") join();
               }}
