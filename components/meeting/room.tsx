@@ -11,7 +11,8 @@ import {
   VideoTrack,
   ConnectionQualityIndicator,
 } from "@livekit/components-react";
-import { RoomEvent, Track } from "livekit-client";
+import { AudioPresets, ConnectionQuality, RoomEvent, Track } from "livekit-client";
+import type { Participant } from "livekit-client";
 import {
   Microphone,
   MicrophoneSlash,
@@ -26,6 +27,7 @@ import {
   Check,
   Timer,
   X,
+  WifiLow,
 } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import type { JoinResult } from "./lobby";
@@ -67,7 +69,25 @@ export function MeetingRoom({
       options={{
         adaptiveStream: true,
         dynacast: true,
-        publishDefaults: { simulcast: true },
+        publishDefaults: {
+          // VP9 with SVC: one encode that scales in layers instead of three
+          // full simulcast encodes. Kinder to weak uplinks and phone CPUs.
+          // Incompatible viewers automatically get a VP8 backup track.
+          videoCodec: "vp9",
+          // Cap the top layer: smooth over sharp when constrained.
+          videoEncoding: { maxBitrate: 1_200_000, maxFramerate: 24 },
+          degradationPreference: "maintain-framerate",
+          // Slides stay crisp at modest bits: static content encodes cheap.
+          screenShareEncoding: { maxBitrate: 1_500_000, maxFramerate: 15 },
+          // Voice-optimized audio: 24k speech beats 48k stereo music for calls,
+          // and sips bits. DTX silences quiet mics, RED patches lost packets.
+          audioPreset: AudioPresets.speech,
+          dtx: true,
+          red: true,
+          forceStereo: false,
+          // Applies to the VP8 backup path.
+          simulcast: true,
+        },
       }}
     >
       <RoomShell
@@ -110,6 +130,8 @@ function RoomShell({
   const [copied, setCopied] = useState(false);
   const [unread, setUnread] = useState(0);
   const [showReminder, setShowReminder] = useState(false);
+  const [localQuality, setLocalQuality] = useState<ConnectionQuality | null>(null);
+  const [showNudge, setShowNudge] = useState(false);
   const chatOpenRef = useRef(chatOpen);
   chatOpenRef.current = chatOpen;
   const prevCam = useRef<boolean | null>(null);
@@ -154,6 +176,32 @@ function RoomShell({
       room.off(RoomEvent.Disconnected, onDc);
     };
   }, [room, roomCode, onEnded, onLeft]);
+
+  // Track our own uplink quality for the audio-only nudge.
+  useEffect(() => {
+    const cb = (quality: ConnectionQuality, participant: Participant) => {
+      if (participant.isLocal) setLocalQuality(quality);
+    };
+    room.on(RoomEvent.ConnectionQualityChanged, cb);
+    return () => {
+      room.off(RoomEvent.ConnectionQualityChanged, cb);
+    };
+  }, [room]);
+
+  // Moat behavior: after 10s of Poor uplink with video on, offer one tap
+  // to audio-only. Hides itself the moment things recover.
+  useEffect(() => {
+    if (
+      localQuality !== ConnectionQuality.Poor ||
+      lowBandwidth ||
+      !localParticipant?.isCameraEnabled
+    ) {
+      setShowNudge(false);
+      return;
+    }
+    const t = setTimeout(() => setShowNudge(true), 10000);
+    return () => clearTimeout(t);
+  }, [localQuality, lowBandwidth, localParticipant]);
 
   // Low-bandwidth mode: drop video, keep audio.
   useEffect(() => {
@@ -301,6 +349,28 @@ function RoomShell({
               <button
                 onClick={() => setShowReminder(false)}
                 aria-label="Dismiss reminder"
+                className="kali-press shrink-0 rounded-full bg-white/15 p-1.5"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+          {showNudge && !showReminder && (
+            <div className="mb-2 flex items-center gap-2.5 rounded-2xl bg-kali-ink px-4 py-2.5 text-sm font-bold text-white">
+              <WifiLow className="h-5 w-5 shrink-0 text-kali-pink" weight="bold" />
+              <span className="flex-1">Connection is struggling. Voices work without video.</span>
+              <button
+                onClick={() => {
+                  setLowBandwidth(true);
+                  setShowNudge(false);
+                }}
+                className="kali-press shrink-0 rounded-full bg-kali-pink px-4 py-1.5 text-kali-ink"
+              >
+                Go audio only
+              </button>
+              <button
+                onClick={() => setShowNudge(false)}
+                aria-label="Dismiss suggestion"
                 className="kali-press shrink-0 rounded-full bg-white/15 p-1.5"
               >
                 <X className="h-4 w-4" />
