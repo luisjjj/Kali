@@ -39,7 +39,7 @@ export function MeetingFlow({
         <KaliWordmark />
         <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-white px-8 py-12 text-center dark:bg-white/5">
           <div className="text-4xl">🎈</div>
-          <h1 className="text-2xl font-extrabold tracking-tight">You left the call</h1>
+          <h1 className="text-2xl font-bold tracking-tight">You left the call</h1>
           <p className="font-medium text-kali-muted">
             Nice seeing you. The room is still open if you want to hop back in.
           </p>

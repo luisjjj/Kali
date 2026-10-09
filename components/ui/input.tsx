@@ -19,7 +19,7 @@ export function Input({ className, ...props }: InputProps) {
 export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn("mb-1.5 block text-sm font-bold text-kali-ink dark:text-kali-paper", className)}
+      className={cn("mb-1.5 block text-sm font-semibold text-kali-ink dark:text-kali-paper", className)}
       {...props}
     />
   );

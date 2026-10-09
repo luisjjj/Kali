@@ -58,9 +58,9 @@ body {
   font-feature-settings: "ss01" on, "cv11" on;
 }
 
-/* SF-style super-tight display type */
+/* SF-style display type — iOS-like: semibold at size, gentle tracking */
 .display-tight {
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
 }
 
 /* Springy press animation for big tap targets */

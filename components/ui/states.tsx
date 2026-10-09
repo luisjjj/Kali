@@ -31,7 +31,7 @@ export function EmptyState({
       className="flex flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/60 px-8 py-12 text-center"
     >
       <div className="text-4xl">🫧</div>
-      <h3 className="text-xl font-extrabold">{title}</h3>
+      <h3 className="text-xl font-bold">{title}</h3>
       {body && <p className="max-w-sm leading-relaxed text-kali-muted">{body}</p>}
       {action}
     </motion.div>
@@ -42,7 +42,7 @@ export function ErrorState({ title, body }: { title: string; body?: string }) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-[28px] bg-kali-danger/10 px-8 py-12 text-center">
       <div className="text-4xl">🙈</div>
-      <h3 className="text-xl font-extrabold text-kali-danger">{title}</h3>
+      <h3 className="text-xl font-bold text-kali-danger">{title}</h3>
       {body && <p className="max-w-sm leading-relaxed text-kali-muted">{body}</p>}
     </div>
   );

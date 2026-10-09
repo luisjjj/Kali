@@ -222,7 +222,7 @@ export function Lobby({
               <video ref={videoEl} className="h-full w-full -scale-x-100 object-cover" muted playsInline />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-kali-pink text-2xl font-extrabold text-kali-ink">
+                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-kali-pink text-2xl font-bold text-kali-ink">
                   {(name.trim()[0] ?? "?").toUpperCase()}
                 </div>
               </div>
@@ -300,10 +300,10 @@ export function Lobby({
 
         <div className="flex flex-col justify-center gap-5 rounded-[28px] bg-kali-pink p-8 sm:p-10">
           <div>
-            <p className="text-sm font-extrabold tracking-wide text-kali-ink/60 uppercase">
+            <p className="text-sm font-bold tracking-wide text-kali-ink/60 uppercase">
               You&apos;re joining
             </p>
-            <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-kali-ink sm:text-4xl">
+            <h1 className="mt-1 text-3xl font-bold tracking-tight text-kali-ink sm:text-4xl">
               {title}
             </h1>
           </div>

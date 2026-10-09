@@ -16,7 +16,7 @@ export default function SignUpPage() {
       <div className="hidden flex-1 flex-col justify-between bg-kali-pink p-10 lg:flex">
         <KaliWordmark />
         <div>
-          <h2 className="text-5xl font-extrabold tracking-tight text-kali-ink">
+          <h2 className="text-5xl font-bold tracking-tight text-kali-ink">
             Come say hi. Stay for the call.
           </h2>
           <p className="mt-3 max-w-md text-lg font-medium text-kali-ink/75">
@@ -31,7 +31,7 @@ export default function SignUpPage() {
           <div className="lg:hidden">
             <KaliWordmark />
           </div>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight">Create your account</h1>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight">Create your account</h1>
           <p className="mt-1 font-medium text-kali-muted">Takes ten seconds, promise.</p>
           <form action={formAction} className="mt-6 flex flex-col gap-4">
             <Field>
@@ -63,7 +63,7 @@ export default function SignUpPage() {
           </form>
           <p className="mt-4 text-sm font-semibold text-kali-muted">
             Already have an account?{" "}
-            <Link href="/auth/sign-in" className="font-extrabold text-kali-ink underline dark:text-kali-paper">
+            <Link href="/auth/sign-in" className="font-bold text-kali-ink underline dark:text-kali-paper">
               Sign in
             </Link>
           </p>

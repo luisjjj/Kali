@@ -7,7 +7,7 @@ export function KaliWordmark({ className, dark }: { className?: string; dark?: b
     <Link href="/" className={cn("inline-flex items-center gap-1 select-none", className)}>
       <span
         className={cn(
-          "text-3xl font-extrabold tracking-tighter",
+          "text-3xl font-bold tracking-tighter",
           dark ? "text-kali-paper" : "text-kali-ink dark:text-kali-paper"
         )}
       >

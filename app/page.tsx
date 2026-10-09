@@ -35,37 +35,37 @@ const MARQUEE = [
 const FEATURES = [
   {
     icon: Zap,
-    tint: "bg-kali-pink",
+    tile: "bg-kali-ink text-white",
     title: "Instant rooms",
     body: "One tap makes a room and a cute link. Share /m/your-code and you're live in seconds — no scheduling gymnastics.",
   },
   {
     icon: Users,
-    tint: "bg-kali-ink text-white",
+    tile: "bg-kali-pink text-kali-ink",
     title: "Guests welcome",
     body: "Friends join from any phone or laptop with just a display name. No account, no app store, no awkward onboarding.",
   },
   {
     icon: MessageCircleHeart,
-    tint: "bg-kali-pink-pale",
+    tile: "bg-kali-ink text-white",
     title: "Chat that sticks around",
     body: "In-call chat flies over live data channels and saves to history automatically. Refresh all you want — receipts kept.",
   },
   {
     icon: Crown,
-    tint: "bg-kali-pink",
+    tile: "bg-kali-pink text-kali-ink",
     title: "Host stays in charge",
     body: "Mute a loud mic, remove a party crasher, or end the call for everyone. Enforced on the server, not just vibes.",
   },
   {
     icon: Gauge,
-    tint: "bg-kali-pink-pale",
+    tile: "bg-kali-ink text-white",
     title: "Survives bad wifi",
     body: "Simulcast, adaptive streaming and per-person connection indicators come standard. Flip on audio-only mode when the train tunnel hits.",
   },
   {
     icon: MonitorUp,
-    tint: "bg-kali-ink text-white",
+    tile: "bg-kali-pink text-kali-ink",
     title: "Present like a pro",
     body: "One-tap screen sharing with its own spotlight tile, so your slides get the stage and faces stay in the wings.",
   },
@@ -121,9 +121,9 @@ export default async function Home() {
   const ctaHref = session?.user ? "/dashboard" : "/auth/sign-up";
 
   return (
-    <div className="flex min-h-screen flex-col bg-kali-paper text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
+    <div className="flex min-h-screen flex-col bg-kali-pink text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
       {/* Sticky nav */}
-      <header className="sticky top-0 z-40 border-b border-kali-ink/5 bg-kali-paper/85 backdrop-blur-lg dark:bg-kali-ink/85">
+      <header className="sticky top-0 z-40 border-b border-kali-ink/10 bg-kali-pink/85 backdrop-blur-lg dark:bg-kali-ink/85">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
           <KaliWordmark />
           <nav className="hidden items-center gap-6 text-sm font-bold text-kali-ink/70 md:flex dark:text-kali-paper/70">
@@ -141,6 +141,11 @@ export default async function Home() {
             </a>
           </nav>
           <div className="flex items-center gap-2">
+            <Link href="/join">
+              <Button variant="outline" size="sm" className="border-kali-ink/15 bg-white/70">
+                Join a call
+              </Button>
+            </Link>
             {session?.user ? (
               <Link href="/dashboard">
                 <Button variant="primary" size="sm">
@@ -148,18 +153,11 @@ export default async function Home() {
                 </Button>
               </Link>
             ) : (
-              <>
-                <Link href="/auth/sign-in" className="hidden sm:block">
-                  <Button variant="ghost" size="sm">
-                    Sign in
-                  </Button>
-                </Link>
-                <Link href="/auth/sign-up">
-                  <Button variant="primary" size="sm">
-                    Get started
-                  </Button>
-                </Link>
-              </>
+              <Link href="/auth/sign-up">
+                <Button variant="primary" size="sm">
+                  Get started
+                </Button>
+              </Link>
             )}
           </div>
         </div>
@@ -169,16 +167,16 @@ export default async function Home() {
         {/* Hero */}
         <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
           <div className="flex flex-col items-start gap-6">
-            <Badge tone="pink" className="animate-fade-up">
+            <Badge tone="ink" className="animate-fade-up">
               <span className="animate-pulse-dot inline-block h-2 w-2 rounded-full bg-kali-success" />
               Now with audio-only mode for terrible wifi
             </Badge>
-            <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-extrabold sm:text-6xl lg:text-[4.6rem]">
+            <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
               Start a call,
               <br />
-              no fuss<span className="text-kali-pink">.</span>
+              no fuss<span className="text-white">.</span>
             </h1>
-            <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed font-medium text-kali-ink/70 dark:text-kali-paper/70">
+            <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed text-kali-ink/75">
               Kali is the video app that skips the boring parts. Instant rooms, guest links, live
               chat that saves itself — free while we&apos;re little.
             </p>
@@ -189,16 +187,16 @@ export default async function Home() {
                   <ArrowRight className="h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/dashboard">
-                <Button variant="ghost" size="lg">
+              <Link href="/join">
+                <Button variant="outline" size="lg" className="border-kali-ink/15 bg-white">
                   Join with a code
                 </Button>
               </Link>
             </div>
-            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-ink/60 dark:text-kali-paper/60">
-              {["Free, no card", "No downloads", "Guests in one tap"].map((t) => (
+            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-ink/65">
+              {["Free, no card", "No downloads", "Guests need no account"].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
-                  <Check className="h-4 w-4 text-kali-success" strokeWidth={3} /> {t}
+                  <Check className="h-4 w-4" strokeWidth={3} /> {t}
                 </span>
               ))}
             </div>
@@ -237,31 +235,31 @@ export default async function Home() {
               </div>
             </div>
             <div
-              className="animate-float absolute -top-5 -right-3 rounded-2xl bg-white px-4 py-3 shadow-xl dark:bg-white/10"
+              className="animate-float absolute -top-5 -right-3 rounded-2xl bg-white px-4 py-3 shadow-xl"
               style={{ "--float-rot": "3deg" } as React.CSSProperties}
             >
-              <p className="text-xs font-extrabold">Grace</p>
-              <p className="text-xs font-medium text-kali-muted">wait, you&apos;re muted 😭</p>
+              <p className="text-xs font-semibold text-kali-ink">Grace</p>
+              <p className="text-xs text-kali-muted">wait, you&apos;re muted 😭</p>
             </div>
             <div
-              className="animate-float absolute -bottom-5 -left-3 rounded-2xl bg-kali-pink px-4 py-3 shadow-xl"
+              className="animate-float absolute -bottom-5 -left-3 rounded-2xl bg-kali-ink px-4 py-3 shadow-xl"
               style={{ "--float-rot": "-3deg", animationDelay: "1.2s" } as React.CSSProperties}
             >
-              <p className="text-xs font-extrabold text-kali-ink">Link copied!</p>
-              <p className="text-xs font-bold text-kali-ink/60">kali/m/abc-def-ghi</p>
+              <p className="text-xs font-semibold text-white">Link copied!</p>
+              <p className="text-xs font-bold text-white/60">kali/m/abc-def-ghi</p>
             </div>
           </div>
         </section>
 
         {/* Marquee */}
-        <div className="overflow-hidden border-y border-kali-ink/8 bg-kali-pink py-3.5">
+        <div className="overflow-hidden border-y border-kali-ink/20 bg-kali-ink py-3.5">
           <div className="animate-marquee flex w-max gap-8 pr-8">
             {[...MARQUEE, ...MARQUEE].map((t, i) => (
               <span
                 key={i}
-                className="inline-flex items-center gap-8 text-sm font-extrabold tracking-wide whitespace-nowrap text-kali-ink uppercase"
+                className="inline-flex items-center gap-8 text-sm font-semibold tracking-wide whitespace-nowrap text-kali-pink uppercase"
               >
-                {t} <span className="text-kali-ink/40">✳</span>
+                {t} <span className="text-kali-pink/40">✳</span>
               </span>
             ))}
           </div>
@@ -269,57 +267,67 @@ export default async function Home() {
 
         {/* Features */}
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
-          <p className="text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase dark:text-kali-paper/50">
+          <p className="text-sm font-semibold tracking-widest text-kali-ink/55 uppercase">
             Why Kali
           </p>
-          <h2 className="display-tight mt-2 max-w-xl text-4xl font-extrabold sm:text-5xl">
-            Everything you need. None of the blah<span className="text-kali-pink">.</span>
+          <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
+            Everything you need. None of the blah<span className="text-white">.</span>
           </h2>
-          <p className="mt-3 max-w-lg text-lg font-medium text-kali-ink/65 dark:text-kali-paper/65">
+          <p className="mt-3 max-w-lg text-lg text-kali-ink/70">
             Built for friend groups, study sessions, standups and long-distance gossip — not board
             meetings.
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((f) => (
-              <article
-                key={f.title}
-                className="kali-lift rounded-[28px] bg-white p-7 dark:bg-white/5"
-              >
+              <article key={f.title} className="kali-lift rounded-[28px] bg-white p-7">
                 <span
-                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${f.tint}`}
+                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${f.tile}`}
                 >
                   <f.icon className="h-6 w-6" />
                 </span>
-                <h3 className="mt-4 text-xl font-extrabold tracking-tight">{f.title}</h3>
-                <p className="mt-1.5 leading-relaxed font-medium text-kali-muted">{f.body}</p>
+                <h3 className="mt-4 text-xl font-semibold tracking-tight text-kali-ink">
+                  {f.title}
+                </h3>
+                <p className="mt-1.5 leading-relaxed text-kali-muted">{f.body}</p>
               </article>
             ))}
           </div>
         </section>
 
         {/* How it works */}
-        <section id="how" className="scroll-mt-20 bg-kali-pink">
+        <section id="how" className="scroll-mt-20 bg-kali-ink text-white">
           <div className="mx-auto w-full max-w-6xl px-5 py-16 lg:py-24">
-            <p className="text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase">
+            <p className="text-sm font-semibold tracking-widest text-kali-pink uppercase">
               How it works
             </p>
-            <h2 className="display-tight mt-2 max-w-xl text-4xl font-extrabold text-kali-ink sm:text-5xl">
-              Live in three tiny steps<span className="text-white">.</span>
+            <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
+              Live in three tiny steps<span className="text-kali-pink">.</span>
             </h2>
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {STEPS.map((s) => (
-                <article key={s.n} className="rounded-[28px] bg-kali-ink p-7 text-white">
-                  <p className="display-tight text-5xl font-extrabold text-kali-pink">{s.n}</p>
-                  <h3 className="mt-2 text-xl font-extrabold">{s.title}</h3>
-                  <p className="mt-1.5 leading-relaxed font-medium text-white/65">{s.body}</p>
+                <article key={s.n} className="rounded-[28px] bg-kali-pink p-7 text-kali-ink">
+                  <p className="display-tight text-5xl font-semibold text-white">{s.n}</p>
+                  <h3 className="mt-2 text-xl font-semibold">{s.title}</h3>
+                  <p className="mt-1.5 leading-relaxed text-kali-ink/70">{s.body}</p>
                 </article>
               ))}
             </div>
-            <Link href={ctaHref} className="mt-8 inline-block">
-              <Button variant="primary" size="lg">
-                Try step one now <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={ctaHref}>
+                <Button variant="secondary" size="lg">
+                  Try step one now <ArrowRight className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/join">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-white/20 bg-transparent text-white hover:bg-white/10"
+                >
+                  I have a code
+                </Button>
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -327,13 +335,13 @@ export default async function Home() {
         <section id="hosts" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
           <div className="grid items-center gap-8 lg:grid-cols-2">
             <div>
-              <p className="text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase dark:text-kali-paper/50">
+              <p className="text-sm font-semibold tracking-widest text-kali-ink/55 uppercase">
                 For hosts
               </p>
-              <h2 className="display-tight mt-2 text-4xl font-extrabold sm:text-5xl">
-                You&apos;re the host. Act like it<span className="text-kali-pink">.</span>
+              <h2 className="display-tight mt-2 text-4xl font-semibold sm:text-5xl">
+                You&apos;re the host. Act like it<span className="text-white">.</span>
               </h2>
-              <p className="mt-3 max-w-md text-lg font-medium text-kali-ink/65 dark:text-kali-paper/65">
+              <p className="mt-3 max-w-md text-lg text-kali-ink/70">
                 Real moderation power, enforced where it counts — on our servers, not as a polite
                 suggestion in the UI.
               </p>
@@ -345,30 +353,32 @@ export default async function Home() {
                   "See who's struggling with live connection dots",
                 ].map((t) => (
                   <li key={t} className="flex items-center gap-3 font-bold">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-kali-pink">
-                      <Check className="h-4 w-4 text-kali-ink" strokeWidth={3} />
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-kali-ink">
+                      <Check className="h-4 w-4 text-kali-pink" strokeWidth={3} />
                     </span>
                     {t}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-[28px] bg-kali-ink p-7 text-white sm:p-9">
-              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-kali-pink text-kali-ink">
+            <div className="rounded-[28px] bg-white p-7 sm:p-9">
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-kali-ink text-kali-pink">
                 <ShieldCheck className="h-6 w-6" />
               </span>
-              <h3 className="mt-4 text-2xl font-extrabold tracking-tight">Under the hood</h3>
-              <dl className="mt-4 flex flex-col gap-4">
+              <h3 className="mt-4 text-2xl font-semibold tracking-tight text-kali-ink">
+                Under the hood
+              </h3>
+              <dl className="mt-4 flex flex-col gap-3">
                 {[
                   ["Media", "LiveKit's global SFU — no hand-rolled WebRTC, ever."],
                   ["Data", "Neon Postgres stores rooms and chat; auth is Neon Auth."],
                   ["Safety", "Every input zod-validated. Host claims re-checked server-side."],
                 ].map(([k, v]) => (
-                  <div key={k} className="rounded-2xl bg-white/8 px-5 py-4">
-                    <dt className="text-xs font-extrabold tracking-widest text-kali-pink uppercase">
+                  <div key={k} className="rounded-2xl bg-kali-pink-pale/70 px-5 py-4">
+                    <dt className="inline-block rounded-full bg-kali-ink px-3 py-0.5 text-[11px] font-semibold tracking-widest text-white uppercase">
                       {k}
                     </dt>
-                    <dd className="mt-1 font-medium text-white/80">{v}</dd>
+                    <dd className="mt-1.5 text-kali-ink/75">{v}</dd>
                   </div>
                 ))}
               </dl>
@@ -378,23 +388,25 @@ export default async function Home() {
 
         {/* FAQ */}
         <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
-          <p className="text-center text-sm font-extrabold tracking-widest text-kali-ink/50 uppercase dark:text-kali-paper/50">
+          <p className="text-center text-sm font-semibold tracking-widest text-kali-ink/55 uppercase">
             FAQ
           </p>
-          <h2 className="display-tight mt-2 text-center text-4xl font-extrabold sm:text-5xl">
-            Asking for a friend<span className="text-kali-pink">?</span>
+          <h2 className="display-tight mt-2 text-center text-4xl font-semibold sm:text-5xl">
+            Asking for a friend<span className="text-white">?</span>
           </h2>
           <div className="mt-8 flex flex-col gap-3">
             {FAQS.map((f) => (
               <details
                 key={f.q}
-                className="group rounded-[24px] bg-white px-6 py-5 open:bg-kali-pink-pale/60 dark:bg-white/5 dark:open:bg-white/10"
+                className="group rounded-[24px] bg-white px-6 py-5 text-kali-ink open:bg-kali-ink open:text-white"
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-extrabold [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
                   {f.q}
                   <ChevronDown className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180" />
                 </summary>
-                <p className="mt-2 leading-relaxed font-medium text-kali-muted">{f.a}</p>
+                <p className="mt-2 leading-relaxed text-kali-muted group-open:text-white/65">
+                  {f.a}
+                </p>
               </details>
             ))}
           </div>
@@ -403,37 +415,48 @@ export default async function Home() {
         {/* CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
           <div className="flex flex-col items-center gap-5 rounded-[32px] bg-kali-ink px-8 py-14 text-center text-white sm:py-20">
-            <p className="text-sm font-extrabold tracking-widest text-kali-pink uppercase">
+            <p className="text-sm font-semibold tracking-widest text-kali-pink uppercase">
               Last chance (not really)
             </p>
-            <h2 className="display-tight max-w-2xl text-4xl font-extrabold sm:text-6xl">
+            <h2 className="display-tight max-w-2xl text-4xl font-semibold sm:text-6xl">
               Your next call could take ten seconds to start.
             </h2>
-            <Link href={ctaHref}>
-              <Button variant="secondary" size="lg">
-                {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href={ctaHref}>
+                <Button variant="secondary" size="lg">
+                  {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/join">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-white/20 bg-transparent text-white hover:bg-white/10"
+                >
+                  Join as a guest
+                </Button>
+              </Link>
+            </div>
             <p className="text-sm font-bold text-white/50">
-              Free while we&apos;re little. Bring a friend.
+              Hosting needs a free account. Joining just needs a name.
             </p>
           </div>
         </section>
       </main>
 
-      <footer className="border-t border-kali-ink/8">
+      <footer className="border-t border-kali-ink/15">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
           <KaliWordmark />
-          <p className="text-sm font-semibold text-kali-muted">
+          <p className="text-sm font-semibold text-kali-ink/60">
             Made with care by Kali. Be kind on calls.
           </p>
-          <div className="flex gap-5 text-sm font-bold text-kali-ink/70 dark:text-kali-paper/70">
+          <div className="flex gap-5 text-sm font-bold text-kali-ink/75">
+            <Link href="/join" className="hover:underline">
+              Join
+            </Link>
             <Link href="/dashboard" className="hover:underline">
               Dashboard
-            </Link>
-            <Link href="/auth/sign-in" className="hover:underline">
-              Sign in
             </Link>
             <Link href="/auth/sign-up" className="hover:underline">
               Sign up
@@ -460,7 +483,7 @@ function MockTile({
     <div
       className={`relative flex aspect-video items-center justify-center rounded-2xl ${color} ${speaking ? "kali-speaking" : ""}`}
     >
-      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-sm font-extrabold">
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/20 text-sm font-semibold">
         {name[0]}
       </span>
       <span className="absolute bottom-1.5 left-1.5 max-w-[calc(100%-0.75rem)] truncate rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold text-white">

@@ -45,7 +45,7 @@ export function ParticipantsPanel({
   return (
     <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5">
       <div className="flex items-center justify-between px-5 py-3">
-        <h2 className="font-extrabold">People ({participants.length})</h2>
+        <h2 className="font-bold">People ({participants.length})</h2>
         <button
           onClick={onClose}
           aria-label="Close participants"
@@ -67,11 +67,11 @@ export function ParticipantsPanel({
               key={p.identity}
               className="flex items-center gap-3 rounded-2xl bg-kali-pink-pale/50 px-3 py-2.5"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-kali-pink text-sm font-extrabold text-kali-ink">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-kali-pink text-sm font-bold text-kali-ink">
                 {(name[0] ?? "?").toUpperCase()}
               </div>
               <div className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate text-sm font-extrabold">
+                <span className="truncate text-sm font-bold">
                   {name} {mine ? "(you)" : ""}
                 </span>
                 <span className="flex items-center gap-1.5 text-[11px] font-bold text-kali-muted">

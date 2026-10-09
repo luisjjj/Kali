@@ -87,7 +87,7 @@ export function ChatPanel({
   return (
     <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5">
       <div className="flex items-center justify-between px-5 py-3">
-        <h2 className="font-extrabold">Chat</h2>
+        <h2 className="font-bold">Chat</h2>
         <button
           onClick={onClose}
           aria-label="Close chat"
@@ -143,7 +143,7 @@ export function ChatPanel({
 function Bubble({ name, body, mine }: { name: string; body: string; mine: boolean }) {
   return (
     <div className={cn("flex flex-col gap-0.5", mine ? "items-end" : "items-start")}>
-      <span className="px-1 text-[11px] font-extrabold text-kali-muted">{name}</span>
+      <span className="px-1 text-[11px] font-bold text-kali-muted">{name}</span>
       <p
         className={cn(
           "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed font-medium break-words",

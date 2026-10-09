@@ -14,10 +14,13 @@ export const dynamic = "force-dynamic";
 
 export default async function MeetingPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ roomCode: string }>;
+  searchParams: Promise<{ name?: string }>;
 }) {
   const { roomCode: raw } = await params;
+  const { name: nameHint } = await searchParams;
   const parsed = roomCodeSchema.safeParse(raw);
 
   if (!parsed.success) {
@@ -51,12 +54,16 @@ export default async function MeetingPage({
 
   const { data: session } = await auth.getSession();
   const isHost = !!session?.user && meeting.hostUserId === session.user.id;
+  const hintedName =
+    typeof nameHint === "string" && nameHint.trim()
+      ? nameHint.trim().slice(0, 40)
+      : "";
 
   return (
     <MeetingFlow
       roomCode={meeting.roomCode}
       title={meeting.title}
-      defaultName={session?.user?.name ?? ""}
+      defaultName={session?.user?.name ?? hintedName}
       isHost={isHost}
     />
   );

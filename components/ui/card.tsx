@@ -11,7 +11,7 @@ export function Card({ className, ...props }: React.HTMLAttributes<HTMLDivElemen
 }
 
 export function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn("text-xl font-extrabold tracking-tight", className)} {...props} />;
+  return <h3 className={cn("text-xl font-bold tracking-tight", className)} {...props} />;
 }
 
 export function CardText({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {

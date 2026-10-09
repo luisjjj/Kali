@@ -69,7 +69,7 @@ export function DashboardClient({
     <div className="flex flex-col gap-6">
       <section className="rounded-[32px] bg-kali-ink p-8 text-white sm:p-10">
         <p className="font-bold text-white/60">Hey, {userName}! 👋</p>
-        <h1 className="mt-1 text-3xl font-extrabold tracking-tight sm:text-4xl">
+        <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
           Ready when you are.
         </h1>
         <Field className="mt-5 max-w-md">
@@ -126,7 +126,7 @@ export function DashboardClient({
 
       <section className="grid gap-4 md:grid-cols-2">
         <div className="flex flex-col gap-3">
-          <h2 className="px-1 text-lg font-extrabold">
+          <h2 className="px-1 text-lg font-bold">
             Upcoming <Badge tone="pink">{upcoming.length}</Badge>
           </h2>
           {upcoming.length === 0 && (
@@ -135,7 +135,7 @@ export function DashboardClient({
           {upcoming.map((m) => (
             <Card key={m.id} className="flex items-center gap-3 !p-5">
               <div className="min-w-0 flex-1">
-                <p className="truncate font-extrabold">{m.title}</p>
+                <p className="truncate font-bold">{m.title}</p>
                 <p className="text-sm font-semibold text-kali-muted">
                   {m.roomCode}
                   {m.scheduledAt ? ` · ${new Date(m.scheduledAt).toLocaleString()}` : " · anytime"}
@@ -155,7 +155,7 @@ export function DashboardClient({
           ))}
         </div>
         <div className="flex flex-col gap-3">
-          <h2 className="px-1 text-lg font-extrabold">
+          <h2 className="px-1 text-lg font-bold">
             Past <Badge tone="ink">{past.length}</Badge>
           </h2>
           {past.length === 0 && (
@@ -166,7 +166,7 @@ export function DashboardClient({
           )}
           {past.map((m) => (
             <Card key={m.id} className="!p-5 opacity-75">
-              <p className="truncate font-extrabold">{m.title}</p>
+              <p className="truncate font-bold">{m.title}</p>
               <p className="text-sm font-semibold text-kali-muted">
                 {m.roomCode} · ended{" "}
                 {m.endedAt ? new Date(m.endedAt).toLocaleString() : "a while ago"}

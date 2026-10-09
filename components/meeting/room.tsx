@@ -211,7 +211,7 @@ function RoomShell({
     <div className="flex h-dvh flex-col bg-kali-paper dark:bg-black">
       <header className="flex items-center justify-between gap-2 px-4 py-3 sm:px-6">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-lg font-extrabold tracking-tight">{title}</span>
+          <span className="truncate text-lg font-bold tracking-tight">{title}</span>
           <Badge tone="pink" className="hidden sm:inline-flex">
             {roomCode}
           </Badge>
@@ -383,7 +383,7 @@ function CtrlButton({
     >
       {children}
       {!!badge && (
-        <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-kali-pink px-1 text-[11px] font-extrabold text-kali-ink">
+        <span className="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-kali-pink px-1 text-[11px] font-bold text-kali-ink">
           {badge}
         </span>
       )}
@@ -430,7 +430,7 @@ function ParticipantCard({
         <div className="flex h-full w-full items-center justify-center">
           <div
             className={cn(
-              "flex h-16 w-16 items-center justify-center rounded-full text-xl font-extrabold sm:h-20 sm:w-20 sm:text-2xl",
+              "flex h-16 w-16 items-center justify-center rounded-full text-xl font-bold sm:h-20 sm:w-20 sm:text-2xl",
               isLocal ? "bg-kali-pink text-kali-ink" : "bg-white/15 text-white"
             )}
           >
