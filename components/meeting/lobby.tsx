@@ -16,6 +16,7 @@ export interface JoinResult {
   identity: string;
   isHost: boolean;
   roomCode: string;
+  endsAt: string;
 }
 
 interface Device {

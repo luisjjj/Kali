@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { eq } from "drizzle-orm";
+import { eq, min } from "drizzle-orm";
 import { db } from "@/lib/db/client";
-import { meetings } from "@/lib/db/schema";
+import { meetings, participants } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/server";
 import { livekitEnv, signJoinToken } from "@/lib/livekit";
+import { CALL_LIMIT_MS } from "@/lib/limits";
 import { tokenRequestSchema } from "@/lib/validations";
 
 export const dynamic = "force-dynamic";
@@ -58,11 +59,31 @@ export async function POST(req: Request) {
 
   const token = await signJoinToken({ identity, name, roomCode, isHost });
 
+  // The clock starts at the first join and never moves, so refreshes and
+  // rejoins cannot stretch the call. Record this join, then read the anchor.
+  await db.insert(participants).values({
+    meetingId: meeting.id,
+    userId: session?.user?.id ?? null,
+    displayName: name,
+  });
+  const [anchor] = await db
+    .select({ startedAt: min(participants.joinedAt) })
+    .from(participants)
+    .where(eq(participants.meetingId, meeting.id));
+  const startedAt = anchor?.startedAt ?? new Date();
+  const endsAt = new Date(startedAt.getTime() + CALL_LIMIT_MS);
+
+  if (endsAt.getTime() <= Date.now()) {
+    await db.update(meetings).set({ endedAt: new Date() }).where(eq(meetings.id, meeting.id));
+    return NextResponse.json({ error: "This meeting has ended." }, { status: 410 });
+  }
+
   return NextResponse.json({
     serverUrl: env.url,
     token,
     identity,
     isHost,
     roomCode,
+    endsAt: endsAt.toISOString(),
   });
 }

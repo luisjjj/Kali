@@ -110,6 +110,10 @@ const FAQS = [
     a: "That's literally what audio-only mode is for. One tap drops all video and keeps voices crystal clear. Little signal dots show who's struggling before they freeze mid-sentence.",
   },
   {
+    q: "How long can calls run?",
+    a: "An hour. You get a friendly nudge at 55 minutes, then the room wraps itself up. Need more time. Start a fresh room and share the new link.",
+  },
+  {
     q: "How much does it cost?",
     a: "Free while we're little. No tiers, no trials, no credit card ambush. We'll figure out grown-up pricing later and tell you first.",
   },

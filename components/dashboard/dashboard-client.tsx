@@ -10,6 +10,7 @@ import {
   SignIn,
   Trash,
   ArrowRight,
+  Timer,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardText, CardTitle } from "@/components/ui/card";
@@ -183,6 +184,10 @@ export function DashboardClient({
             {error}
           </p>
         )}
+        <p className="mt-4 flex items-center gap-1.5 text-xs font-bold text-white/60">
+          <Timer className="h-4 w-4 text-kali-pink" /> Calls wrap up on their own after an hour.
+          You will get a 5 minute heads up.
+        </p>
       </section>
 
       <section className="grid items-start gap-4 lg:grid-cols-2">

@@ -24,12 +24,15 @@ import {
   Gauge,
   Copy,
   Check,
+  Timer,
+  X,
 } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import type { JoinResult } from "./lobby";
 import { ChatPanel } from "./chat-panel";
 import { ParticipantsPanel } from "./participants-panel";
 import { Badge } from "@/components/ui/badge";
+import { CALL_REMINDER_LEAD_MS } from "@/lib/limits";
 import { cn } from "@/lib/utils";
 
 export function MeetingRoom({
@@ -72,6 +75,7 @@ export function MeetingRoom({
         title={title}
         displayName={displayName || join.identity}
         isHost={isHost}
+        endsAt={join.endsAt}
         onLeft={onLeft}
         onEnded={onEnded}
       />
@@ -85,6 +89,7 @@ function RoomShell({
   title,
   displayName,
   isHost,
+  endsAt,
   onLeft,
   onEnded,
 }: {
@@ -92,6 +97,7 @@ function RoomShell({
   title: string;
   displayName: string;
   isHost: boolean;
+  endsAt: string;
   onLeft: () => void;
   onEnded: () => void;
 }) {
@@ -103,6 +109,7 @@ function RoomShell({
   const [lowBandwidth, setLowBandwidth] = useState(false);
   const [copied, setCopied] = useState(false);
   const [unread, setUnread] = useState(0);
+  const [showReminder, setShowReminder] = useState(false);
   const chatOpenRef = useRef(chatOpen);
   chatOpenRef.current = chatOpen;
   const prevCam = useRef<boolean | null>(null);
@@ -188,6 +195,49 @@ function RoomShell({
     onEnded();
   }, [roomCode, room, onEnded]);
 
+  // Quiet 60 minute limit. Hosts end it for everyone, guests ask the server
+  // to expire it (the server re-checks the clock, so this is abuse-proof).
+  const finishCall = useCallback(async () => {
+    if (isHost) {
+      try {
+        await fetch(`/api/meetings/${roomCode}/end`, { method: "POST" });
+      } catch {}
+      try {
+        await room.disconnect();
+      } catch {}
+      onEnded();
+      return;
+    }
+    try {
+      await fetch(`/api/meetings/${roomCode}/expire`, { method: "POST" });
+    } catch {}
+    try {
+      const res = await fetch(`/api/meetings/${roomCode}`);
+      const data = await res.json();
+      if (data.meeting?.endedAt) onEnded();
+      else onLeft();
+    } catch {
+      onLeft();
+    }
+  }, [isHost, roomCode, room, onEnded, onLeft]);
+
+  const finishRef = useRef(finishCall);
+  finishRef.current = finishCall;
+
+  // Invisible timer: nothing on screen until the 5 minute heads up.
+  useEffect(() => {
+    const msLeft = new Date(endsAt).getTime() - Date.now();
+    if (msLeft <= 0) {
+      void finishRef.current();
+      return;
+    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    if (msLeft <= CALL_REMINDER_LEAD_MS) setShowReminder(true);
+    else timers.push(setTimeout(() => setShowReminder(true), msLeft - CALL_REMINDER_LEAD_MS));
+    timers.push(setTimeout(() => void finishRef.current(), msLeft));
+    return () => timers.forEach(clearTimeout);
+  }, [endsAt]);
+
   const copyLink = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(`${window.location.origin}/m/${roomCode}`);
@@ -243,6 +293,19 @@ function RoomShell({
             <p className="mb-2 rounded-2xl bg-kali-ink px-4 py-2 text-center text-xs font-bold text-white">
               Audio-only mode is on. Video is paused to save data.
             </p>
+          )}
+          {showReminder && (
+            <div className="mb-2 flex items-center gap-2.5 rounded-2xl bg-kali-ink px-4 py-2.5 text-sm font-bold text-white">
+              <Timer className="h-5 w-5 shrink-0 text-kali-pink" weight="bold" />
+              <span className="flex-1">Heads up. This call wraps up in 5 minutes.</span>
+              <button
+                onClick={() => setShowReminder(false)}
+                aria-label="Dismiss reminder"
+                className="kali-press shrink-0 rounded-full bg-white/15 p-1.5"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
           )}
           <div
             className={cn(
