@@ -221,7 +221,7 @@ function RoomShell({
             className="kali-press flex items-center gap-1.5 rounded-full bg-kali-pink-pale px-4 py-2 text-sm font-bold text-kali-ink"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            {copied ? "Copied!" : "Copy link"}
+            <span className="hidden sm:inline">{copied ? "Copied!" : "Copy link"}</span>
           </button>
           <button
             onClick={() => setLowBandwidth((v) => !v)}
@@ -241,7 +241,7 @@ function RoomShell({
         <main className="flex min-h-0 flex-1 flex-col">
           {lowBandwidth && (
             <p className="mb-2 rounded-2xl bg-kali-ink px-4 py-2 text-center text-xs font-bold text-white">
-              Audio-only mode is on — video is paused to save bandwidth.
+              Audio-only mode is on. Video is paused to save data.
             </p>
           )}
           <div
@@ -289,7 +289,7 @@ function RoomShell({
         <motion.div
           initial={{ y: 24, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex items-center gap-1.5 rounded-full bg-kali-ink px-3 py-2.5 text-white shadow-xl sm:gap-2 sm:px-4"
+          className="flex items-center gap-1.5 rounded-full bg-kali-ink px-3 py-2.5 text-white shadow-xl sm:gap-2 sm:px-4 max-w-[calc(100vw-2rem)] overflow-x-auto max-sm:gap-1 max-sm:px-2"
         >
           <CtrlButton
             active={micOn}

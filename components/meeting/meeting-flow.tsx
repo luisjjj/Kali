@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Lobby, type JoinResult } from "./lobby";
 import { MeetingRoom } from "./room";
 import { EndedScreen } from "./ended-screen";
+import { DoorOpen } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -38,7 +39,9 @@ export function MeetingFlow({
       <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-kali-paper px-5 dark:bg-kali-ink">
         <KaliWordmark />
         <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-white px-8 py-12 text-center dark:bg-white/5">
-          <div className="text-4xl">🎈</div>
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
+            <DoorOpen className="h-7 w-7" weight="duotone" />
+          </span>
           <h1 className="text-2xl font-bold tracking-tight">You left the call</h1>
           <p className="font-medium text-kali-ink/65 dark:text-kali-paper/65">
             Nice seeing you. The room is still open if you want to hop back in.

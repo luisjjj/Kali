@@ -20,10 +20,10 @@ export default function SignInPage() {
             Welcome back, cutie.
           </h2>
           <p className="mt-3 max-w-md text-lg font-medium text-kali-ink/75">
-            Your rooms missed you. Hop back in — it takes one tap.
+            Your rooms missed you. Hop back in. It takes one tap.
           </p>
         </div>
-        <p className="font-bold text-kali-ink/75">kali. — start a call, no fuss.</p>
+        <p className="font-bold text-kali-ink/75">kali. Start a call, no fuss.</p>
       </div>
       <div className="flex flex-1 items-center justify-center px-5 py-10">
         <Card className="w-full max-w-md shadow-none">

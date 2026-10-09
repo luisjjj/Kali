@@ -46,7 +46,7 @@ export async function signJoinToken(opts: {
     canPublish: true,
     canSubscribe: true,
     canPublishData: true,
-    // Derived server-side from meetings.host_user_id — never from client claims.
+    // Derived server-side from meetings.host_user_id. Never from client claims.
     roomAdmin: opts.isHost,
   });
   return at.toJwt();

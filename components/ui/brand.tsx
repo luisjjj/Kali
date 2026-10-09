@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-/** Kali's own simple wordmark — lowercase, chunky, with a pink dot. Original, no trademarks. */
+/** Kali's own simple wordmark. Lowercase, chunky, with a pink dot. Original, no trademarks. */
 export function KaliWordmark({
   className,
   dark,

@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
   if (parsed.data.identity === `user-${session.user.id}`) {
-    return NextResponse.json({ error: "You can't remove yourself — use leave." }, { status: 400 });
+    return NextResponse.json({ error: "You can't remove yourself. Use leave." }, { status: 400 });
   }
 
   const rows = await db
@@ -47,6 +47,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.warn("[remove] failed:", err);
-    return NextResponse.json({ error: "Couldn't remove them — are they still here?" }, { status: 502 });
+    return NextResponse.json({ error: "Couldn't remove them. Are they still here?" }, { status: 502 });
   }
 }

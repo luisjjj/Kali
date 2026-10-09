@@ -34,7 +34,7 @@ export function ParticipantsPanel({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Didn't work. Try again.");
-      setNotice(path === "mute" ? "Muted them. Shh. 🤫" : "They've been removed.");
+      setNotice(path === "mute" ? "Muted them." : "They've been removed.");
     } catch (err) {
       setNotice(err instanceof Error ? err.message : "Didn't work. Try again.");
     } finally {
@@ -43,7 +43,7 @@ export function ParticipantsPanel({
   };
 
   return (
-    <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5">
+    <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5 max-sm:fixed max-sm:inset-x-4 max-sm:top-24 max-sm:bottom-36 max-sm:z-30 max-sm:w-auto max-sm:shadow-2xl">
       <div className="flex items-center justify-between px-5 py-3">
         <h2 className="font-bold">People ({participants.length})</h2>
         <button
@@ -112,7 +112,7 @@ export function ParticipantsPanel({
         })}
         {isHost && (
           <p className="flex items-center gap-1.5 px-1 pt-1 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">
-            <Crown className="h-3 w-3" /> You&apos;re the host — <Badge tone="pink">mute</Badge> and
+            <Crown className="h-3 w-3" /> You&apos;re the host. <Badge tone="pink">mute</Badge> and
             remove away.
           </p>
         )}

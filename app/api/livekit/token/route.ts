@@ -10,7 +10,7 @@ import { tokenRequestSchema } from "@/lib/validations";
 export const dynamic = "force-dynamic";
 
 // Guests allowed (display name in body). Host flag is derived server-side
-// from meetings.host_user_id — client claims are never trusted.
+// from meetings.host_user_id. Client claims are never trusted.
 export async function POST(req: Request) {
   let json: unknown;
   try {

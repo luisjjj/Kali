@@ -83,7 +83,7 @@ export function Lobby({
         }
       } catch {
         if (!cancelled)
-          setPreviewError("Couldn't reach your camera or mic. Check permissions — you can still join.");
+          setPreviewError("Couldn't reach your camera or mic. Check permissions. You can still join.");
       }
     })();
     return () => {
@@ -125,7 +125,7 @@ export function Lobby({
       };
       tick();
     } catch {
-      // Meter is decorative — ignore failures.
+      // Meter is decorative. Ignore failures.
     }
     return () => {
       cancelAnimationFrame(raf);
@@ -198,7 +198,7 @@ export function Lobby({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Couldn't get you in. Try again.");
-      // Stop preview tracks — the room creates its own.
+      // Stop preview tracks. The room creates its own.
       tracksRef.current.audio?.stop();
       tracksRef.current.video?.stop();
       onJoin(data as JoinResult, { micOn, camOn });

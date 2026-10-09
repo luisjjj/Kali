@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
   if (parsed.data.identity === hostIdentity(session.user.id)) {
-    return NextResponse.json({ error: "That's you — use your own mic button." }, { status: 400 });
+    return NextResponse.json({ error: "That's you. Use your own mic button." }, { status: 400 });
   }
 
   const rows = await db
@@ -63,6 +63,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     console.warn("[mute] failed:", err);
-    return NextResponse.json({ error: "Couldn't mute them — are they still here?" }, { status: 502 });
+    return NextResponse.json({ error: "Couldn't mute them. Are they still here?" }, { status: 502 });
   }
 }

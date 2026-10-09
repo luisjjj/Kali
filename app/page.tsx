@@ -36,7 +36,7 @@ const FEATURES = [
     icon: Lightning,
     tile: "bg-kali-ink text-white",
     title: "Instant rooms",
-    body: "One tap makes a room and a cute link. Share your link and you're live in seconds — no planning headaches.",
+    body: "One tap makes a room and a cute link. Share your link and you're live in seconds, no planning headaches.",
   },
   {
     icon: Users,
@@ -48,7 +48,7 @@ const FEATURES = [
     icon: ChatCircleText,
     tile: "bg-kali-ink text-white",
     title: "Chat that sticks around",
-    body: "In-call chat arrives instantly and saves itself automatically. Refresh all you want — receipts kept.",
+    body: "In-call chat arrives instantly and saves itself automatically. Refresh all you want. Receipts kept.",
   },
   {
     icon: Crown,
@@ -95,11 +95,11 @@ const FAQS = [
   },
   {
     q: "Do I need to install anything?",
-    a: "Nothing. Kali runs entirely in the browser — phone, tablet, laptop, borrowed Chromebook. If it runs a modern browser, it runs Kali.",
+    a: "Nothing. Kali runs entirely in the browser, from phones and tablets to laptops and borrowed Chromebooks.",
   },
   {
     q: "Is my call private?",
-    a: "Every call gets its own secret code and everything stays scrambled in transit. Only the host can mute, remove, or end things — guests can just relax.",
+    a: "Every call gets its own secret code and everything stays scrambled in transit. Only the host can mute, remove, or end things. Guests can just relax.",
   },
   {
     q: "What happens to chat history?",
@@ -107,7 +107,7 @@ const FAQS = [
   },
   {
     q: "My wifi is terrible. Will Kali cope?",
-    a: "That's literally what audio-only mode is for — one tap drops all video and keeps voices crystal clear. Little signal dots show who's struggling before they freeze mid-sentence.",
+    a: "That's literally what audio-only mode is for. One tap drops all video and keeps voices crystal clear. Little signal dots show who's struggling before they freeze mid-sentence.",
   },
   {
     q: "How much does it cost?",
@@ -164,7 +164,7 @@ export default async function Home() {
 
       <main className="flex flex-col">
         {/* Hero */}
-        <section className="mx-auto grid w-full max-w-6xl items-center gap-10 px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
+        <section className="mx-auto grid w-full max-w-6xl items-center gap-10 overflow-x-clip px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
           <div className="flex flex-col items-start gap-6">
             <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
               Start a call,
@@ -173,7 +173,7 @@ export default async function Home() {
             </h1>
             <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed text-kali-ink/75 dark:text-kali-paper/75">
               Kali is the video app that skips the boring parts. Instant rooms, guest links, live
-              chat that saves itself — free while we&apos;re little.
+              chat that saves itself. Free while we&apos;re little.
             </p>
             <div className="animate-fade-up delay-3 flex flex-wrap gap-3">
               <Link href={ctaHref}>
@@ -205,7 +205,7 @@ export default async function Home() {
                 <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-kali-pink" />
                 <span className="ml-2 rounded-full bg-white/10 px-3 py-0.5 text-[11px] font-bold text-white/70">
-                  kali — friday gossip session
+                  kali · friday gossip session
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-2.5">
@@ -269,7 +269,7 @@ export default async function Home() {
             Everything you need. None of the blah<span className="text-kali-ink">.</span>
           </h2>
           <p className="mt-3 max-w-lg text-lg text-kali-ink/70 dark:text-kali-paper/70">
-            Built for friend groups, study sessions, standups and long-distance gossip — not board
+            Built for friend groups, study sessions, standups and long-distance gossip, not board
             meetings.
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -337,7 +337,7 @@ export default async function Home() {
                 You&apos;re the host. Act like it<span className="text-kali-ink">.</span>
               </h2>
               <p className="mt-3 max-w-md text-lg text-kali-ink/70 dark:text-kali-paper/70">
-                Real host powers that always work — no fine print, no funny business.
+                Real host powers that always work. No fine print, no funny business.
               </p>
               <ul className="mt-6 flex flex-col gap-3">
                 {[
@@ -365,7 +365,7 @@ export default async function Home() {
               <dl className="mt-4 flex flex-col gap-3">
                 {[
                   ["Calls", "Video and voice run on fast servers around the world, so calls stay smooth."],
-                  ["Memory", "Your rooms and chats are saved for you — pick up right where you left off."],
+                  ["Memory", "Your rooms and chats are saved for you. Pick up right where you left off."],
                   ["Safety", "Only the host can mute, remove, or end a call. Guests can just relax."],
                 ].map(([k, v]) => (
                   <div key={k} className="rounded-2xl bg-kali-pink-pale/70 px-5 py-4">

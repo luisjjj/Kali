@@ -20,7 +20,7 @@
 }
 
 :root {
-  /* Kali brand tokens — Klarna-inspired, original assets only */
+  /* Kali brand tokens. Klarna-inspired, original assets only */
   --kali-pink: #ffa8cd;
   --kali-pink-hover: #ff8cbf;
   --kali-pink-pale: #ffe3ef;
@@ -61,7 +61,7 @@ body {
   font-feature-settings: "ss01" on, "cv11" on;
 }
 
-/* SF-style display type — iOS-like: semibold at size, gentle tracking */
+/* SF-style display type. iOS-like: semibold at size, gentle tracking */
 .display-tight {
   letter-spacing: -0.025em;
 }
@@ -88,7 +88,7 @@ body {
   box-shadow: 0 0 0 3px var(--kali-pink);
 }
 
-/* Friendly focus rings — soft fills over outlines */
+/* Friendly focus rings. Soft fills over outlines */
 .kali-focus:focus-visible {
   outline: 3px solid var(--kali-pink);
   outline-offset: 2px;

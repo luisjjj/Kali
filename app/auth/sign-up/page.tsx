@@ -24,7 +24,7 @@ export default function SignUpPage() {
             pixels.
           </p>
         </div>
-        <p className="font-bold text-kali-ink/75">kali. — start a call, no fuss.</p>
+        <p className="font-bold text-kali-ink/75">kali. Start a call, no fuss.</p>
       </div>
       <div className="flex flex-1 items-center justify-center px-5 py-10">
         <Card className="w-full max-w-md shadow-none">

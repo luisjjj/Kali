@@ -47,7 +47,7 @@ export function ChatPanel({
     };
   }, [roomCode]);
 
-  // Live messages only (arrived after mount — avoids dupes with history).
+  // Live messages only (arrived after mount, so no dupes with history).
   const live = chatMessages.filter((m) => m.timestamp > mountTime.current);
 
   // Notify parent of incoming messages for the unread badge.
@@ -71,7 +71,7 @@ export function ChatPanel({
     try {
       await send(body);
     } catch {
-      // Live delivery failed — history persist below still saves it.
+      // Live delivery failed. History persist below still saves it.
     }
     try {
       await fetch(`/api/meetings/${roomCode}/messages`, {
@@ -85,7 +85,7 @@ export function ChatPanel({
   }, [draft, sending, send, roomCode, displayName]);
 
   return (
-    <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5">
+    <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5 max-sm:fixed max-sm:inset-x-4 max-sm:top-24 max-sm:bottom-36 max-sm:z-30 max-sm:w-auto max-sm:shadow-2xl">
       <div className="flex items-center justify-between px-5 py-3">
         <h2 className="font-bold">Chat</h2>
         <button
@@ -100,7 +100,7 @@ export function ChatPanel({
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-4 py-2">
         {history.length === 0 && live.length === 0 && (
           <p className="rounded-2xl bg-kali-pink-pale/60 px-4 py-6 text-center text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/70">
-            No messages yet. Say hi — it saves here automatically. 💬
+            No messages yet. Say hi. It saves here automatically.
           </p>
         )}
         {history.map((m) => (

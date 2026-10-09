@@ -14,7 +14,7 @@ async function findMeeting(raw: string) {
   return { meeting: rows[0] };
 }
 
-// Chat history survives refresh — guests can read/write with an unguessable code.
+// Chat history survives refresh. Guests can read and write with an unguessable code.
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ roomCode: string }> }

@@ -42,7 +42,7 @@ export default async function MeetingPage({
       <Shell>
         <ErrorState
           title="No call here, sorry"
-          body="This room doesn't exist. Maybe the link is old — ask the host for a fresh one."
+          body="This room doesn't exist. Maybe the link is old. Ask the host for a fresh one."
         />
       </Shell>
     );

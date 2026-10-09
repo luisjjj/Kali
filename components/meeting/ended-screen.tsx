@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { HandWaving } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 
@@ -7,7 +10,9 @@ export function EndedScreen({ title }: { title: string }) {
     <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-kali-paper px-5 dark:bg-kali-ink">
       <KaliWordmark />
       <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/70 px-8 py-12 text-center">
-        <div className="text-4xl">👋</div>
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
+          <HandWaving className="h-7 w-7" weight="duotone" />
+        </span>
         <h1 className="text-2xl font-bold tracking-tight text-kali-ink">This call has ended</h1>
         <p className="font-medium text-kali-ink/65">
           “{title}” is all wrapped up. Thanks for hanging out!

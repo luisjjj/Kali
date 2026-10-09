@@ -9,7 +9,7 @@ const cookieSecret =
 
 if (!process.env.NEON_AUTH_BASE_URL || !process.env.NEON_AUTH_COOKIE_SECRET) {
   console.warn(
-    "[auth] NEON_AUTH_BASE_URL / NEON_AUTH_COOKIE_SECRET not set — using build placeholder. Set them in .env.local."
+    "[auth] NEON_AUTH_BASE_URL / NEON_AUTH_COOKIE_SECRET not set. Using build placeholder. Set them in .env.local."
   );
 }
 
