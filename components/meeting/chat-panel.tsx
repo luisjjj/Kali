@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useChat, useLocalParticipant } from "@livekit/components-react";
-import { SendHorizonal, X } from "lucide-react";
+import { PaperPlaneRight, X } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 interface HistoryMessage {
@@ -99,7 +99,7 @@ export function ChatPanel({
 
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-4 py-2">
         {history.length === 0 && live.length === 0 && (
-          <p className="rounded-2xl bg-kali-pink-pale/60 px-4 py-6 text-center text-sm font-semibold text-kali-muted">
+          <p className="rounded-2xl bg-kali-pink-pale/60 px-4 py-6 text-center text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/70">
             No messages yet. Say hi — it saves here automatically. 💬
           </p>
         )}
@@ -125,7 +125,7 @@ export function ChatPanel({
           }}
           placeholder="Type something sweet…"
           maxLength={2000}
-          className="kali-focus h-11 min-w-0 flex-1 rounded-full bg-kali-pink-pale/60 px-4 text-sm font-medium placeholder:text-kali-muted"
+          className="kali-focus h-11 min-w-0 flex-1 rounded-full bg-kali-pink-pale/60 px-4 text-sm font-medium text-kali-ink placeholder:text-kali-ink/40 dark:bg-white/10 dark:text-kali-paper dark:placeholder:text-kali-paper/40"
         />
         <button
           onClick={sendMessage}
@@ -133,7 +133,7 @@ export function ChatPanel({
           aria-label="Send message"
           className="kali-press flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-kali-ink text-white disabled:opacity-40"
         >
-          <SendHorizonal className="h-5 w-5" />
+          <PaperPlaneRight className="h-5 w-5" />
         </button>
       </div>
     </aside>
@@ -143,11 +143,11 @@ export function ChatPanel({
 function Bubble({ name, body, mine }: { name: string; body: string; mine: boolean }) {
   return (
     <div className={cn("flex flex-col gap-0.5", mine ? "items-end" : "items-start")}>
-      <span className="px-1 text-[11px] font-bold text-kali-muted">{name}</span>
+      <span className="px-1 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">{name}</span>
       <p
         className={cn(
           "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed font-medium break-words",
-          mine ? "rounded-br-md bg-kali-pink text-kali-ink" : "rounded-bl-md bg-kali-pink-pale/70"
+          mine ? "rounded-br-md bg-kali-pink text-kali-ink" : "rounded-bl-md bg-kali-pink-pale/70 text-kali-ink dark:bg-white/10 dark:text-kali-paper"
         )}
       >
         {body}

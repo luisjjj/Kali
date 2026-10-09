@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Camera, CameraOff, Mic, MicOff, Loader2 } from "lucide-react";
+import { Camera, CameraSlash, Microphone, MicrophoneSlash, CircleNotch } from "@phosphor-icons/react";
 import { Room, createLocalTracks, type LocalAudioTrack, type LocalVideoTrack } from "livekit-client";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
@@ -237,7 +237,7 @@ export function Lobby({
                   micOn ? "bg-white text-kali-ink" : "bg-kali-danger text-white"
                 )}
               >
-                {micOn ? <Mic className="h-4 w-4" /> : <MicOff className="h-4 w-4" />}
+                {micOn ? <Microphone className="h-4 w-4" /> : <MicrophoneSlash className="h-4 w-4" />}
               </motion.button>
               <div className="h-1.5 w-16 overflow-hidden rounded-full bg-white/20">
                 <div ref={levelRef} className="h-full w-full origin-left rounded-full bg-kali-pink" />
@@ -252,7 +252,7 @@ export function Lobby({
                 camOn ? "bg-white text-kali-ink" : "bg-kali-danger text-white"
               )}
             >
-              {camOn ? <Camera className="h-5 w-5" /> : <CameraOff className="h-5 w-5" />}
+              {camOn ? <Camera className="h-5 w-5" /> : <CameraSlash className="h-5 w-5" />}
             </motion.button>
           </div>
 
@@ -300,7 +300,7 @@ export function Lobby({
 
         <div className="flex flex-col justify-center gap-5 rounded-[28px] bg-kali-pink p-8 sm:p-10">
           <div>
-            <p className="text-sm font-bold tracking-wide text-kali-ink/60 uppercase">
+            <p className="text-sm font-bold tracking-wide text-kali-ink/70 uppercase">
               You&apos;re joining
             </p>
             <h1 className="mt-1 text-3xl font-bold tracking-tight text-kali-ink sm:text-4xl">
@@ -330,13 +330,13 @@ export function Lobby({
           <Button variant="primary" size="lg" onClick={join} disabled={joining}>
             {joining ? (
               <>
-                <Loader2 className="animate-spin" /> Getting you in…
+                <CircleNotch className="animate-spin" /> Getting you in…
               </>
             ) : (
               "Join the call"
             )}
           </Button>
-          <p className="text-sm font-semibold text-kali-ink/60">
+          <p className="text-sm font-semibold text-kali-ink/75">
             No account needed. Be kind, unmute to say hi.
           </p>
         </div>

@@ -13,19 +13,18 @@ import {
 } from "@livekit/components-react";
 import { RoomEvent, Track } from "livekit-client";
 import {
-  Mic,
-  MicOff,
-  Video,
-  VideoOff,
-  ScreenShare,
-  ScreenShareOff,
-  MessageCircle,
+  Microphone,
+  MicrophoneSlash,
+  VideoCamera,
+  VideoCameraSlash,
+  MonitorArrowUp,
+  ChatCircle,
   Users,
-  PhoneOff,
+  PhoneDisconnect,
   Gauge,
   Copy,
   Check,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import type { JoinResult } from "./lobby";
 import { ChatPanel } from "./chat-panel";
@@ -219,7 +218,7 @@ function RoomShell({
         <div className="flex items-center gap-2">
           <button
             onClick={copyLink}
-            className="kali-press flex items-center gap-1.5 rounded-full bg-kali-pink-pale px-4 py-2 text-sm font-bold"
+            className="kali-press flex items-center gap-1.5 rounded-full bg-kali-pink-pale px-4 py-2 text-sm font-bold text-kali-ink"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             {copied ? "Copied!" : "Copy link"}
@@ -229,7 +228,7 @@ function RoomShell({
             title="Low-bandwidth mode: audio only"
             className={cn(
               "kali-press flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold",
-              lowBandwidth ? "bg-kali-ink text-white" : "bg-kali-pink-pale"
+              lowBandwidth ? "bg-kali-ink text-white" : "bg-kali-pink-pale text-kali-ink"
             )}
           >
             <Gauge className="h-4 w-4" />
@@ -297,21 +296,21 @@ function RoomShell({
             onClick={() => localParticipant?.setMicrophoneEnabled(!micOn)}
             label={micOn ? "Mute" : "Unmute"}
           >
-            {micOn ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5" />}
+            {micOn ? <Microphone className="h-5 w-5" /> : <MicrophoneSlash className="h-5 w-5" />}
           </CtrlButton>
           <CtrlButton
             active={camOn}
             onClick={() => localParticipant?.setCameraEnabled(!camOn)}
             label={camOn ? "Camera off" : "Camera on"}
           >
-            {camOn ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5" />}
+            {camOn ? <VideoCamera className="h-5 w-5" /> : <VideoCameraSlash className="h-5 w-5" />}
           </CtrlButton>
           <CtrlButton
             active={!sharing}
             onClick={() => localParticipant?.setScreenShareEnabled(!sharing)}
             label={sharing ? "Stop share" : "Share screen"}
           >
-            {sharing ? <ScreenShareOff className="h-5 w-5" /> : <ScreenShare className="h-5 w-5" />}
+            <MonitorArrowUp className="h-5 w-5" />
           </CtrlButton>
           <CtrlButton
             active
@@ -323,7 +322,7 @@ function RoomShell({
             label="Chat"
             badge={unread > 0 && !chatOpen ? unread : undefined}
           >
-            <MessageCircle className="h-5 w-5" />
+            <ChatCircle className="h-5 w-5" />
           </CtrlButton>
           <CtrlButton
             active
@@ -349,7 +348,7 @@ function RoomShell({
             title="Leave"
             className="kali-press ml-1 flex h-12 w-12 items-center justify-center rounded-full bg-kali-danger text-white"
           >
-            <PhoneOff className="h-5 w-5" />
+            <PhoneDisconnect className="h-5 w-5" />
           </button>
         </motion.div>
       </footer>
@@ -451,7 +450,7 @@ function ParticipantCard({
         </span>
         {!participant.isMicrophoneEnabled && (
           <span className="rounded-full bg-kali-danger p-1.5 text-white">
-            <MicOff className="h-3 w-3" />
+            <MicrophoneSlash className="h-3 w-3" />
           </span>
         )}
       </div>

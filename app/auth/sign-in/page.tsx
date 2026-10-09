@@ -23,7 +23,7 @@ export default function SignInPage() {
             Your rooms missed you. Hop back in — it takes one tap.
           </p>
         </div>
-        <p className="font-bold text-kali-ink/60">kali. — start a call, no fuss.</p>
+        <p className="font-bold text-kali-ink/75">kali. — start a call, no fuss.</p>
       </div>
       <div className="flex flex-1 items-center justify-center px-5 py-10">
         <Card className="w-full max-w-md shadow-none">
@@ -31,7 +31,7 @@ export default function SignInPage() {
             <KaliWordmark />
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight">Sign in</h1>
-          <p className="mt-1 font-medium text-kali-muted">Good to see you again.</p>
+          <p className="mt-1 text-kali-ink/65 dark:text-kali-paper/65">Good to see you again.</p>
           <form action={formAction} className="mt-6 flex flex-col gap-4">
             <Field>
               <Label htmlFor="email">Email</Label>
@@ -50,7 +50,7 @@ export default function SignInPage() {
               {isPending ? "Saying hi…" : "Sign in"}
             </Button>
           </form>
-          <p className="mt-4 text-sm font-semibold text-kali-muted">
+          <p className="mt-4 text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/65">
             New here?{" "}
             <Link href="/auth/sign-up" className="font-bold text-kali-ink underline dark:text-kali-paper">
               Create an account

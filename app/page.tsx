@@ -1,19 +1,19 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Video,
-  MessageCircleHeart,
+  VideoCamera,
+  ChatCircleText,
   Crown,
   Gauge,
   ShieldCheck,
-  Zap,
+  Lightning,
   Users,
-  Mic,
-  MonitorUp,
-  PhoneOff,
+  Microphone,
+  MonitorArrowUp,
+  PhoneDisconnect,
   Check,
-  ChevronDown,
-} from "lucide-react";
+  CaretDown,
+} from "@phosphor-icons/react/dist/ssr";
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
@@ -33,10 +33,10 @@ const MARQUEE = [
 
 const FEATURES = [
   {
-    icon: Zap,
+    icon: Lightning,
     tile: "bg-kali-ink text-white",
     title: "Instant rooms",
-    body: "One tap makes a room and a cute link. Share /m/your-code and you're live in seconds — no scheduling gymnastics.",
+    body: "One tap makes a room and a cute link. Share your link and you're live in seconds — no planning headaches.",
   },
   {
     icon: Users,
@@ -45,25 +45,25 @@ const FEATURES = [
     body: "Friends join from any phone or laptop with just a display name. No account, no app store, no awkward onboarding.",
   },
   {
-    icon: MessageCircleHeart,
+    icon: ChatCircleText,
     tile: "bg-kali-ink text-white",
     title: "Chat that sticks around",
-    body: "In-call chat flies over live data channels and saves to history automatically. Refresh all you want — receipts kept.",
+    body: "In-call chat arrives instantly and saves itself automatically. Refresh all you want — receipts kept.",
   },
   {
     icon: Crown,
     tile: "bg-kali-pink text-kali-ink",
     title: "Host stays in charge",
-    body: "Mute a loud mic, remove a party crasher, or end the call for everyone. Enforced on the server, not just vibes.",
+    body: "Mute a loud mic, remove a party crasher, or end the call for everyone. It just works, every time.",
   },
   {
     icon: Gauge,
     tile: "bg-kali-ink text-white",
     title: "Survives bad wifi",
-    body: "Simulcast, adaptive streaming and per-person connection indicators come standard. Flip on audio-only mode when the train tunnel hits.",
+    body: "Picture stays sharp on its own, with little signal dots for everyone. Flip on audio-only mode when the train tunnel hits.",
   },
   {
-    icon: MonitorUp,
+    icon: MonitorArrowUp,
     tile: "bg-kali-pink text-kali-ink",
     title: "Present like a pro",
     body: "One-tap screen sharing with its own spotlight tile, so your slides get the stage and faces stay in the wings.",
@@ -99,7 +99,7 @@ const FAQS = [
   },
   {
     q: "Is my call private?",
-    a: "Room codes are unguessable, media flows over encrypted LiveKit connections, and host powers (mute, remove, end) are enforced on our servers — not just hidden buttons in the UI.",
+    a: "Every call gets its own secret code and everything stays scrambled in transit. Only the host can mute, remove, or end things — guests can just relax.",
   },
   {
     q: "What happens to chat history?",
@@ -107,7 +107,7 @@ const FAQS = [
   },
   {
     q: "My wifi is terrible. Will Kali cope?",
-    a: "That's literally what audio-only mode is for — one tap drops all video and keeps voices crystal clear. Connection indicators show who's struggling before they freeze mid-sentence.",
+    a: "That's literally what audio-only mode is for — one tap drops all video and keeps voices crystal clear. Little signal dots show who's struggling before they freeze mid-sentence.",
   },
   {
     q: "How much does it cost?",
@@ -169,7 +169,7 @@ export default async function Home() {
             <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
               Start a call,
               <br />
-              no fuss<span className="text-white">.</span>
+              no fuss<span className="text-kali-ink">.</span>
             </h1>
             <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed text-kali-ink/75">
               Kali is the video app that skips the boring parts. Instant rooms, guest links, live
@@ -191,7 +191,7 @@ export default async function Home() {
             <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-ink/65">
               {["Free, no card", "No downloads", "Guests need no account"].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
-                  <Check className="h-4 w-4" strokeWidth={3} /> {t}
+                  <Check className="h-4 w-4" weight="bold" /> {t}
                 </span>
               ))}
             </div>
@@ -216,16 +216,16 @@ export default async function Home() {
               </div>
               <div className="mt-3 flex items-center justify-center gap-2 rounded-full bg-white/10 px-3 py-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
-                  <Mic className="h-4 w-4" />
+                  <Microphone className="h-4 w-4" />
                 </span>
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
-                  <Video className="h-4 w-4" />
+                  <VideoCamera className="h-4 w-4" />
                 </span>
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
-                  <MonitorUp className="h-4 w-4" />
+                  <MonitorArrowUp className="h-4 w-4" />
                 </span>
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-kali-danger text-white">
-                  <PhoneOff className="h-4 w-4" />
+                  <PhoneDisconnect className="h-4 w-4" />
                 </span>
               </div>
             </div>
@@ -234,7 +234,7 @@ export default async function Home() {
               style={{ "--float-rot": "3deg" } as React.CSSProperties}
             >
               <p className="text-xs font-semibold text-kali-ink">Grace</p>
-              <p className="text-xs text-kali-muted">wait, you&apos;re muted 😭</p>
+              <p className="text-xs text-kali-ink/60">wait, you&apos;re muted 😭</p>
             </div>
             <div
               className="animate-float absolute -bottom-5 -left-3 rounded-2xl bg-kali-ink px-4 py-3 shadow-xl"
@@ -262,11 +262,11 @@ export default async function Home() {
 
         {/* Features */}
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
-          <p className="text-sm font-semibold tracking-widest text-kali-ink/55 uppercase">
+          <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
             Why Kali
           </p>
           <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
-            Everything you need. None of the blah<span className="text-white">.</span>
+            Everything you need. None of the blah<span className="text-kali-ink">.</span>
           </h2>
           <p className="mt-3 max-w-lg text-lg text-kali-ink/70">
             Built for friend groups, study sessions, standups and long-distance gossip — not board
@@ -283,7 +283,7 @@ export default async function Home() {
                 <h3 className="mt-4 text-xl font-semibold tracking-tight text-kali-ink">
                   {f.title}
                 </h3>
-                <p className="mt-1.5 leading-relaxed text-kali-muted">{f.body}</p>
+                <p className="mt-1.5 leading-relaxed text-kali-ink/65">{f.body}</p>
               </article>
             ))}
           </div>
@@ -301,7 +301,7 @@ export default async function Home() {
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {STEPS.map((s) => (
                 <article key={s.n} className="rounded-[28px] bg-kali-pink p-7 text-kali-ink">
-                  <p className="display-tight text-5xl font-semibold text-white">{s.n}</p>
+                  <p className="display-tight text-5xl font-semibold text-kali-ink">{s.n}</p>
                   <h3 className="mt-2 text-xl font-semibold">{s.title}</h3>
                   <p className="mt-1.5 leading-relaxed text-kali-ink/70">{s.body}</p>
                 </article>
@@ -330,15 +330,14 @@ export default async function Home() {
         <section id="hosts" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
           <div className="grid items-center gap-8 lg:grid-cols-2">
             <div>
-              <p className="text-sm font-semibold tracking-widest text-kali-ink/55 uppercase">
+              <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
                 For hosts
               </p>
               <h2 className="display-tight mt-2 text-4xl font-semibold sm:text-5xl">
-                You&apos;re the host. Act like it<span className="text-white">.</span>
+                You&apos;re the host. Act like it<span className="text-kali-ink">.</span>
               </h2>
               <p className="mt-3 max-w-md text-lg text-kali-ink/70">
-                Real moderation power, enforced where it counts — on our servers, not as a polite
-                suggestion in the UI.
+                Real host powers that always work — no fine print, no funny business.
               </p>
               <ul className="mt-6 flex flex-col gap-3">
                 {[
@@ -349,7 +348,7 @@ export default async function Home() {
                 ].map((t) => (
                   <li key={t} className="flex items-center gap-3 font-bold">
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-kali-ink">
-                      <Check className="h-4 w-4 text-kali-pink" strokeWidth={3} />
+                      <Check className="h-4 w-4 text-kali-pink" weight="bold" />
                     </span>
                     {t}
                   </li>
@@ -383,11 +382,11 @@ export default async function Home() {
 
         {/* FAQ */}
         <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
-          <p className="text-center text-sm font-semibold tracking-widest text-kali-ink/55 uppercase">
+          <p className="text-center text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
             FAQ
           </p>
           <h2 className="display-tight mt-2 text-center text-4xl font-semibold sm:text-5xl">
-            Asking for a friend<span className="text-white">?</span>
+            Asking for a friend<span className="text-kali-ink">?</span>
           </h2>
           <div className="mt-8 flex flex-col gap-3">
             {FAQS.map((f) => (
@@ -397,9 +396,9 @@ export default async function Home() {
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
                   {f.q}
-                  <ChevronDown className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180" />
+                  <CaretDown className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180" />
                 </summary>
-                <p className="mt-2 leading-relaxed text-kali-muted group-open:text-white/65">
+                <p className="mt-2 leading-relaxed text-kali-ink/65 group-open:text-white/70">
                   {f.a}
                 </p>
               </details>
@@ -486,7 +485,7 @@ function MockTile({
       </span>
       {muted && (
         <span className="absolute right-1.5 bottom-1.5 rounded-full bg-kali-danger p-1 text-white">
-          <Mic className="h-2.5 w-2.5" />
+          <Microphone className="h-2.5 w-2.5" />
         </span>
       )}
     </div>

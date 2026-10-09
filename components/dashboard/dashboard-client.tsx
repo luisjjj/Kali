@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarPlus, Copy, Check, Plus, LogIn, Trash2 } from "lucide-react";
+import { CalendarPlus, Copy, Check, Plus, SignIn, Trash } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardText, CardTitle } from "@/components/ui/card";
 import { Field, Input, Label } from "@/components/ui/input";
@@ -68,7 +68,7 @@ export function DashboardClient({
   return (
     <div className="flex flex-col gap-6">
       <section className="rounded-[32px] bg-kali-ink p-8 text-white sm:p-10">
-        <p className="font-bold text-white/60">Hey, {userName}! 👋</p>
+        <p className="font-bold text-white/75">Hey, {userName}! 👋</p>
         <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
           Ready when you are.
         </h1>
@@ -114,7 +114,7 @@ export function DashboardClient({
             className="border-0"
           />
           <Button variant="secondary" size="md" onClick={join}>
-            <LogIn /> Join
+            <SignIn /> Join
           </Button>
         </div>
         {error && (
@@ -136,7 +136,7 @@ export function DashboardClient({
             <Card key={m.id} className="flex items-center gap-3 !p-5">
               <div className="min-w-0 flex-1">
                 <p className="truncate font-bold">{m.title}</p>
-                <p className="text-sm font-semibold text-kali-muted">
+                <p className="text-sm font-semibold text-kali-ink/65">
                   {m.roomCode}
                   {m.scheduledAt ? ` · ${new Date(m.scheduledAt).toLocaleString()}` : " · anytime"}
                 </p>
@@ -144,7 +144,7 @@ export function DashboardClient({
               <button
                 onClick={() => copy(m.roomCode)}
                 aria-label="Copy link"
-                className="kali-press rounded-full bg-kali-pink-pale p-2.5"
+                className="kali-press rounded-full bg-kali-pink-pale p-2.5 text-kali-ink"
               >
                 {copied === m.roomCode ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </button>
@@ -167,15 +167,15 @@ export function DashboardClient({
           {past.map((m) => (
             <Card key={m.id} className="!p-5 opacity-75">
               <p className="truncate font-bold">{m.title}</p>
-              <p className="text-sm font-semibold text-kali-muted">
+              <p className="text-sm font-semibold text-kali-ink/65">
                 {m.roomCode} · ended{" "}
                 {m.endedAt ? new Date(m.endedAt).toLocaleString() : "a while ago"}
               </p>
             </Card>
           ))}
           {past.length > 0 && (
-            <p className="flex items-center gap-1.5 px-1 text-xs font-bold text-kali-muted">
-              <Trash2 className="h-3 w-3" /> Ended rooms stay read-only. Make a new one anytime.
+            <p className="flex items-center gap-1.5 px-1 text-xs font-bold text-kali-ink/60">
+              <Trash className="h-3 w-3" /> Ended rooms stay read-only. Make a new one anytime.
             </p>
           )}
         </div>

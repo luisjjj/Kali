@@ -15,5 +15,5 @@ export function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHead
 }
 
 export function CardText({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn("text-base leading-relaxed text-kali-muted", className)} {...props} />;
+  return <p className={cn("text-base leading-relaxed text-kali-ink/65 dark:text-kali-paper/65", className)} {...props} />;
 }

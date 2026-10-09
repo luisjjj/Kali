@@ -40,7 +40,7 @@ export function MeetingFlow({
         <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-white px-8 py-12 text-center dark:bg-white/5">
           <div className="text-4xl">🎈</div>
           <h1 className="text-2xl font-bold tracking-tight">You left the call</h1>
-          <p className="font-medium text-kali-muted">
+          <p className="font-medium text-kali-ink/65 dark:text-kali-paper/65">
             Nice seeing you. The room is still open if you want to hop back in.
           </p>
           <div className="mt-2 flex flex-wrap justify-center gap-3">

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocalParticipant, useParticipants } from "@livekit/components-react";
-import { Crown, MicOff, X, UserMinus } from "lucide-react";
+import { Crown, MicrophoneSlash, X, UserMinus } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 
 function prettyName(p: { name?: string; identity: string }) {
@@ -57,7 +57,9 @@ export function ParticipantsPanel({
 
       <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-4 pb-4">
         {notice && (
-          <p className="rounded-2xl bg-kali-pink-pale/70 px-4 py-2 text-xs font-bold">{notice}</p>
+          <p className="rounded-2xl bg-kali-pink-pale/70 px-4 py-2 text-xs font-bold text-kali-ink dark:bg-white/10 dark:text-kali-paper">
+            {notice}
+          </p>
         )}
         {participants.map((p) => {
           const mine = p.identity === localParticipant?.identity;
@@ -65,7 +67,7 @@ export function ParticipantsPanel({
           return (
             <div
               key={p.identity}
-              className="flex items-center gap-3 rounded-2xl bg-kali-pink-pale/50 px-3 py-2.5"
+              className="flex items-center gap-3 rounded-2xl bg-kali-pink-pale/50 px-3 py-2.5 text-kali-ink dark:bg-white/10 dark:text-kali-paper"
             >
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-kali-pink text-sm font-bold text-kali-ink">
                 {(name[0] ?? "?").toUpperCase()}
@@ -74,10 +76,10 @@ export function ParticipantsPanel({
                 <span className="truncate text-sm font-bold">
                   {name} {mine ? "(you)" : ""}
                 </span>
-                <span className="flex items-center gap-1.5 text-[11px] font-bold text-kali-muted">
+                <span className="flex items-center gap-1.5 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">
                   {!p.isMicrophoneEnabled && (
                     <span className="inline-flex items-center gap-0.5">
-                      <MicOff className="h-3 w-3" /> muted
+                      <MicrophoneSlash className="h-3 w-3" /> muted
                     </span>
                   )}
                   {p.isSpeaking && <span className="text-kali-success">● speaking</span>}
@@ -90,9 +92,9 @@ export function ParticipantsPanel({
                     disabled={busy !== null}
                     title={`Mute ${name}`}
                     aria-label={`Mute ${name}`}
-                    className="kali-press rounded-full bg-white p-2 disabled:opacity-40"
+                    className="kali-press rounded-full bg-white p-2 text-kali-ink disabled:opacity-40"
                   >
-                    <MicOff className="h-4 w-4" />
+                    <MicrophoneSlash className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => act("remove", p.identity)}
@@ -109,7 +111,7 @@ export function ParticipantsPanel({
           );
         })}
         {isHost && (
-          <p className="flex items-center gap-1.5 px-1 pt-1 text-[11px] font-bold text-kali-muted">
+          <p className="flex items-center gap-1.5 px-1 pt-1 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">
             <Crown className="h-3 w-3" /> You&apos;re the host — <Badge tone="pink">mute</Badge> and
             remove away.
           </p>

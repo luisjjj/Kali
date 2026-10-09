@@ -24,7 +24,7 @@ export default function SignUpPage() {
             pixels.
           </p>
         </div>
-        <p className="font-bold text-kali-ink/60">kali. — start a call, no fuss.</p>
+        <p className="font-bold text-kali-ink/75">kali. — start a call, no fuss.</p>
       </div>
       <div className="flex flex-1 items-center justify-center px-5 py-10">
         <Card className="w-full max-w-md shadow-none">
@@ -32,7 +32,7 @@ export default function SignUpPage() {
             <KaliWordmark />
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight">Create your account</h1>
-          <p className="mt-1 font-medium text-kali-muted">Takes ten seconds, promise.</p>
+          <p className="mt-1 text-kali-ink/65 dark:text-kali-paper/65">Takes ten seconds, promise.</p>
           <form action={formAction} className="mt-6 flex flex-col gap-4">
             <Field>
               <Label htmlFor="name">Name</Label>
@@ -61,7 +61,7 @@ export default function SignUpPage() {
               {isPending ? "Making magic…" : "Create account"}
             </Button>
           </form>
-          <p className="mt-4 text-sm font-semibold text-kali-muted">
+          <p className="mt-4 text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/65">
             Already have an account?{" "}
             <Link href="/auth/sign-in" className="font-bold text-kali-ink underline dark:text-kali-paper">
               Sign in

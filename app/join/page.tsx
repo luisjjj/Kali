@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
@@ -51,7 +51,7 @@ export default function JoinPage() {
           <h1 className="display-tight mt-1 text-3xl font-semibold sm:text-4xl">
             Got a code? You&apos;re in<span className="text-kali-pink">.</span>
           </h1>
-          <p className="mt-2 font-medium text-kali-muted">
+          <p className="mt-2 text-kali-ink/65">
             No account needed. Just the code and whatever we should call you.
           </p>
 
@@ -95,7 +95,7 @@ export default function JoinPage() {
             </Button>
           </div>
 
-          <p className="mt-5 text-center text-sm font-semibold text-kali-muted">
+          <p className="mt-5 text-center text-sm font-semibold text-kali-ink/65">
             Want to host your own calls?{" "}
             <Link href="/auth/sign-up" className="font-semibold text-kali-ink underline">
               Make a free account
