@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { RouteTransition } from "@/components/ui/route-transition";
@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   title: "Kali · start a call, no fuss",
   description:
     "Kali is a friendly video call app with instant rooms, guest links, live chat that saves, and host controls. No downloads, no drama.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFA8CD",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
