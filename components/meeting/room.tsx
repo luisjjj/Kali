@@ -11,7 +11,7 @@ import {
   VideoTrack,
   ConnectionQualityIndicator,
 } from "@livekit/components-react";
-import { AudioPresets, ConnectionQuality, RoomEvent, Track } from "livekit-client";
+import { AudioPresets, ConnectionQuality, ConnectionState, RoomEvent, Track } from "livekit-client";
 import type { Participant } from "livekit-client";
 import {
   Microphone,
@@ -28,12 +28,14 @@ import {
   Timer,
   X,
   WifiLow,
+  CircleNotch,
 } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import type { JoinResult } from "./lobby";
 import { ChatPanel } from "./chat-panel";
 import { ParticipantsPanel } from "./participants-panel";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CALL_REMINDER_LEAD_MS } from "@/lib/limits";
 import { cn } from "@/lib/utils";
 
@@ -132,6 +134,7 @@ function RoomShell({
   const [showReminder, setShowReminder] = useState(false);
   const [localQuality, setLocalQuality] = useState<ConnectionQuality | null>(null);
   const [showNudge, setShowNudge] = useState(false);
+  const [connState, setConnState] = useState<ConnectionState>(room.state);
   const chatOpenRef = useRef(chatOpen);
   chatOpenRef.current = chatOpen;
   const prevCam = useRef<boolean | null>(null);
@@ -176,6 +179,15 @@ function RoomShell({
       room.off(RoomEvent.Disconnected, onDc);
     };
   }, [room, roomCode, onEnded, onLeft]);
+
+  // Track connection state for the joining skeleton.
+  useEffect(() => {
+    const cb = (s: ConnectionState) => setConnState(s);
+    room.on(RoomEvent.ConnectionStateChanged, cb);
+    return () => {
+      room.off(RoomEvent.ConnectionStateChanged, cb);
+    };
+  }, [room]);
 
   // Track our own uplink quality for the audio-only nudge.
   useEffect(() => {
@@ -377,6 +389,17 @@ function RoomShell({
               </button>
             </div>
           )}
+          {connState !== ConnectionState.Connected && (
+            <p className="mb-2 flex items-center justify-center gap-2 rounded-2xl bg-kali-pink-pale/70 px-4 py-2 text-center text-sm font-bold text-kali-ink dark:bg-white/10 dark:text-kali-paper">
+              <CircleNotch className="h-4 w-4 animate-spin" weight="bold" />
+              {connState === ConnectionState.Reconnecting ||
+              connState === ConnectionState.SignalReconnecting
+                ? "Reconnecting. Hang tight."
+                : connState === ConnectionState.Disconnected
+                  ? "Connection lost."
+                  : "Joining the call."}
+            </p>
+          )}
           <div
             className={cn(
               "grid min-h-0 flex-1 content-center gap-3 overflow-y-auto",
@@ -389,13 +412,17 @@ function RoomShell({
                     : "grid-cols-2 lg:grid-cols-3"
             )}
           >
-            {participants.map((p) => (
-              <ParticipantCard
-                key={p.identity}
-                participantSid={p.sid}
-                lowBandwidth={lowBandwidth}
-              />
-            ))}
+            {connState !== ConnectionState.Connected
+              ? [0, 1].map((i) => (
+                  <Skeleton key={i} className="aspect-video w-full !rounded-[24px]" />
+                ))
+              : participants.map((p) => (
+                  <ParticipantCard
+                    key={p.identity}
+                    participantSid={p.sid}
+                    lowBandwidth={lowBandwidth}
+                  />
+                ))}
           </div>
         </main>
 

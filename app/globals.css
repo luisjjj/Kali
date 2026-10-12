@@ -140,6 +140,31 @@ body {
   }
 }
 
+/* Skeleton shimmer: soft sweep, respects reduced motion */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 168, 205, 0.45),
+    transparent
+  );
+  animation: kali-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes kali-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
 .animate-fade-up {
   animation: kali-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -194,7 +219,8 @@ body {
   .animate-fade-up,
   .animate-float,
   .animate-marquee,
-  .animate-pulse-dot {
+  .animate-pulse-dot,
+  .skeleton-shimmer::after {
     animation: none;
   }
 }

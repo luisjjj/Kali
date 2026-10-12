@@ -223,7 +223,12 @@ export function Lobby({
               <video ref={videoEl} className="h-full w-full -scale-x-100 object-cover" muted playsInline />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-kali-pink text-2xl font-bold text-kali-ink">
+                <div
+                className={cn(
+                  "flex h-20 w-20 items-center justify-center rounded-full bg-kali-pink text-2xl font-bold text-kali-ink",
+                  !videoTrack && !previewError && "animate-pulse"
+                )}
+              >
                   {(name.trim()[0] ?? "?").toUpperCase()}
                 </div>
               </div>

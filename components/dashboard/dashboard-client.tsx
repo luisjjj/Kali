@@ -36,12 +36,24 @@ export function DashboardClient({
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [savedNote, setSavedNote] = useState<string | null>(null);
+  const [optimistic, setOptimistic] = useState<Meeting | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
 
   const create = async (kind: "instant" | "scheduled") => {
     setBusy(kind);
     setError(null);
     setSavedNote(null);
+    // Optimistic row: the list reacts instantly, the server catches up.
+    const guessTitle = title.trim() || (kind === "instant" ? "Quick catch-up" : "Scheduled call");
+    setOptimistic({
+      id: `temp-${kind}-${Date.now()}`,
+      hostUserId: "",
+      title: guessTitle,
+      roomCode: "···",
+      scheduledAt: kind === "scheduled" && scheduledAt ? scheduledAt : null,
+      createdAt: new Date(),
+      endedAt: null,
+    });
     try {
       const res = await fetch("/api/meetings", {
         method: "POST",
@@ -61,6 +73,7 @@ export function DashboardClient({
       setTitle("");
       setScheduledAt(null);
       setBusy(null);
+      setOptimistic(null);
       const when = data.meeting.scheduledAt
         ? new Date(data.meeting.scheduledAt).toLocaleString(undefined, {
             weekday: "short",
@@ -75,6 +88,7 @@ export function DashboardClient({
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't create the meeting.");
       setBusy(null);
+      setOptimistic(null);
     }
   };
 
@@ -220,7 +234,15 @@ export function DashboardClient({
           <h2 className="flex items-center gap-2 px-1 text-lg font-bold">
             Upcoming <Badge tone="pink">{upcoming.length}</Badge>
           </h2>
-          {upcoming.length === 0 && (
+          {optimistic && (
+            <Card className="!p-5 animate-pulse">
+              <p className="truncate font-bold">{optimistic.title}</p>
+              <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/65">
+                Saving… <Badge tone="pink">one sec</Badge>
+              </p>
+            </Card>
+          )}
+          {upcoming.length === 0 && !optimistic && (
             <EmptyState title="Nothing lined up" body="Start a room above and make something happen." />
           )}
           {upcoming.map((m) => (

@@ -28,8 +28,12 @@ export async function POST(req: Request) {
   }
   const { roomCode, displayName } = parsed.data;
 
-  const rows = await db.select().from(meetings).where(eq(meetings.roomCode, roomCode));
-  const meeting = rows[0];
+  // Session check and meeting lookup are independent. Run together.
+  const [meetingRows, { data: session }] = await Promise.all([
+    db.select().from(meetings).where(eq(meetings.roomCode, roomCode)),
+    auth.getSession(),
+  ]);
+  const meeting = meetingRows[0];
   if (!meeting) {
     return NextResponse.json({ error: "No meeting with that code." }, { status: 404 });
   }
@@ -47,7 +51,6 @@ export async function POST(req: Request) {
     );
   }
 
-  const { data: session } = await auth.getSession();
   const isHost = !!session?.user && meeting.hostUserId === session.user.id;
   const identity = session?.user
     ? `user-${session.user.id}`
@@ -60,17 +63,21 @@ export async function POST(req: Request) {
   const token = await signJoinToken({ identity, name, roomCode, isHost });
 
   // The clock starts at the first join and never moves, so refreshes and
-  // rejoins cannot stretch the call. Record this join, then read the anchor.
-  await db.insert(participants).values({
-    meetingId: meeting.id,
-    userId: session?.user?.id ?? null,
-    displayName: name,
-  });
-  const [anchor] = await db
-    .select({ startedAt: min(participants.joinedAt) })
-    .from(participants)
-    .where(eq(participants.meetingId, meeting.id));
-  const startedAt = anchor?.startedAt ?? new Date();
+  // rejoins cannot stretch the call. Record and read together: if the read
+  // lands before our own insert on a first join, we fall back to right now,
+  // which is that same first join.
+  const [, anchorRows] = await Promise.all([
+    db.insert(participants).values({
+      meetingId: meeting.id,
+      userId: session?.user?.id ?? null,
+      displayName: name,
+    }),
+    db
+      .select({ startedAt: min(participants.joinedAt) })
+      .from(participants)
+      .where(eq(participants.meetingId, meeting.id)),
+  ]);
+  const startedAt = anchorRows[0]?.startedAt ?? new Date();
   const endsAt = new Date(startedAt.getTime() + CALL_LIMIT_MS);
 
   if (endsAt.getTime() <= Date.now()) {
