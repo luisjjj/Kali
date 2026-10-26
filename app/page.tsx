@@ -18,6 +18,7 @@ import {
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Ambient } from "@/components/ui/ambient";
 import { cn } from "@/lib/utils";
 
@@ -118,7 +119,55 @@ const FAQS = [
   },
   {
     q: "How much does it cost?",
-    a: "Free while we're little. No tiers, no trials, no credit card ambush. We'll figure out grown-up pricing later and tell you first.",
+    a: "Everything is free right now. Pro at $7 a month and Pro Plus at $15 a month arrive when billing switches on, and early folks hear about it first.",
+  },
+];
+
+const PLANS = [
+  {
+    name: "Free",
+    price: "$0",
+    tag: "For spontaneous calls",
+    features: [
+      "Group calls up to an hour",
+      "Guests join with a link, no account",
+      "Live chat that saves itself",
+      "Audio-only mode for rough wifi",
+      "Screen sharing",
+    ],
+    cta: "Start free",
+    live: true,
+    featured: false,
+  },
+  {
+    name: "Pro",
+    price: "$7",
+    tag: "For people who host a lot",
+    features: [
+      "Everything in Free",
+      "Calls up to three hours",
+      "Custom room links you can remember",
+      "Pinned rooms waiting on your dashboard",
+      "First dibs on new features",
+    ],
+    cta: "Get Pro",
+    live: false,
+    featured: true,
+  },
+  {
+    name: "Pro Plus",
+    price: "$15",
+    tag: "For teams and serial hosts",
+    features: [
+      "Everything in Pro",
+      "Calls up to eight hours",
+      "Call recordings saved to your library",
+      "Room templates you can reuse",
+      "A calmer lobby for bigger crowds",
+    ],
+    cta: "Get Pro Plus",
+    live: false,
+    featured: false,
   },
 ];
 
@@ -142,6 +191,9 @@ export default async function Home() {
             </a>
             <a href="#hosts" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
               For hosts
+            </a>
+            <a href="#pricing" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
+              Pricing
             </a>
             <a href="#faq" className="nav-link transition-colors hover:text-kali-ink dark:hover:text-kali-paper">
               FAQ
@@ -404,6 +456,90 @@ export default async function Home() {
               </dl>
             </div>
           </div>
+        </section>
+
+        {/* Pricing */}
+        <section id="pricing" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
+          <Eyebrow>Pricing</Eyebrow>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+            <h2 className="display-tight text-4xl font-semibold sm:text-5xl">
+              Simple prices, zero surprises<span className="text-kali-ink">.</span>
+            </h2>
+            <Badge tone="pink">Billing not switched on yet</Badge>
+          </div>
+          <p className="mt-3 max-w-lg text-lg text-kali-ink/70 dark:text-kali-paper/70">
+            Everything is free while we&apos;re little. Paid plans wait in the wings for when we
+            switch billing on.
+          </p>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {PLANS.map((p) => (
+              <article
+                key={p.name}
+                className={cn(
+                  "kali-lift relative flex flex-col rounded-[28px] p-7",
+                  p.featured
+                    ? "bg-kali-ink text-white ring-2 ring-kali-pink"
+                    : "bg-white text-kali-ink shadow-[0_18px_44px_-28px_rgba(23,18,15,0.35)]"
+                )}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-semibold tracking-tight">{p.name}</h3>
+                  {p.featured ? (
+                    <Badge tone="pink">Most popular</Badge>
+                  ) : !p.live ? (
+                    <Badge tone="pink">Soon</Badge>
+                  ) : null}
+                </div>
+                <p
+                  className={cn(
+                    "mt-1 text-sm font-semibold",
+                    p.featured ? "text-white/60" : "text-kali-ink/60"
+                  )}
+                >
+                  {p.tag}
+                </p>
+                <p className="mt-4 flex items-baseline gap-1.5">
+                  <span className="display-tight text-5xl font-semibold">{p.price}</span>
+                  <span
+                    className={cn("text-sm font-bold", p.featured ? "text-white/55" : "text-kali-ink/55")}
+                  >
+                    / month
+                  </span>
+                </p>
+                <ul className="mt-5 flex flex-col gap-2.5 text-sm font-medium">
+                  {p.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5">
+                      <Check
+                        className={cn(
+                          "mt-0.5 h-4 w-4 shrink-0",
+                          p.featured ? "text-kali-pink" : "text-kali-success"
+                        )}
+                        weight="bold"
+                      />
+                      <span className={p.featured ? "text-white/85" : "text-kali-ink/75"}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto pt-6">
+                  {p.live ? (
+                    <Link href={ctaHref}>
+                      <Button variant="primary" className="w-full">
+                        {p.cta} <ArrowRight className="h-4 w-4" />
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Button variant={p.featured ? "secondary" : "outline"} className="w-full" disabled>
+                      {p.cta}
+                    </Button>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="mt-6 text-sm font-bold text-kali-ink/60 dark:text-kali-paper/60">
+            No card needed today. When billing switches on, we tell you first and the prices stay
+            as shown.
+          </p>
         </section>
 
         {/* FAQ */}
