@@ -15,7 +15,7 @@ export function EndedScreen({ title }: { title: string }) {
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
           <HandWaving className="h-7 w-7" weight="duotone" />
         </span>
-        <h1 className="text-2xl font-bold tracking-tight text-kali-ink">This call has ended</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-kali-ink dark:text-kali-paper">This call has ended</h1>
         <p className="font-medium text-kali-ink/65">
           “{title}” is all wrapped up. Thanks for hanging out!
         </p>

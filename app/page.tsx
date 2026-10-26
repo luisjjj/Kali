@@ -234,7 +234,7 @@ export default async function Home() {
             <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
               Start a call,
               <br />
-              no fuss<span className="text-kali-ink">.</span>
+              no fuss<span className="text-kali-ink dark:text-kali-pink">.</span>
             </h1>
             <p className="animate-fade-up delay-2 max-w-md text-lg leading-relaxed text-kali-ink/75 dark:text-kali-paper/75">
               Kali is the video app that skips the boring parts. Instant rooms, guest links, live
@@ -336,7 +336,7 @@ export default async function Home() {
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
           <Eyebrow>Why Kali</Eyebrow>
           <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
-            Everything you need. None of the blah<span className="text-kali-ink">.</span>
+            Everything you need. None of the blah<span className="text-kali-ink dark:text-kali-pink">.</span>
           </h2>
           <p className="mt-3 max-w-lg text-lg text-kali-ink/70 dark:text-kali-paper/70">
             Built for friend groups, study sessions, standups and long-distance gossip, not board
@@ -411,7 +411,7 @@ export default async function Home() {
             <div>
               <Eyebrow>For hosts</Eyebrow>
               <h2 className="display-tight mt-2 text-4xl font-semibold sm:text-5xl">
-                You&apos;re the host. Act like it<span className="text-kali-ink">.</span>
+                You&apos;re the host. Act like it<span className="text-kali-ink dark:text-kali-pink">.</span>
               </h2>
               <p className="mt-3 max-w-md text-lg text-kali-ink/70 dark:text-kali-paper/70">
                 Real host powers that always work. No fine print, no funny business.
@@ -463,7 +463,7 @@ export default async function Home() {
           <Eyebrow>Pricing</Eyebrow>
           <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
             <h2 className="display-tight text-4xl font-semibold sm:text-5xl">
-              Simple prices, zero surprises<span className="text-kali-ink">.</span>
+              Simple prices, zero surprises<span className="text-kali-ink dark:text-kali-pink">.</span>
             </h2>
             <Badge tone="pink">Billing not switched on yet</Badge>
           </div>
@@ -546,7 +546,7 @@ export default async function Home() {
         <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
           <Eyebrow className="justify-center">FAQ</Eyebrow>
           <h2 className="display-tight mt-2 text-center text-4xl font-semibold sm:text-5xl">
-            Asking for a friend<span className="text-kali-ink">?</span>
+            Asking for a friend<span className="text-kali-ink dark:text-kali-pink">?</span>
           </h2>
           <div className="mt-8 flex flex-col gap-3">
             {FAQS.map((f) => (
