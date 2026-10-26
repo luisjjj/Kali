@@ -18,6 +18,7 @@ import {
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
+import { Ambient } from "@/components/ui/ambient";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -126,7 +127,8 @@ export default async function Home() {
   const ctaHref = session?.user ? "/dashboard" : "/auth/sign-up";
 
   return (
-    <div className="flex min-h-screen flex-col bg-kali-pink text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
+    <div className="isolate flex min-h-screen flex-col bg-kali-pink text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
+      <Ambient />
       {/* Sticky nav */}
       <header className="sticky top-0 z-40 border-b border-kali-ink/10 bg-kali-pink/85 backdrop-blur-lg dark:bg-kali-ink/85">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">

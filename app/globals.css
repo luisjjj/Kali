@@ -215,10 +215,46 @@ body {
   transform: scaleX(1);
 }
 
+/* Ambient full-page background: seamless pattern drift (one 56px tile per
+   loop, compositor-friendly) and gentle star twinkle */
+@keyframes kali-pattern {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(56px, 56px, 0);
+  }
+}
+
+@keyframes kali-twinkle {
+  0%,
+  100% {
+    opacity: 0.16;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.animate-pattern {
+  animation: kali-pattern 24s linear infinite;
+}
+
+.animate-float-slow {
+  animation: kali-float 12s ease-in-out infinite;
+}
+
+.animate-twinkle {
+  animation: kali-twinkle 7s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-float,
+  .animate-float-slow,
   .animate-marquee,
+  .animate-pattern,
+  .animate-twinkle,
   .animate-pulse-dot,
   .skeleton-shimmer::after {
     animation: none;

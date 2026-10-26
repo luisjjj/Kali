@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { DashboardClient } from "@/components/dashboard/dashboard-client";
+import { Ambient } from "@/components/ui/ambient";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,8 @@ export default async function DashboardPage() {
   const past = rows.filter((m) => m.endedAt);
 
   return (
-    <div className="min-h-screen bg-kali-paper dark:bg-kali-ink">
+    <div className="isolate min-h-screen bg-kali-paper dark:bg-kali-ink">
+      <Ambient />
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
         <KaliWordmark />
         <form action="/auth/sign-out" method="post">

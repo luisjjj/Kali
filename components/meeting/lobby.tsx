@@ -8,6 +8,7 @@ import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Ambient } from "@/components/ui/ambient";
 import { cn } from "@/lib/utils";
 
 export interface JoinResult {
@@ -210,7 +211,8 @@ export function Lobby({
   }, [name, roomCode, micOn, camOn, onJoin]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-kali-paper dark:bg-kali-ink">
+    <div className="isolate relative flex min-h-screen flex-col overflow-hidden bg-kali-paper dark:bg-kali-ink">
+      <Ambient />
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5">
         <KaliWordmark />
         <Badge tone="pink">{roomCode}</Badge>

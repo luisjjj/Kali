@@ -7,6 +7,7 @@ import { EndedScreen } from "./ended-screen";
 import { DoorOpen } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
+import { Ambient } from "@/components/ui/ambient";
 import Link from "next/link";
 
 type Stage =
@@ -36,7 +37,8 @@ export function MeetingFlow({
 
   if (stage.name === "left") {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-5 bg-kali-paper px-5 dark:bg-kali-ink">
+      <div className="isolate relative flex min-h-screen flex-col items-center justify-center gap-5 overflow-hidden bg-kali-paper px-5 dark:bg-kali-ink">
+        <Ambient />
         <KaliWordmark />
         <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-white px-8 py-12 text-center dark:bg-white/5">
           <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">

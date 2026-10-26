@@ -6,6 +6,7 @@ import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field, Input, Label } from "@/components/ui/input";
+import { Ambient } from "@/components/ui/ambient";
 import { signInWithEmail } from "./actions";
 
 export default function SignInPage() {
@@ -13,7 +14,8 @@ export default function SignInPage() {
 
   return (
     <div className="flex min-h-screen bg-kali-paper dark:bg-kali-ink">
-      <div className="hidden flex-1 flex-col justify-between bg-kali-pink p-10 lg:flex">
+      <div className="isolate relative hidden flex-1 flex-col justify-between overflow-hidden bg-kali-pink p-10 lg:flex">
+        <Ambient />
         <KaliWordmark tone="ink" />
         <div>
           <h2 className="text-5xl font-bold tracking-tight text-kali-ink">

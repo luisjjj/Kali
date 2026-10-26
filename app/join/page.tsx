@@ -7,6 +7,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
+import { Ambient } from "@/components/ui/ambient";
 
 function formatCode(raw: string): string {
   const clean = raw.toLowerCase().replace(/[^a-z2-9]/g, "").slice(0, 9);
@@ -33,8 +34,8 @@ export default function JoinPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden bg-kali-pink">
-      <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-pink.svg')]" />
+    <div className="relative isolate flex min-h-screen flex-col overflow-hidden bg-kali-pink">
+      <Ambient />
       <img
         aria-hidden
         src="/images/doodle-bubble.svg"
