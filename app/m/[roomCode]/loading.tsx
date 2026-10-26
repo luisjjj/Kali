@@ -1,13 +1,12 @@
 import { KaliWordmark } from "@/components/ui/brand";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge";
 
 export default function MeetingLoading() {
   return (
     <div className="flex min-h-screen flex-col bg-kali-paper dark:bg-kali-ink">
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5">
         <KaliWordmark />
-        <Badge tone="pink">···</Badge>
+        <Skeleton className="h-10 w-24 !rounded-full" />
       </header>
       <main className="mx-auto grid w-full max-w-5xl flex-1 gap-6 px-5 pb-12 lg:grid-cols-2">
         <div className="flex flex-col gap-4">

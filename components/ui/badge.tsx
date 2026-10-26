@@ -10,15 +10,15 @@ export function Badge({
   children: React.ReactNode;
 }) {
   const tones = {
-    pink: "bg-kali-pink-pale text-kali-ink",
-    green: "bg-kali-success/15 text-kali-success",
-    red: "bg-kali-danger/10 text-kali-danger",
-    ink: "bg-kali-ink text-white",
+    pink: "border-kali-pink bg-kali-pink-pale text-kali-ink dark:border-kali-pink/40",
+    green: "border-kali-success/30 bg-kali-success/10 text-kali-success",
+    red: "border-kali-danger/25 bg-kali-danger/10 text-kali-danger",
+    ink: "border-white/15 bg-kali-ink text-white dark:bg-white/10",
   } as const;
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold tracking-wide",
+        "inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1 text-[11px] font-bold tracking-wide",
         tones[tone],
         className
       )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CalendarBlank, WarningCircle } from "@phosphor-icons/react";
+import { WarningCircle } from "@phosphor-icons/react";
 
 export function PageLoader({ message = "Warming up…" }: { message?: string }) {
   return (
@@ -31,9 +31,12 @@ export function EmptyState({
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/60 px-8 py-12 text-center"
     >
-      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
-        <CalendarBlank className="h-7 w-7" weight="duotone" />
-      </span>
+      <img
+        aria-hidden
+        src="/images/art-empty.svg"
+        alt=""
+        className="-my-2 h-32 w-auto"
+      />
       <h3 className="text-xl font-bold text-kali-ink">{title}</h3>
       {body && <p className="max-w-sm leading-relaxed text-kali-ink/65">{body}</p>}
       {action}

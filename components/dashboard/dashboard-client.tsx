@@ -111,8 +111,13 @@ export function DashboardClient({
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="rounded-[32px] bg-kali-ink p-6 text-white sm:p-10">
-        <div className="flex items-center gap-4">
+      <section className="relative overflow-hidden rounded-[32px] bg-kali-ink p-6 text-white sm:p-10">
+        <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')]" />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
+        />
+        <div className="relative flex items-center gap-4">
           <span className="flex h-13 w-13 shrink-0 items-center justify-center rounded-full bg-kali-pink text-2xl font-bold text-kali-ink">
             {(userName.trim()[0] ?? "?").toUpperCase()}
           </span>
@@ -124,7 +129,7 @@ export function DashboardClient({
           </div>
         </div>
 
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <div className="relative mt-6 grid gap-3 md:grid-cols-3">
           <div className="flex flex-col rounded-3xl bg-white/10 p-5">
             <p className="flex items-center gap-2 font-bold">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
@@ -214,16 +219,16 @@ export function DashboardClient({
         </div>
 
         {error && (
-          <p className="mt-4 rounded-2xl bg-kali-danger px-4 py-3 text-sm font-bold text-white">
+          <p className="relative mt-4 rounded-2xl bg-kali-danger px-4 py-3 text-sm font-bold text-white">
             {error}
           </p>
         )}
         {savedNote && (
-          <p className="mt-4 flex items-center gap-2 rounded-2xl bg-kali-pink px-4 py-3 text-sm font-bold text-kali-ink">
+          <p className="relative mt-4 flex items-center gap-2 rounded-2xl bg-kali-pink px-4 py-3 text-sm font-bold text-kali-ink">
             <Check className="h-5 w-5 shrink-0" weight="bold" /> {savedNote}
           </p>
         )}
-        <p className="mt-4 flex items-center gap-1.5 text-xs font-bold text-white/60">
+        <p className="relative mt-4 flex items-center gap-1.5 text-xs font-bold text-white/60">
           <Timer className="h-4 w-4 text-kali-pink" /> Calls wrap up on their own after an hour.
           You will get a 5 minute heads up.
         </p>

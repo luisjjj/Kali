@@ -13,10 +13,12 @@ import {
   PhoneDisconnect,
   Check,
   CaretDown,
+  Asterisk,
 } from "@phosphor-icons/react/dist/ssr";
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -168,7 +170,12 @@ export default async function Home() {
 
       <main className="flex flex-col">
         {/* Hero */}
-        <section className="mx-auto grid w-full max-w-6xl items-center gap-10 overflow-x-clip px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
+        <div className="relative">
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 bg-[url('/images/hero-mesh-light.svg')] bg-cover bg-center dark:bg-[url('/images/hero-mesh-dark.svg')]"
+          />
+          <section className="mx-auto grid w-full max-w-6xl items-center gap-10 overflow-x-clip px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
           <div className="flex flex-col items-start gap-6">
             <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
               Start a call,
@@ -203,7 +210,13 @@ export default async function Home() {
 
           {/* Product mock */}
           <div className="animate-fade-up delay-2 relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="overflow-hidden rounded-[28px] bg-kali-ink p-4 shadow-2xl">
+            <img
+              aria-hidden
+              src="/images/blob-mock.svg"
+              alt=""
+              className="absolute -top-10 -left-8 -z-10 w-[calc(100%+4rem)] min-w-[420px]"
+            />
+            <div className="overflow-hidden rounded-[28px] bg-kali-ink p-4 shadow-2xl ring-1 ring-white/10">
               <div className="mb-3 flex items-center gap-1.5 px-1">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
@@ -216,7 +229,7 @@ export default async function Home() {
                 <MockTile name="Ada (you)" color="bg-kali-pink text-kali-ink" speaking />
                 <MockTile name="Grace" color="bg-white/15 text-white" />
                 <MockTile name="Hedy" color="bg-white/15 text-white" muted />
-                <MockTile name="Katherine 🖥" color="bg-white/15 text-white" />
+                <MockTile name="Katherine" color="bg-white/15 text-white" sharing />
               </div>
               <div className="mt-3 flex items-center justify-center gap-2 rounded-full bg-white/10 px-3 py-2.5">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-white">
@@ -238,7 +251,7 @@ export default async function Home() {
               style={{ "--float-rot": "3deg" } as React.CSSProperties}
             >
               <p className="text-xs font-semibold text-kali-ink">Grace</p>
-              <p className="text-xs text-kali-ink/60">wait, you&apos;re muted 😭</p>
+              <p className="text-xs text-kali-ink/60">wait, you&apos;re muted?</p>
             </div>
             <div
               className="animate-float absolute -bottom-5 -left-3 rounded-2xl bg-kali-ink px-4 py-3 shadow-xl"
@@ -248,7 +261,8 @@ export default async function Home() {
               <p className="text-xs font-bold text-white/60">kali/m/abc-def-ghi</p>
             </div>
           </div>
-        </section>
+          </section>
+        </div>
 
         {/* Marquee */}
         <div className="overflow-hidden border-y border-kali-ink/20 bg-kali-ink py-3.5">
@@ -258,7 +272,7 @@ export default async function Home() {
                 key={i}
                 className="inline-flex items-center gap-8 text-sm font-semibold tracking-wide whitespace-nowrap text-kali-pink uppercase"
               >
-                {t} <span className="text-kali-pink/40">✳</span>
+                {t} <Asterisk className="h-4 w-4 text-kali-pink/40" weight="bold" />
               </span>
             ))}
           </div>
@@ -266,9 +280,7 @@ export default async function Home() {
 
         {/* Features */}
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
-          <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase dark:text-kali-paper/70">
-            Why Kali
-          </p>
+          <Eyebrow>Why Kali</Eyebrow>
           <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
             Everything you need. None of the blah<span className="text-kali-ink">.</span>
           </h2>
@@ -278,9 +290,12 @@ export default async function Home() {
           </p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((f) => (
-              <article key={f.title} className="kali-lift rounded-[28px] bg-white p-7">
+              <article
+                key={f.title}
+                className="kali-lift rounded-[28px] bg-white p-7 shadow-[0_18px_44px_-28px_rgba(23,18,15,0.35)]"
+              >
                 <span
-                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${f.tile}`}
+                  className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl shadow-[0_10px_20px_-12px_rgba(23,18,15,0.45)] ${f.tile}`}
                 >
                   <f.icon className="h-6 w-6" />
                 </span>
@@ -294,17 +309,23 @@ export default async function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how" className="scroll-mt-20 bg-kali-ink text-white">
-          <div className="mx-auto w-full max-w-6xl px-5 py-16 lg:py-24">
-            <p className="text-sm font-semibold tracking-widest text-kali-pink uppercase">
-              How it works
-            </p>
+        <section id="how" className="relative scroll-mt-20 overflow-hidden bg-kali-ink text-white">
+          <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')]" />
+          <div
+            aria-hidden
+            className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
+          />
+          <div className="relative mx-auto w-full max-w-6xl px-5 py-16 lg:py-24">
+            <Eyebrow tone="pink">How it works</Eyebrow>
             <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
               Live in three tiny steps<span className="text-kali-pink">.</span>
             </h2>
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {STEPS.map((s) => (
-                <article key={s.n} className="rounded-[28px] bg-kali-pink p-7 text-kali-ink">
+                <article
+                  key={s.n}
+                  className="rounded-[28px] bg-kali-pink bg-[url('/images/pattern-pink.svg')] p-7 text-kali-ink"
+                >
                   <p className="display-tight text-5xl font-semibold text-kali-ink">{s.n}</p>
                   <h3 className="mt-2 text-xl font-semibold">{s.title}</h3>
                   <p className="mt-1.5 leading-relaxed text-kali-ink/70">{s.body}</p>
@@ -334,9 +355,7 @@ export default async function Home() {
         <section id="hosts" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
           <div className="grid items-center gap-8 lg:grid-cols-2">
             <div>
-              <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase dark:text-kali-paper/70">
-                For hosts
-              </p>
+              <Eyebrow>For hosts</Eyebrow>
               <h2 className="display-tight mt-2 text-4xl font-semibold sm:text-5xl">
                 You&apos;re the host. Act like it<span className="text-kali-ink">.</span>
               </h2>
@@ -359,7 +378,7 @@ export default async function Home() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-[28px] bg-white p-7 sm:p-9">
+            <div className="rounded-[28px] bg-white bg-[url('/images/pattern-pink.svg')] p-7 shadow-[0_18px_44px_-28px_rgba(23,18,15,0.35)] sm:p-9">
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-kali-ink text-kali-pink">
                 <ShieldCheck className="h-6 w-6" />
               </span>
@@ -373,7 +392,8 @@ export default async function Home() {
                   ["Safety", "Only the host can mute, remove, or end a call. Guests can just relax."],
                 ].map(([k, v]) => (
                   <div key={k} className="rounded-2xl bg-kali-pink-pale/70 px-5 py-4">
-                    <dt className="inline-block rounded-full bg-kali-ink px-3 py-0.5 text-[11px] font-semibold tracking-widest text-white uppercase">
+                    <dt className="flex items-center gap-2 text-[11px] font-bold tracking-widest text-kali-ink/55 uppercase">
+                      <span className="h-1.5 w-4 rounded-full bg-kali-pink" />
                       {k}
                     </dt>
                     <dd className="mt-1.5 text-kali-ink/75">{v}</dd>
@@ -386,9 +406,7 @@ export default async function Home() {
 
         {/* FAQ */}
         <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
-          <p className="text-center text-sm font-semibold tracking-widest text-kali-ink/70 uppercase dark:text-kali-paper/70">
-            FAQ
-          </p>
+          <Eyebrow className="justify-center">FAQ</Eyebrow>
           <h2 className="display-tight mt-2 text-center text-4xl font-semibold sm:text-5xl">
             Asking for a friend<span className="text-kali-ink">?</span>
           </h2>
@@ -396,7 +414,7 @@ export default async function Home() {
             {FAQS.map((f) => (
               <details
                 key={f.q}
-                className="group rounded-[24px] bg-white px-6 py-5 text-kali-ink open:bg-kali-ink open:text-white"
+                className="group rounded-[24px] bg-white px-6 py-5 text-kali-ink shadow-[0_18px_44px_-30px_rgba(23,18,15,0.4)] open:bg-kali-ink open:text-white"
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
                   {f.q}
@@ -412,33 +430,38 @@ export default async function Home() {
 
         {/* CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <div className="flex flex-col items-center gap-5 rounded-[32px] bg-kali-ink px-8 py-14 text-center text-white sm:py-20">
-            <p className="text-sm font-semibold tracking-widest text-kali-pink uppercase">
-              Last chance (not really)
-            </p>
-            <h2 className="display-tight max-w-2xl text-4xl font-semibold sm:text-6xl">
-              Your next call could take ten seconds to start.
-            </h2>
-            <div className="flex flex-wrap justify-center gap-3">
-              <Link href={ctaHref}>
-                <Button variant="secondary" size="lg">
-                  {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
-              </Link>
-              <Link href="/join">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-white/20 bg-transparent text-white hover:bg-white/10"
-                >
-                  Join as a guest
-                </Button>
-              </Link>
+          <div className="relative overflow-hidden rounded-[32px] bg-kali-ink text-center text-white">
+            <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')]" />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
+            />
+            <div className="relative flex flex-col items-center gap-5 px-8 py-14 sm:py-20">
+              <Eyebrow tone="pink">Last chance (not really)</Eyebrow>
+              <h2 className="display-tight max-w-2xl text-4xl font-semibold sm:text-6xl">
+                Your next call could take ten seconds to start.
+              </h2>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Link href={ctaHref}>
+                  <Button variant="secondary" size="lg">
+                    {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
+                    <ArrowRight className="h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link href="/join">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-white/20 bg-transparent text-white hover:bg-white/10"
+                  >
+                    Join as a guest
+                  </Button>
+                </Link>
+              </div>
+              <p className="text-sm font-bold text-white/50">
+                Hosting needs a free account. Joining just needs a name.
+              </p>
             </div>
-            <p className="text-sm font-bold text-white/50">
-              Hosting needs a free account. Joining just needs a name.
-            </p>
           </div>
         </section>
       </main>
@@ -466,16 +489,54 @@ export default async function Home() {
   );
 }
 
+function Eyebrow({
+  children,
+  tone = "ink",
+  className,
+}: {
+  children: React.ReactNode;
+  tone?: "ink" | "pink";
+  className?: string;
+}) {
+  return (
+    <p
+      className={cn(
+        "flex items-center gap-2 text-sm font-semibold tracking-widest uppercase",
+        tone === "ink"
+          ? "text-kali-ink/70 dark:text-kali-paper/70"
+          : "text-kali-pink",
+        className
+      )}
+    >
+      <img
+        aria-hidden
+        src="/images/doodle-star-ink.svg"
+        alt=""
+        className="h-3.5 w-3.5 shrink-0 dark:hidden"
+      />
+      <img
+        aria-hidden
+        src="/images/doodle-star-pink.svg"
+        alt=""
+        className="hidden h-3.5 w-3.5 shrink-0 dark:block"
+      />
+      {children}
+    </p>
+  );
+}
+
 function MockTile({
   name,
   color,
   speaking,
   muted,
+  sharing,
 }: {
   name: string;
   color: string;
   speaking?: boolean;
   muted?: boolean;
+  sharing?: boolean;
 }) {
   return (
     <div
@@ -490,6 +551,11 @@ function MockTile({
       {muted && (
         <span className="absolute right-1.5 bottom-1.5 rounded-full bg-kali-danger p-1 text-white">
           <Microphone className="h-2.5 w-2.5" />
+        </span>
+      )}
+      {sharing && (
+        <span className="absolute top-1.5 right-1.5 rounded-lg bg-kali-pink p-1 text-kali-ink">
+          <MonitorArrowUp className="h-2.5 w-2.5" weight="bold" />
         </span>
       )}
     </div>

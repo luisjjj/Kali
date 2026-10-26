@@ -9,9 +9,10 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // Primary: black pill, white text
-        primary: "bg-kali-ink text-white hover:bg-black",
+        primary: "bg-kali-ink text-white shadow-[0_12px_28px_-14px_rgba(23,18,15,0.5)] hover:bg-black",
         // Secondary: pink pill, black text
-        secondary: "bg-kali-pink text-kali-ink hover:bg-kali-pink-hover",
+        secondary:
+          "bg-kali-pink text-kali-ink shadow-[0_12px_28px_-16px_rgba(23,18,15,0.4)] hover:bg-kali-pink-hover",
         // Ghost: pale pink fill
         ghost: "bg-kali-pink-pale text-kali-ink hover:bg-kali-pink/40",
         // Danger: red pill for leave / end call

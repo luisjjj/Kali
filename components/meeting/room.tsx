@@ -606,8 +606,12 @@ function ParticipantCard({
         <span className="truncate rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white backdrop-blur">
           {name}
           {isLocal ? " (you)" : ""}
-          {screenRef && !lowBandwidth ? " 🖥" : ""}
         </span>
+        {screenRef && !lowBandwidth && (
+          <span className="rounded-lg bg-kali-pink p-1 text-kali-ink">
+            <MonitorArrowUp className="h-3 w-3" weight="bold" />
+          </span>
+        )}
         {!participant.isMicrophoneEnabled && (
           <span className="rounded-full bg-kali-danger p-1.5 text-white">
             <MicrophoneSlash className="h-3 w-3" />

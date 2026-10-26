@@ -33,8 +33,35 @@ export default function JoinPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-kali-pink">
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-kali-pink">
+      <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-pink.svg')]" />
+      <img
+        aria-hidden
+        src="/images/doodle-bubble.svg"
+        alt=""
+        className="animate-float absolute top-[16%] left-[5%] hidden w-20 sm:block"
+        style={{ "--float-rot": "-6deg" } as React.CSSProperties}
+      />
+      <img
+        aria-hidden
+        src="/images/doodle-star-ink.svg"
+        alt=""
+        className="animate-float absolute top-[26%] right-[7%] hidden w-12 sm:block"
+        style={{ "--float-rot": "10deg", animationDelay: "1.3s" } as React.CSSProperties}
+      />
+      <img
+        aria-hidden
+        src="/images/doodle-squiggle.svg"
+        alt=""
+        className="absolute bottom-[14%] left-[8%] hidden w-28 opacity-80 lg:block"
+      />
+      <img
+        aria-hidden
+        src="/images/doodle-star-ink.svg"
+        alt=""
+        className="absolute right-[12%] bottom-[24%] hidden w-7 lg:block"
+      />
+      <header className="relative mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
         <KaliWordmark tone="ink" />
         <Link href="/">
           <Button variant="ghost" size="sm" className="bg-white/60 hover:bg-white">
@@ -43,7 +70,7 @@ export default function JoinPage() {
         </Link>
       </header>
 
-      <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 pb-16">
+      <main className="relative mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 pb-16">
         <div className="rounded-[32px] bg-white p-8 shadow-xl shadow-kali-ink/10 sm:p-10">
           <p className="text-sm font-semibold tracking-widest text-kali-ink/70 uppercase">
             Join as a guest
