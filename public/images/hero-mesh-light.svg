@@ -21,7 +21,6 @@
       <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 .55 .55 0 0"/>
     </filter>
   </defs>
-  <rect width="1600" height="1000" fill="#ffa8cd"/>
   <circle cx="1230" cy="140" r="560" fill="url(#peach)"/>
   <circle cx="140" cy="240" r="480" fill="url(#cream)"/>
   <circle cx="920" cy="940" r="660" fill="url(#deep)"/>

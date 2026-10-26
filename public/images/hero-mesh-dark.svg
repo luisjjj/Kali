@@ -17,7 +17,6 @@
       <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 .55 .55 .55 0 0"/>
     </filter>
   </defs>
-  <rect width="1600" height="1000" fill="#17120f"/>
   <circle cx="1180" cy="180" r="600" fill="url(#pink)"/>
   <circle cx="220" cy="820" r="620" fill="url(#plum)"/>
   <circle cx="820" cy="520" r="520" fill="url(#ember)"/>

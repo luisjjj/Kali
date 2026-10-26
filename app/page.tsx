@@ -268,7 +268,7 @@ export default async function Home() {
               aria-hidden
               src="/images/blob-mock.svg"
               alt=""
-              className="absolute -top-10 -left-8 -z-10 w-[calc(100%+4rem)] min-w-[420px]"
+              className="absolute -top-16 -left-20 -z-10 w-[calc(100%+10rem)] min-w-[480px]"
             />
             <div className="overflow-hidden rounded-[28px] bg-kali-ink p-4 shadow-2xl ring-1 ring-white/10">
               <div className="mb-3 flex items-center gap-1.5 px-1">

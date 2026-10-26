@@ -6,7 +6,9 @@ import { cn } from "@/lib/utils";
 // Pure markup + CSS animations, safe in server components.
 const STARS = [
   { pos: "top-[4%] left-[2%] w-12", dur: "11s", delay: "0s", rot: "-7deg" },
+  { pos: "top-[7%] left-[42%] w-6", dur: "12s", delay: "5.2s", rot: "9deg" },
   { pos: "top-[9%] right-[6%] w-7", dur: "13s", delay: "1.6s", rot: "6deg" },
+  { pos: "top-[13%] left-[6%] w-10", dur: "11.5s", delay: "2.6s", rot: "-8deg" },
   { pos: "top-[28%] left-[2%] w-9", dur: "12s", delay: "3.2s", rot: "8deg" },
   { pos: "top-[36%] right-[3%] w-16", dur: "14s", delay: "2.2s", rot: "-6deg" },
   { pos: "top-[55%] left-[5%] w-6", dur: "10.5s", delay: "4.4s", rot: "7deg" },
@@ -28,7 +30,7 @@ export function Ambient({ className }: { className?: string }) {
     >
       {/* Oversized by one tile (56px) so the diagonal drift loops seamlessly */}
       <div
-        className="animate-pattern absolute -inset-14 bg-[url('/images/pattern-pink.svg')] opacity-80 dark:bg-[url('/images/pattern-ink.svg')] dark:opacity-60"
+        className="animate-pattern absolute -inset-14 bg-[url('/images/pattern-pink.svg')] opacity-90 dark:bg-[url('/images/pattern-ink.svg')] dark:opacity-65"
       />
       {STARS.map((s, i) => (
         <div
