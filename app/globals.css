@@ -229,10 +229,10 @@ body {
 @keyframes kali-twinkle {
   0%,
   100% {
-    opacity: 0.6;
+    opacity: 0.35;
   }
   50% {
-    opacity: 1;
+    opacity: 0.7;
   }
 }
 

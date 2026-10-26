@@ -176,7 +176,7 @@ export default async function Home() {
   const ctaHref = session?.user ? "/dashboard" : "/auth/sign-up";
 
   return (
-    <div className="isolate flex min-h-screen flex-col bg-kali-pink text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
+    <div className="relative isolate flex min-h-screen flex-col bg-kali-pink text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
       <Ambient />
       {/* Sticky nav */}
       <header className="sticky top-0 z-40 border-b border-kali-ink/10 bg-kali-pink/85 backdrop-blur-lg dark:bg-kali-ink/85">
@@ -319,7 +319,7 @@ export default async function Home() {
         </div>
 
         {/* Marquee */}
-        <div className="overflow-hidden border-y border-kali-ink/20 bg-kali-ink py-3.5">
+        <div className="overflow-hidden border-y border-kali-ink/20 bg-kali-ink py-3.5 dark:bg-transparent dark:border-kali-paper/15">
           <div className="animate-marquee flex w-max gap-8 pr-8">
             {[...MARQUEE, ...MARQUEE].map((t, i) => (
               <span
@@ -363,8 +363,8 @@ export default async function Home() {
         </section>
 
         {/* How it works */}
-        <section id="how" className="relative scroll-mt-20 overflow-hidden bg-kali-ink text-white">
-          <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')]" />
+        <section id="how" className="relative scroll-mt-20 overflow-hidden bg-kali-ink text-white dark:bg-transparent">
+          <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')] opacity-45 dark:hidden" />
           <div
             aria-hidden
             className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
@@ -568,8 +568,8 @@ export default async function Home() {
 
         {/* CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <div className="relative overflow-hidden rounded-[32px] bg-kali-ink text-center text-white">
-            <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')]" />
+          <div className="relative overflow-hidden rounded-[32px] bg-kali-ink text-center text-white dark:bg-transparent">
+            <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')] opacity-45 dark:hidden" />
             <div
               aria-hidden
               className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"

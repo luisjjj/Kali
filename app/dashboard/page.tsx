@@ -24,7 +24,7 @@ export default async function DashboardPage() {
   const past = rows.filter((m) => m.endedAt);
 
   return (
-    <div className="isolate min-h-screen bg-kali-paper dark:bg-kali-ink">
+    <div className="relative isolate min-h-screen bg-kali-paper dark:bg-kali-ink">
       <Ambient />
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
         <KaliWordmark />
