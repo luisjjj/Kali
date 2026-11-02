@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Kali runs one fixed look: dark ink with pink. The dark: utilities follow the
+   .dark class on <html>, never the OS setting, so there is no light mode. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-kali-pink: #ffa8cd;
   --color-kali-pink-hover: #ff8cbf;
@@ -22,32 +26,24 @@
   /* Kali brand tokens. Klarna-inspired, original assets only */
   --kali-pink: #ffa8cd;
   --kali-pink-hover: #ff8cbf;
-  --kali-pink-pale: #ffe3ef;
+  --kali-pink-pale: #3a2a33;
   --kali-ink: #17120f;
   --kali-paper: #fffbf9;
   --kali-white: #ffffff;
   --kali-success: #2ebd6b;
   --kali-danger: #e63950;
-  --kali-muted: #8a7f7a;
+  --kali-muted: #b8a9a3;
 
-  --background: var(--kali-paper);
-  --foreground: var(--kali-ink);
+  --background: var(--kali-ink);
+  --foreground: var(--kali-paper);
+  --color-background: #17120f;
+  --color-foreground: #fffbf9;
 
   --radius-pill: 9999px;
   --radius-card: 28px;
   --radius-tile: 24px;
-}
 
-/* Sync with Tailwind's dark: variant (both follow the OS setting) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: var(--kali-ink);
-    --foreground: var(--kali-paper);
-    --kali-pink-pale: #3a2a33;
-    --kali-muted: #b8a9a3;
-    --color-background: #17120f;
-    --color-foreground: #fffbf9;
-  }
+  color-scheme: dark;
 }
 
 body {

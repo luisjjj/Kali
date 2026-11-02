@@ -17,12 +17,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFA8CD",
+  themeColor: "#17120F",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`dark ${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <RouteTransition>{children}</RouteTransition>
       </body>

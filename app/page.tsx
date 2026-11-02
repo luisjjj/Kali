@@ -253,7 +253,7 @@ export default async function Home() {
                 </Button>
               </Link>
             </div>
-            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-ink/65">
+            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-paper/70">
               {["Free, no card", "No downloads", "Guests need no account"].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
                   <Check className="h-4 w-4" weight="bold" /> {t}
