@@ -111,12 +111,7 @@ export function DashboardClient({
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="relative overflow-hidden rounded-[32px] bg-kali-ink p-6 text-white sm:p-10 dark:bg-transparent">
-        <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')] opacity-45 dark:hidden" />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
-        />
+      <section className="relative overflow-hidden rounded-[32px] border border-transparent bg-kali-ink p-6 text-white sm:p-10 dark:border-white/15 dark:bg-transparent">
         <div className="relative flex items-center gap-4">
           <span className="flex h-13 w-13 shrink-0 items-center justify-center rounded-full bg-kali-pink text-2xl font-bold text-kali-ink">
             {(userName.trim()[0] ?? "?").toUpperCase()}

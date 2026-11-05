@@ -20,11 +20,14 @@ export function KaliWordmark({
         : dark
           ? "text-kali-paper"
           : "text-kali-ink dark:text-kali-paper";
+  // The brand dot must stay visible on pink surfaces, so it only goes pink on dark ones.
+  const dot =
+    tone === "paper" ? "text-kali-pink" : tone === "ink" ? "text-kali-ink" : "text-kali-ink dark:text-kali-pink";
   return (
     <Link href="/" className={cn("inline-flex items-center gap-1 select-none", className)}>
       <span className={cn("text-3xl font-bold tracking-tighter", color)}>
         kali
-        <span className="text-kali-pink">.</span>
+        <span className={dot}>.</span>
       </span>
     </Link>
   );

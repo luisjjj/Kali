@@ -7,7 +7,8 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
-import { Ambient } from "@/components/ui/ambient";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Doodles } from "@/components/ui/doodles";
 
 function formatCode(raw: string): string {
   const clean = raw.toLowerCase().replace(/[^a-z2-9]/g, "").slice(0, 9);
@@ -34,41 +35,18 @@ export default function JoinPage() {
   };
 
   return (
-    <div className="relative isolate flex min-h-screen flex-col overflow-hidden bg-kali-pink">
-      <Ambient />
-      <img
-        aria-hidden
-        src="/images/doodle-bubble.svg"
-        alt=""
-        className="animate-float absolute top-[16%] left-[5%] hidden w-20 sm:block"
-        style={{ "--float-rot": "-6deg" } as React.CSSProperties}
-      />
-      <img
-        aria-hidden
-        src="/images/doodle-star-ink.svg"
-        alt=""
-        className="animate-float absolute top-[26%] right-[7%] hidden w-12 sm:block"
-        style={{ "--float-rot": "10deg", animationDelay: "1.3s" } as React.CSSProperties}
-      />
-      <img
-        aria-hidden
-        src="/images/doodle-squiggle.svg"
-        alt=""
-        className="absolute bottom-[14%] left-[8%] hidden w-28 opacity-80 lg:block"
-      />
-      <img
-        aria-hidden
-        src="/images/doodle-star-ink.svg"
-        alt=""
-        className="absolute right-[12%] bottom-[24%] hidden w-7 lg:block"
-      />
+    <div className="relative isolate flex min-h-screen flex-col overflow-hidden">
+      <Doodles className="-z-10" />
       <header className="relative mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
-        <KaliWordmark tone="ink" />
-        <Link href="/">
-          <Button variant="ghost" size="sm" className="bg-white/60 hover:bg-white">
-            Home
-          </Button>
-        </Link>
+        <KaliWordmark />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <Link href="/">
+            <Button variant="ghost" size="sm" className="bg-white/60 hover:bg-white">
+              Home
+            </Button>
+          </Link>
+        </div>
       </header>
 
       <main className="relative mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 pb-16">

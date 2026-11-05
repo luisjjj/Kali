@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { RouteTransition } from "@/components/ui/route-transition";
 
@@ -17,13 +18,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#17120F",
+  themeColor: "#ffa8cd",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} h-full antialiased`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <Script id="kali-theme-init" strategy="beforeInteractive">
+          {`try{var t=localStorage.getItem("kali-theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",d?"#000000":"#ffa8cd")}catch(e){}`}
+        </Script>
         <RouteTransition>{children}</RouteTransition>
       </body>
     </html>

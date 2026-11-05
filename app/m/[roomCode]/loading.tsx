@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MeetingLoading() {
   return (
-    <div className="flex min-h-screen flex-col bg-kali-paper dark:bg-kali-ink">
+    <div className="flex min-h-screen flex-col">
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5">
         <KaliWordmark />
         <Skeleton className="h-10 w-24 !rounded-full" />

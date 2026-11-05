@@ -4,12 +4,12 @@ import Link from "next/link";
 import { HandWaving } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
-import { Ambient } from "@/components/ui/ambient";
+import { Doodles } from "@/components/ui/doodles";
 
 export function EndedScreen({ title }: { title: string }) {
   return (
-    <div className="isolate relative flex min-h-screen flex-col items-center justify-center gap-5 overflow-hidden bg-kali-paper px-5 dark:bg-kali-ink">
-      <Ambient />
+    <div className="relative isolate flex min-h-screen flex-col items-center justify-center gap-5 overflow-hidden px-5">
+      <Doodles className="-z-10" />
       <KaliWordmark />
       <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/70 px-8 py-12 text-center">
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">

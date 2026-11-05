@@ -26,23 +26,33 @@
   /* Kali brand tokens. Klarna-inspired, original assets only */
   --kali-pink: #ffa8cd;
   --kali-pink-hover: #ff8cbf;
-  --kali-pink-pale: #3a2a33;
+  --kali-pink-pale: #ffe3ef;
   --kali-ink: #17120f;
   --kali-paper: #fffbf9;
   --kali-white: #ffffff;
   --kali-success: #2ebd6b;
   --kali-danger: #e63950;
-  --kali-muted: #b8a9a3;
+  --kali-muted: #8a7f7a;
 
-  --background: var(--kali-ink);
-  --foreground: var(--kali-paper);
-  --color-background: #17120f;
-  --color-foreground: #fffbf9;
+  --background: var(--kali-pink);
+  --foreground: #17120f;
+  --color-background: var(--kali-pink);
+  --color-foreground: #17120f;
 
   --radius-pill: 9999px;
   --radius-card: 28px;
   --radius-tile: 24px;
 
+  color-scheme: light;
+}
+
+/* Theme is user-controlled via the .dark class on <html> (see ThemeToggle) */
+.dark {
+  --background: #000000;
+  --foreground: #fffbf9;
+  --color-background: #000000;
+  --color-foreground: #fffbf9;
+  --kali-muted: #b8a9a3;
   color-scheme: dark;
 }
 
@@ -211,46 +221,10 @@ body {
   transform: scaleX(1);
 }
 
-/* Ambient full-page background: seamless pattern drift (one 56px tile per
-   loop, compositor-friendly) and gentle star twinkle */
-@keyframes kali-pattern {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(56px, 56px, 0);
-  }
-}
-
-@keyframes kali-twinkle {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.animate-pattern {
-  animation: kali-pattern 24s linear infinite;
-}
-
-.animate-float-slow {
-  animation: kali-float 12s ease-in-out infinite;
-}
-
-.animate-twinkle {
-  animation: kali-twinkle 7s ease-in-out infinite;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-float,
-  .animate-float-slow,
   .animate-marquee,
-  .animate-pattern,
-  .animate-twinkle,
   .animate-pulse-dot,
   .skeleton-shimmer::after {
     animation: none;

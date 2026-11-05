@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardLoading() {
   return (
-    <div className="min-h-screen bg-kali-paper dark:bg-kali-ink">
+    <div className="min-h-screen">
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">
         <KaliWordmark />
         <Skeleton className="h-10 w-24 !rounded-full" />

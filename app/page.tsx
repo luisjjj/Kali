@@ -19,7 +19,8 @@ import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Ambient } from "@/components/ui/ambient";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Doodles } from "@/components/ui/doodles";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -176,10 +177,10 @@ export default async function Home() {
   const ctaHref = session?.user ? "/dashboard" : "/auth/sign-up";
 
   return (
-    <div className="relative isolate flex min-h-screen flex-col bg-kali-pink text-kali-ink dark:bg-kali-ink dark:text-kali-paper">
-      <Ambient />
+    <div className="relative isolate flex min-h-screen flex-col overflow-x-clip text-kali-ink dark:text-kali-paper">
+      <Doodles className="-z-10" />
       {/* Sticky nav */}
-      <header className="sticky top-0 z-40 border-b border-kali-ink/10 bg-kali-pink/85 backdrop-blur-lg dark:bg-kali-ink/85">
+      <header className="sticky top-0 z-40 border-b border-kali-ink/10 bg-kali-pink/85 backdrop-blur-lg dark:border-white/10 dark:bg-black/85">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
           <KaliWordmark />
           <nav className="hidden items-center gap-6 text-sm font-bold text-kali-ink/70 md:flex dark:text-kali-paper/70">
@@ -200,6 +201,7 @@ export default async function Home() {
             </a>
           </nav>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link href="/join">
               <Button variant="outline" size="sm" className="border-kali-ink/15 bg-white/70">
                 Join a call
@@ -225,10 +227,6 @@ export default async function Home() {
       <main className="flex flex-col">
         {/* Hero */}
         <div className="relative">
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 bg-[url('/images/hero-mesh-light.svg')] bg-cover bg-center dark:bg-[url('/images/hero-mesh-dark.svg')]"
-          />
           <section className="mx-auto grid w-full max-w-6xl items-center gap-10 overflow-x-clip px-5 pt-12 pb-10 lg:grid-cols-[1.05fr_0.95fr] lg:pt-20 lg:pb-16">
           <div className="flex flex-col items-start gap-6">
             <h1 className="display-tight animate-fade-up delay-1 text-[2.9rem] leading-[0.98] font-semibold sm:text-6xl lg:text-[4.6rem]">
@@ -253,7 +251,7 @@ export default async function Home() {
                 </Button>
               </Link>
             </div>
-            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-paper/70">
+            <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-bold text-kali-ink/70 dark:text-kali-paper/70">
               {["Free, no card", "No downloads", "Guests need no account"].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
                   <Check className="h-4 w-4" weight="bold" /> {t}
@@ -264,13 +262,7 @@ export default async function Home() {
 
           {/* Product mock */}
           <div className="animate-fade-up delay-2 relative mx-auto w-full max-w-md lg:max-w-none">
-            <img
-              aria-hidden
-              src="/images/blob-mock.svg"
-              alt=""
-              className="absolute -top-16 -left-20 -z-10 w-[calc(100%+10rem)] min-w-[480px]"
-            />
-            <div className="overflow-hidden rounded-[28px] bg-kali-ink p-4 shadow-2xl ring-1 ring-white/10">
+            <div className="overflow-hidden rounded-[28px] bg-kali-ink p-4 shadow-2xl ring-1 ring-white/15">
               <div className="mb-3 flex items-center gap-1.5 px-1">
                 <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
                 <span className="h-2.5 w-2.5 rounded-full bg-white/20" />
@@ -364,11 +356,6 @@ export default async function Home() {
 
         {/* How it works */}
         <section id="how" className="relative scroll-mt-20 overflow-hidden bg-kali-ink text-white dark:bg-transparent">
-          <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')] opacity-45 dark:hidden" />
-          <div
-            aria-hidden
-            className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
-          />
           <div className="relative mx-auto w-full max-w-6xl px-5 py-16 lg:py-24">
             <Eyebrow tone="pink">How it works</Eyebrow>
             <h2 className="display-tight mt-2 max-w-xl text-4xl font-semibold sm:text-5xl">
@@ -378,7 +365,7 @@ export default async function Home() {
               {STEPS.map((s) => (
                 <article
                   key={s.n}
-                  className="rounded-[28px] bg-kali-pink bg-[url('/images/pattern-pink.svg')] p-7 text-kali-ink"
+                  className="rounded-[28px] bg-kali-pink p-7 text-kali-ink"
                 >
                   <p className="display-tight text-5xl font-semibold text-kali-ink">{s.n}</p>
                   <h3 className="mt-2 text-xl font-semibold">{s.title}</h3>
@@ -432,7 +419,7 @@ export default async function Home() {
                 ))}
               </ul>
             </div>
-            <div className="rounded-[28px] bg-white bg-[url('/images/pattern-pink.svg')] p-7 shadow-[0_18px_44px_-28px_rgba(23,18,15,0.35)] sm:p-9">
+            <div className="rounded-[28px] bg-white p-7 shadow-[0_18px_44px_-28px_rgba(23,18,15,0.35)] sm:p-9">
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-kali-ink text-kali-pink">
                 <ShieldCheck className="h-6 w-6" />
               </span>
@@ -568,12 +555,7 @@ export default async function Home() {
 
         {/* CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <div className="relative overflow-hidden rounded-[32px] bg-kali-ink text-center text-white dark:bg-transparent">
-            <div aria-hidden className="absolute inset-0 bg-[url('/images/pattern-ink.svg')] opacity-45 dark:hidden" />
-            <div
-              aria-hidden
-              className="absolute inset-0 bg-[url('/images/glow-cta.svg')] bg-cover bg-center"
-            />
+          <div className="relative overflow-hidden rounded-[32px] border border-transparent bg-kali-ink text-center text-white dark:border-white/15 dark:bg-transparent">
             <div className="relative flex flex-col items-center gap-5 px-8 py-14 sm:py-20">
               <Eyebrow tone="pink">Last chance (not really)</Eyebrow>
               <h2 className="display-tight max-w-2xl text-4xl font-semibold sm:text-6xl">
@@ -604,7 +586,7 @@ export default async function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-kali-ink/15">
+      <footer className="border-t border-kali-ink/15 dark:border-white/15">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
           <KaliWordmark />
           <p className="text-sm font-semibold text-kali-ink/60 dark:text-kali-paper/60">

@@ -6,18 +6,20 @@ import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Field, Input, Label } from "@/components/ui/input";
-import { Ambient } from "@/components/ui/ambient";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { Doodles } from "@/components/ui/doodles";
 import { signUpWithEmail } from "./actions";
 
 export default function SignUpPage() {
   const [state, formAction, isPending] = useActionState(signUpWithEmail, null);
 
   return (
-    <div className="flex min-h-screen bg-kali-paper dark:bg-kali-ink">
-      <div className="isolate relative hidden flex-1 flex-col justify-between overflow-hidden bg-kali-pink p-10 lg:flex">
-        <Ambient />
-        <KaliWordmark tone="ink" />
-        <div>
+    <div className="relative isolate flex min-h-screen overflow-hidden">
+      <ThemeToggle className="absolute top-5 right-5 z-20" />
+      <div className="relative hidden flex-1 flex-col justify-between overflow-hidden bg-kali-pink p-10 lg:flex">
+        <Doodles always className="z-0 opacity-80" />
+        <KaliWordmark tone="ink" className="relative z-10" />
+        <div className="relative z-10">
           <h2 className="text-5xl font-bold tracking-tight text-kali-ink">
             Come say hi. Stay for the call.
           </h2>
@@ -26,7 +28,7 @@ export default function SignUpPage() {
             pixels.
           </p>
         </div>
-        <p className="font-bold text-kali-ink/75">kali. Start a call, no fuss.</p>
+        <p className="relative z-10 font-bold text-kali-ink/75">kali. Start a call, no fuss.</p>
       </div>
       <div className="flex flex-1 items-center justify-center px-5 py-10">
         <Card className="w-full max-w-md shadow-none">
