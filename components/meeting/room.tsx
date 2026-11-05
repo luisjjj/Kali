@@ -11,7 +11,15 @@ import {
   VideoTrack,
   ConnectionQualityIndicator,
 } from "@livekit/components-react";
-import { AudioPresets, ConnectionQuality, ConnectionState, RoomEvent, Track, VideoPresets } from "livekit-client";
+import {
+  AudioPresets,
+  ConnectionQuality,
+  ConnectionState,
+  RoomEvent,
+  Track,
+  VideoPresets,
+  VideoQuality,
+} from "livekit-client";
 import type { Participant } from "livekit-client";
 import {
   Microphone,
@@ -29,11 +37,13 @@ import {
   X,
   WifiLow,
   CircleNotch,
+  Sparkle,
 } from "@phosphor-icons/react";
 import { motion } from "framer-motion";
 import type { JoinResult } from "./lobby";
 import { ChatPanel } from "./chat-panel";
 import { ParticipantsPanel } from "./participants-panel";
+import { SharpVideo } from "./sharp-video";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CALL_REMINDER_LEAD_MS } from "@/lib/limits";
@@ -145,6 +155,7 @@ function RoomShell({
   const [chatOpen, setChatOpen] = useState(false);
   const [peopleOpen, setPeopleOpen] = useState(false);
   const [lowBandwidth, setLowBandwidth] = useState(false);
+  const [sharp, setSharp] = useState(false);
   const [copied, setCopied] = useState(false);
   const [unread, setUnread] = useState(0);
   const [showReminder, setShowReminder] = useState(false);
@@ -253,6 +264,42 @@ function RoomShell({
     }
   }, [lowBandwidth, room, localParticipant]);
 
+  // Sharpening is on by default on desktop and remembered per device.
+  useEffect(() => {
+    const stored = window.localStorage.getItem("kali-sharpen");
+    if (stored === "1") setSharp(true);
+    else if (stored === "0") setSharp(false);
+    else setSharp(window.matchMedia("(min-width: 768px) and (pointer: fine)").matches);
+  }, []);
+
+  const toggleSharp = () => {
+    const next = !sharp;
+    setSharp(next);
+    try {
+      window.localStorage.setItem("kali-sharpen", next ? "1" : "0");
+    } catch {}
+  };
+
+  // Shared screens look best on the highest layer, so pin them while
+  // sharpening is on. Cameras stay on adaptive streaming to protect bandwidth.
+  useEffect(() => {
+    if (!sharp) return;
+    const pin = () => {
+      room.remoteParticipants.forEach((p) => {
+        p.trackPublications.forEach((pub) => {
+          if (pub.source === Track.Source.ScreenShare && !pub.isMuted) {
+            pub.setVideoQuality(VideoQuality.HIGH);
+          }
+        });
+      });
+    };
+    pin();
+    room.on(RoomEvent.TrackSubscribed, pin);
+    return () => {
+      room.off(RoomEvent.TrackSubscribed, pin);
+    };
+  }, [sharp, room]);
+
   const leave = useCallback(async () => {
     try {
       await room.disconnect();
@@ -350,6 +397,21 @@ function RoomShell({
             <span className="hidden sm:inline">{copied ? "Copied!" : "Copy link"}</span>
           </button>
           <button
+            onClick={toggleSharp}
+            title={
+              sharp
+                ? "Video sharpening is on. Tap to turn it off."
+                : "Sharpen video for a crisper picture. Uses a little more GPU."
+            }
+            className={cn(
+              "kali-press hidden items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold sm:flex",
+              sharp ? "bg-kali-ink text-white" : "bg-kali-pink-pale text-kali-ink"
+            )}
+          >
+            <Sparkle className="h-4 w-4" weight={sharp ? "fill" : "regular"} />
+            <span className="hidden lg:inline">Sharpen</span>
+          </button>
+          <button
             onClick={() => setLowBandwidth((v) => !v)}
             title="Low-bandwidth mode: audio only"
             className={cn(
@@ -437,6 +499,7 @@ function RoomShell({
                     key={p.identity}
                     participantSid={p.sid}
                     lowBandwidth={lowBandwidth}
+                    sharp={sharp}
                   />
                 ))}
           </div>
@@ -569,9 +632,11 @@ function CtrlButton({
 function ParticipantCard({
   participantSid,
   lowBandwidth,
+  sharp,
 }: {
   participantSid: string;
   lowBandwidth: boolean;
+  sharp: boolean;
 }) {
   const participants = useParticipants();
   const participant = participants.find((p) => p.sid === participantSid);
@@ -586,6 +651,7 @@ function ParticipantCard({
   );
   const showRef = !lowBandwidth ? (screenRef ?? camRef) : undefined;
   const videoMuted = !showRef || showRef.publication?.isMuted;
+  const videoTrack = showRef?.publication?.videoTrack;
 
   if (!participant) return null;
   const name = participant.name || participant.identity.replace(/^(user-|guest-)/, "");
@@ -600,7 +666,11 @@ function ParticipantCard({
       )}
     >
       {!videoMuted && showRef ? (
-        <VideoTrack trackRef={showRef} className="h-full w-full object-cover" />
+        sharp && videoTrack ? (
+          <SharpVideo track={videoTrack} className="h-full w-full" />
+        ) : (
+          <VideoTrack trackRef={showRef} className="h-full w-full object-cover" />
+        )
       ) : (
         <div className="flex h-full w-full items-center justify-center">
           <div
