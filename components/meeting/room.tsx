@@ -20,7 +20,7 @@ import {
   VideoPresets,
   VideoQuality,
 } from "livekit-client";
-import type { Participant } from "livekit-client";
+import type { Participant, TrackPublication } from "livekit-client";
 import {
   Microphone,
   MicrophoneSlash,
@@ -279,6 +279,35 @@ function RoomShell({
       window.localStorage.setItem("kali-sharpen", next ? "1" : "0");
     } catch {}
   };
+
+  // Push the mic through a real denoise model when the browser can run it.
+  // The import is lazy so the model only loads once someone joins a call.
+  useEffect(() => {
+    let disposed = false;
+
+    const attach = async () => {
+      const track = localParticipant?.getTrackPublication(Track.Source.Microphone)?.audioTrack;
+      if (!track || track.getProcessor()) return;
+      try {
+        const { KrispNoiseFilter, isKrispNoiseFilterSupported } = await import(
+          "@livekit/krisp-noise-filter"
+        );
+        if (disposed || !isKrispNoiseFilterSupported() || track.getProcessor()) return;
+        const quality = (navigator.hardwareConcurrency ?? 8) <= 4 ? "low" : "medium";
+        await track.setProcessor(KrispNoiseFilter({ quality }));
+      } catch {}
+    };
+
+    void attach();
+    const onPublished = (pub: TrackPublication) => {
+      if (pub.source === Track.Source.Microphone) void attach();
+    };
+    room.on(RoomEvent.LocalTrackPublished, onPublished);
+    return () => {
+      disposed = true;
+      room.off(RoomEvent.LocalTrackPublished, onPublished);
+    };
+  }, [room, localParticipant]);
 
   // Shared screens look best on the highest layer, so pin them while
   // sharpening is on. Cameras stay on adaptive streaming to protect bandwidth.

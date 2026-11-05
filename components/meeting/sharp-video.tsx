@@ -21,6 +21,7 @@ uniform sampler2D u_tex;
 uniform vec2 u_scale;
 uniform vec2 u_offset;
 uniform vec2 u_step;
+uniform float u_amount;
 
 void main() {
   vec2 uv = v_uv * u_scale + u_offset;
@@ -30,7 +31,7 @@ void main() {
   vec3 w = texture2D(u_tex, uv + vec2(-u_step.x, 0.0)).rgb;
   vec3 e = texture2D(u_tex, uv + vec2(u_step.x, 0.0)).rgb;
   vec3 blur = (n + s + w + e) * 0.25;
-  vec3 sharp = c + (c - blur) * 0.8;
+  vec3 sharp = c + (c - blur) * u_amount;
   gl_FragColor = vec4(clamp(sharp, 0.0, 1.0), 1.0);
 }`;
 
@@ -125,6 +126,7 @@ export function SharpVideo({
         const uScale = gl.getUniformLocation(program, "u_scale");
         const uOffset = gl.getUniformLocation(program, "u_offset");
         const uStep = gl.getUniformLocation(program, "u_step");
+        const uAmount = gl.getUniformLocation(program, "u_amount");
 
         const resize = () => {
           const rect = canvas.getBoundingClientRect();
@@ -166,6 +168,9 @@ export function SharpVideo({
             gl.uniform2f(uScale, sx, sy);
             gl.uniform2f(uOffset, ox, oy);
             gl.uniform2f(uStep, sx / video.videoWidth, sy / video.videoHeight);
+            // Sharpen harder on full quality layers, gently on small ones so
+            // low bitrate faces do not turn crunchy.
+            gl.uniform1f(uAmount, video.videoHeight >= 700 ? 0.8 : 0.5);
             gl.drawArrays(gl.TRIANGLES, 0, 6);
           }
           schedule();
