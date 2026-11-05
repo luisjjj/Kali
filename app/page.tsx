@@ -12,13 +12,13 @@ import {
   MonitorArrowUp,
   PhoneDisconnect,
   Check,
-  CaretDown,
   Asterisk,
 } from "@phosphor-icons/react/dist/ssr";
 import { auth } from "@/lib/auth/server";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Faq } from "@/components/ui/faq";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Doodles } from "@/components/ui/doodles";
 import { cn } from "@/lib/utils";
@@ -535,22 +535,7 @@ export default async function Home() {
           <h2 className="display-tight mt-2 text-center text-4xl font-semibold sm:text-5xl">
             Asking for a friend<span className="text-kali-ink dark:text-kali-pink">?</span>
           </h2>
-          <div className="mt-8 flex flex-col gap-3">
-            {FAQS.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-[24px] bg-white px-6 py-5 text-kali-ink shadow-[0_18px_44px_-30px_rgba(23,18,15,0.4)] open:bg-kali-ink open:text-white"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
-                  {f.q}
-                  <CaretDown className="h-5 w-5 shrink-0 transition-transform group-open:rotate-180" />
-                </summary>
-                <p className="mt-2 leading-relaxed text-kali-ink/65 group-open:text-white/70">
-                  {f.a}
-                </p>
-              </details>
-            ))}
-          </div>
+          <Faq items={FAQS} />
         </section>
 
         {/* CTA */}
