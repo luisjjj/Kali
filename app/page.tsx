@@ -540,15 +540,33 @@ export default async function Home() {
 
         {/* CTA */}
         <section className="mx-auto w-full max-w-6xl px-5 pb-16">
-          <div className="relative overflow-hidden rounded-[32px] border border-transparent bg-kali-ink text-center text-white dark:border-white/15 dark:bg-transparent">
+          <div className="relative overflow-hidden rounded-[32px] border border-transparent bg-kali-ink text-center text-white dark:border-transparent dark:bg-kali-pink dark:text-kali-ink">
             <div className="relative flex flex-col items-center gap-5 px-8 py-14 sm:py-20">
-              <Eyebrow tone="pink">Last chance (not really)</Eyebrow>
+              <p className="flex items-center gap-2 text-sm font-semibold tracking-widest uppercase text-kali-pink dark:text-kali-ink/75">
+                <img
+                  aria-hidden
+                  src="/images/doodle-star-pink.svg"
+                  alt=""
+                  className="h-3.5 w-3.5 shrink-0 dark:hidden"
+                />
+                <img
+                  aria-hidden
+                  src="/images/doodle-star-ink.svg"
+                  alt=""
+                  className="hidden h-3.5 w-3.5 shrink-0 dark:block"
+                />
+                Last chance (not really)
+              </p>
               <h2 className="display-tight max-w-2xl text-4xl font-semibold sm:text-6xl">
                 Your next call could take ten seconds to start.
               </h2>
               <div className="flex flex-wrap justify-center gap-3">
                 <Link href={ctaHref}>
-                  <Button variant="secondary" size="lg">
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="dark:bg-kali-ink dark:text-white dark:hover:bg-black"
+                  >
                     {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
@@ -557,13 +575,13 @@ export default async function Home() {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="border-white/20 bg-transparent text-white hover:bg-white/10"
+                    className="border-white/20 bg-transparent text-white hover:bg-white/10 dark:border-kali-ink/25 dark:text-kali-ink dark:hover:bg-kali-ink/10"
                   >
                     Join as a guest
                   </Button>
                 </Link>
               </div>
-              <p className="text-sm font-bold text-white/50">
+              <p className="text-sm font-bold text-white/50 dark:text-kali-ink/60">
                 Hosting needs a free account. Joining just needs a name.
               </p>
             </div>
