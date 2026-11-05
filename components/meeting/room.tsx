@@ -11,7 +11,7 @@ import {
   VideoTrack,
   ConnectionQualityIndicator,
 } from "@livekit/components-react";
-import { AudioPresets, ConnectionQuality, ConnectionState, RoomEvent, Track } from "livekit-client";
+import { AudioPresets, ConnectionQuality, ConnectionState, RoomEvent, Track, VideoPresets } from "livekit-client";
 import type { Participant } from "livekit-client";
 import {
   Microphone,
@@ -71,16 +71,32 @@ export function MeetingRoom({
       options={{
         adaptiveStream: true,
         dynacast: true,
+        // Capture a clean 720p30 source. The top SVC layer publishes at this
+        // resolution instead of being upscaled from a smaller capture.
+        videoCaptureDefaults: {
+          resolution: VideoPresets.h720.resolution,
+          frameRate: 30,
+        },
+        // Let the browser do the heavy lifting on voice: echo cancellation,
+        // background noise removal, level matching, and the stronger
+        // voice-isolation pass where the browser supports it.
+        audioCaptureDefaults: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          voiceIsolation: true,
+        },
         publishDefaults: {
           // VP9 with SVC: one encode that scales in layers instead of three
           // full simulcast encodes. Kinder to weak uplinks and phone CPUs.
           // Incompatible viewers automatically get a VP8 backup track.
           videoCodec: "vp9",
-          // Cap the top layer: smooth over sharp when constrained.
-          videoEncoding: { maxBitrate: 1_200_000, maxFramerate: 24 },
+          // Headroom for a crisp 720p30 top layer. SVC and dynacast still drop
+          // to smaller layers for viewers or uplinks that cannot keep up.
+          videoEncoding: { maxBitrate: 2_500_000, maxFramerate: 30 },
           degradationPreference: "maintain-framerate",
-          // Slides stay crisp at modest bits: static content encodes cheap.
-          screenShareEncoding: { maxBitrate: 1_500_000, maxFramerate: 15 },
+          // Text-heavy slides need the bits. Static content encodes cheaply.
+          screenShareEncoding: { maxBitrate: 3_000_000, maxFramerate: 15 },
           // Voice-optimized audio: 24k speech beats 48k stereo music for calls,
           // and sips bits. DTX silences quiet mics, RED patches lost packets.
           audioPreset: AudioPresets.speech,
