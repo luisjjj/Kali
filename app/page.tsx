@@ -593,6 +593,12 @@ export default async function Home() {
             <Link href="/auth/sign-up" className="hover:underline">
               Sign up
             </Link>
+            <a
+              href="https://github.com/luisjjj/Kali/releases/latest/download/Kali-Setup-0.1.0.exe"
+              className="hover:underline"
+            >
+              Windows app
+            </a>
           </div>
         </div>
       </footer>
