@@ -2,6 +2,9 @@
   "name": "kali",
   "version": "0.1.0",
   "private": true,
+  "description": "Kali is the video call app that skips the boring parts.",
+  "author": "Kali",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +12,9 @@
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "desktop": "electron .",
+    "desktop:dist": "electron-builder --win nsis"
   },
   "dependencies": {
     "@livekit/components-react": "^2.9.24",
@@ -39,6 +44,8 @@
     "@types/react-dom": "^19",
     "dotenv": "^18.0.6",
     "drizzle-kit": "^0.31.11",
+    "electron": "^45.2.3",
+    "electron-builder": "^26.18.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "postcss": "^8.5.29",
@@ -49,5 +56,37 @@
   },
   "optionalDependencies": {
     "lightningcss-win32-x64-msvc": "^1.33.0"
+  },
+  "build": {
+    "appId": "app.kali.desktop",
+    "productName": "Kali",
+    "directories": {
+      "output": "release",
+      "buildResources": "electron"
+    },
+    "files": [
+      "electron/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "electron/icon.png",
+      "artifactName": "Kali-Setup-${version}.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Kali",
+      "deleteAppDataOnUninstall": false
+    }
   }
 }

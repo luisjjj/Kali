@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Kali</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: #ffa8cd;
+        color: #17120f;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      .card {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 28px;
+        background: #ffffff;
+        padding: 40px 44px;
+        text-align: center;
+        box-shadow: 0 30px 60px -30px rgba(23, 18, 15, 0.45);
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 28px;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 0 0 24px;
+        line-height: 1.5;
+        color: rgba(23, 18, 15, 0.65);
+      }
+      button {
+        border: 0;
+        border-radius: 999px;
+        background: #17120f;
+        color: #ffffff;
+        font: inherit;
+        font-weight: 600;
+        padding: 14px 28px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #000000;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #000000;
+          color: #fffbf9;
+        }
+        .card {
+          background: #17120f;
+        }
+        p {
+          color: rgba(255, 251, 249, 0.65);
+        }
+        button {
+          background: #ffa8cd;
+          color: #17120f;
+        }
+        button:hover {
+          background: #f890bd;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Can&apos;t reach Kali</h1>
+      <p>Check your internet connection, then try again. Calls need a network anyway.</p>
+      <button id="retry" type="button">Try again</button>
+    </div>
+    <script>
+      var target =
+        new URLSearchParams(window.location.search).get("url") ||
+        "https://kali-one-snowy.vercel.app";
+      document.getElementById("retry").addEventListener("click", function () {
+        window.location.replace(target);
+      });
+    </script>
+  </body>
+</html>
