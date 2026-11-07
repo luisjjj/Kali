@@ -14,7 +14,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "desktop": "electron .",
-    "desktop:dist": "electron-builder --win nsis"
+    "desktop:dist": "electron-builder --win nsis --publish never"
   },
   "dependencies": {
     "@livekit/components-react": "^2.9.24",
