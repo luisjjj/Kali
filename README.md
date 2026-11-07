@@ -50,6 +50,20 @@ Auth tables are managed by Neon Auth itself — Kali creates
 3. Add all env vars from the table above (production values).
 4. Deploy. No build config needed (`next build`).
 
+## Windows desktop app
+
+The desktop app is a small Electron shell around the deployed site, so LiveKit keys and other
+secrets stay on the server.
+
+```bash
+npm run desktop        # run the shell against the deployed site
+npm run desktop:dist   # build release/Kali-Setup-0.1.0.exe locally
+```
+
+Pushing a `desktop-v*` tag, or running the `Desktop app` workflow manually, builds the installer
+on GitHub Actions and publishes it as a release. The installer is not code signed yet, so Windows
+shows a SmartScreen warning on first run.
+
 ## Project map
 
 - `app/page.tsx` — landing page (pink hero, chunky cards)
