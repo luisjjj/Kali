@@ -65,7 +65,8 @@
       "buildResources": "electron"
     },
     "files": [
-      "electron/**/*"
+      "electron/**/*",
+      "!node_modules/**/*"
     ],
     "win": {
       "target": [
