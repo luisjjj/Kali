@@ -107,9 +107,9 @@ function configureSession() {
           thumbnailSize: { width: 0, height: 0 },
         });
         if (sources.length > 0) callback({ video: sources[0] });
-        else callback({});
+        else callback(null);
       } catch {
-        callback({});
+        callback(null);
       }
     },
     { useSystemPicker: true }
