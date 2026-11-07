@@ -100,7 +100,7 @@ const FAQS = [
   },
   {
     q: "Do I need to install anything?",
-    a: "Nothing. Kali runs entirely in the browser, from phones and tablets to laptops and borrowed Chromebooks.",
+    a: "Nothing. Kali runs in the browser, from phones and tablets to laptops and borrowed Chromebooks. On Windows you can also grab the optional desktop app from the footer, but you never need it.",
   },
   {
     q: "Is my call private?",
