@@ -19,7 +19,7 @@ Phase 1 is deliberately lean. The full architecture is the target, but durable r
 | --- | --- |
 | Code-grounded repo audit | Done |
 | Architecture proposal | Done |
-| ADRs in `/docs/adr` | Done, all Proposed |
+| ADRs in `/docs/adr` | Done; Phase 1 decisions accepted, later phases proposed |
 | Unit economics draft | Done, estimates labeled |
 | Feature code | None, by design |
 
@@ -32,7 +32,9 @@ Phase 1 is deliberately lean. The full architecture is the target, but durable r
 - There is no data meter, no 240p or 360p profile, and no measurement that could validate the 15 MB or 100 MB targets.
 - Pricing is marketing copy. There are no plans, entitlements, subscriptions, or usage events.
 
-## Decisions needed before Phase 1
+## Decision status
+
+Accepted for Phase 1: ADRs 0001, 0002, 0003, and 0007. ADRs 0004 to 0006 and 0008 to 0009 remain Proposed for their phases.
 
 | # | Decision | Recommendation | ADR |
 | --- | --- | --- | --- |
@@ -83,7 +85,7 @@ Phase 2 must replace these with real numbers on a throttled 3G profile with 5 to
 - The auth stack is a beta managed service. The adapter boundary is needed before self-hosting is credible.
 - Naira revenue against USD infrastructure costs needs a quarterly price review.
 
-**What is proposed next:** confirm the nine decisions in `docs/adr/README.md`, then start Phase 1 with the webhook pipeline, session records, entitlements foundation, observability, and tests. The Phase 1 schema is the lean subset in `docs/architecture.md` section 6. Do not start low-data profiles until the measurement harness exists.
+**What is next:** Phase 1 is confirmed on the lean model. Start with the additive baseline migration, the webhook pipeline, session records, the entitlements foundation, observability, and tests. The Phase 1 schema is the lean subset in `docs/architecture.md` section 6. Do not start low-data profiles until the measurement harness exists.
 
 ## Working agreement
 

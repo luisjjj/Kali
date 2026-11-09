@@ -1,6 +1,6 @@
 # ADR 0002: Roles, token grants, and revocation
 
-- Status: Proposed
+- Status: Accepted (Phase 1 lean override applies)
 - Date: 2026-11-09
 - Related: `docs/audit.md` section 4, `docs/architecture.md` section 4.1
 - Decision needed: confirm the role model, token lifetime, and the lean Phase 1 revocation gap

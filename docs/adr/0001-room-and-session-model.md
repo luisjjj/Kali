@@ -1,6 +1,6 @@
 # ADR 0001: Lean room and session model
 
-- Status: Proposed
+- Status: Accepted (Phase 1: terminal rooms and a 1:1 session record)
 - Date: 2026-11-09
 - Related: `docs/audit.md` section 3, `docs/architecture.md` sections 4.1 to 4.3
 - Decision needed: confirm that Phase 1 keeps the terminal room model and defers durable rooms and workspaces

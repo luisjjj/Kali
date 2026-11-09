@@ -1,6 +1,6 @@
 # ADR 0003: Webhooks, presence, and metering
 
-- Status: Proposed
+- Status: Accepted (Phase 1: webhooks and metering; presence deferred)
 - Date: 2026-11-09
 - Related: `docs/audit.md` sections 5 and 6, `docs/architecture.md` sections 4.4 to 4.6
 - Decision needed: confirm the webhook, metering, and worker hosting model; presence is deferred

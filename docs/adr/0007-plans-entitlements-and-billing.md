@@ -1,6 +1,6 @@
 # ADR 0007: Plans, entitlements, and billing
 
-- Status: Proposed
+- Status: Accepted (Phase 1 owner: host account; prices dormant until billing)
 - Date: 2026-11-09
 - Related: `docs/audit.md` section 7, `docs/unit-economics.md`
 - Decision needed: confirm the plan limits, the host-account billing owner, and the Paystack-first rollout
