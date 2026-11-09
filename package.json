@@ -85,9 +85,10 @@
         }
       ],
       "icon": "electron/icon.png",
-      "artifactName": "Kali-Setup-${version}.exe"
+      "artifactName": "Kali-${version}-windows.${ext}"
     },
     "nsis": {
+      "artifactName": "Kali-Setup-${version}.${ext}",
       "oneClick": true,
       "perMachine": false,
       "allowElevation": false,
