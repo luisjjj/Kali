@@ -594,7 +594,7 @@ export default async function Home() {
               Sign up
             </Link>
             <a
-              href="https://github.com/luisjjj/Kali/releases/latest/download/Kali-Setup-0.1.0.exe"
+              href="https://github.com/luisjjj/Kali/releases/latest"
               className="hover:underline"
             >
               Windows app

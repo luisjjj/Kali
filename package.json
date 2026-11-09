@@ -1,6 +1,6 @@
 {
   "name": "kali",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Kali is the video call app that skips the boring parts.",
   "author": "Kali",
@@ -14,7 +14,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "desktop": "electron .",
-    "desktop:dist": "electron-builder --win nsis --publish never"
+    "desktop:dist": "electron-builder --win --publish never"
   },
   "dependencies": {
     "@livekit/components-react": "^2.9.24",
@@ -76,19 +76,30 @@
           "arch": [
             "x64"
           ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "electron/icon.png",
       "artifactName": "Kali-Setup-${version}.exe"
     },
     "nsis": {
-      "oneClick": false,
+      "oneClick": true,
       "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
+      "allowElevation": false,
+      "runAfterFinish": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "Kali",
-      "deleteAppDataOnUninstall": false
+      "deleteAppDataOnUninstall": false,
+      "include": "installer.nsh"
+    },
+    "zip": {
+      "artifactName": "Kali-${version}-windows.zip"
     }
   }
 }

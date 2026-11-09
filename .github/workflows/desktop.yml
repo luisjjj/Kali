@@ -32,14 +32,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Windows installer
+      - name: Build Windows installer and portable zip
         run: npm run desktop:dist
 
-      - name: Keep the installer as an artifact
+      - name: Keep the Windows builds as an artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kali-windows-installer
-          path: release/*.exe
+          name: kali-windows-build
+          path: |
+            release/*.exe
+            release/*.zip
           if-no-files-found: error
 
       - name: Publish the release
@@ -51,8 +53,17 @@ jobs:
           body: |
             Kali for Windows, 64-bit.
 
-            Download the installer below and run it. Windows may warn that the app is unrecognised because the installer is not code signed yet: pick "More info", then "Run anyway".
+            Pick one download:
+
+            - **Installer:** `Kali-Setup-*.exe`. It installs for the current user and adds a Start menu shortcut.
+            - **Portable ZIP:** `Kali-*-windows.zip`. Unzip it and run `Kali.exe`. No installation needed. Use this if the installer is blocked or hangs.
+
+            Windows may warn that the app is unrecognised because the build is not code signed yet: pick "More info", then "Run anyway".
+
+            If the installer still hangs, close any running Kali or Kali Setup process, delete a partial `%LOCALAPPDATA%\Programs\Kali` folder, and try again. The ZIP is the fallback.
 
             The desktop app is a small, locked down window for the Kali website. Camera, microphone and screen sharing stay on your device; the call server only ever sees the call itself.
-          files: release/*.exe
+          files: |
+            release/*.exe
+            release/*.zip
           fail_on_unmatched_files: true
