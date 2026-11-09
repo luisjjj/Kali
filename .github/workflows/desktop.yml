@@ -56,7 +56,7 @@ jobs:
             Pick one download:
 
             - **Installer:** `Kali-Setup-*.exe`. It installs for the current user and adds a Start menu shortcut.
-            - **Portable ZIP:** `Kali-*-windows.zip`. Unzip it and run `Kali.exe`. No installation needed. Use this if the installer is blocked or hangs.
+            - **Portable ZIP:** `Kali-*.zip`. Unzip it and run `Kali.exe`. No installation needed. Use this if the installer is blocked or hangs.
 
             Windows may warn that the app is unrecognised because the build is not code signed yet: pick "More info", then "Run anyway".
 

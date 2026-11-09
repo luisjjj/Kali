@@ -97,9 +97,6 @@
       "shortcutName": "Kali",
       "deleteAppDataOnUninstall": false,
       "include": "installer.nsh"
-    },
-    "zip": {
-      "artifactName": "Kali-${version}-windows.zip"
     }
   }
 }
