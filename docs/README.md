@@ -37,12 +37,12 @@ Phase 1 is deliberately lean. The full architecture is the target, but durable r
 | # | Decision | Recommendation | ADR |
 | --- | --- | --- | --- |
 | 1 | Room and session shape | Keep `meetings` terminal; add a 1:1 session record for metering; defer durable rooms and workspaces | 0001 |
-| 2 | Token lifetime and revocation | Central token service, 2-hour tokens, session rotation for bans | 0002 |
-| 3 | Presence and worker hosting | Redis TTL plus SSE, Vercel Pro cron for hosted | 0003 |
+| 2 | Token lifetime and revocation | Central token service, 2-hour tokens; remove uses a ban plus the token TTL; rotation deferred | 0002 |
+| 3 | Presence and worker hosting | LiveKit webhooks, deadline worker, usage events; Redis presence deferred | 0003 |
 | 4 | Data saver target | 240p for the 100 MB claim, 360p as an adaptive step | 0004 |
 | 5 | Recording storage and bundle | R2, 3 hours included on Pro Plus, $3 per extra hour | 0005 |
 | 6 | Captions provider | Self-hosted agent, evaluate AssemblyAI and Deepgram on Nigerian English and Pidgin | 0006 |
-| 7 | Plan limits and billing | Paystack first, Stripe second, remove the per-call cap, soft fair use | 0007 |
+| 7 | Plan limits and billing | Host-account entitlements now, workspaces later; Paystack first, Stripe second, remove the per-call cap, soft fair use | 0007 |
 | 8 | Self-host scope and auth | MIT, compose stack, Better Auth adapter in Phase 6 | 0008 |
 | 9 | Embed surface | Iframe first, server-to-server API, 1,000 API minutes on Pro Plus | 0009 |
 
