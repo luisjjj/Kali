@@ -69,6 +69,12 @@ the app automatically. If it hangs, close any running Kali process, remove a par
 `%LOCALAPPDATA%\Programs\Kali` folder, and retry. The ZIP is the fallback: unzip it and run
 `Kali.exe`.
 
+## Engineering docs
+
+The Phase 0 audit, target architecture, ADRs, and unit economics are in
+[`docs/`](docs/README.md). They are proposals for the next phase, not a description
+of the current app.
+
 ## Project map
 
 - `app/page.tsx` — landing page (pink hero, chunky cards)
