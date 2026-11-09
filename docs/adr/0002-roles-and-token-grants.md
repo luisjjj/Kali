@@ -3,7 +3,19 @@
 - Status: Proposed
 - Date: 2026-11-09
 - Related: `docs/audit.md` section 4, `docs/architecture.md` section 4.1
-- Decision needed: confirm the role model and token lifetime
+- Decision needed: confirm the role model, token lifetime, and the lean Phase 1 revocation gap
+
+## Phase 1 lean override
+
+ADR 0001 keeps rooms terminal in Phase 1. Until durable rooms ship:
+
+- The token endpoint targets the current `meetings` room code. It does not use a session-scoped LiveKit room name.
+- `sessionId` in token metadata points to the 1:1 session record, but the LiveKit `room` claim is the room code.
+- "End session" means "End call" and ends the room.
+- Remove disconnects the participant and writes a room ban. The old token can reconnect until it expires. A host who needs immediate revocation ends the call. Session rotation is deferred.
+- Workspace limits are applied to the host account.
+
+The rest of this ADR is the target for durable rooms.
 
 ## Context
 
@@ -21,7 +33,7 @@ Roles and grants:
 | --- | --- | --- | --- | --- |
 | Join, subscribe, publish, data | yes | yes | yes | yes |
 | `roomAdmin` grant | yes | yes | no | no |
-| End session | yes | yes | no | no |
+| End call | yes | yes | no | no |
 | Mute or remove others | yes | yes | no | no |
 | Ban identity | yes | yes | no | no |
 | Change room policy | yes | no | no | no |
@@ -37,22 +49,23 @@ Token rules:
 - Display name is a label only. It is not authorization and it is not unique.
 - Normal token TTL: 2 hours.
 - Embed token TTL: 15 minutes.
-- The token's `room` claim is the session-scoped LiveKit room name.
+- The token's `room` claim is the current room code in Phase 1. It becomes a session-scoped name only when durable rooms ship.
 - Metadata includes `{ role, sessionId, userId?, guest }`.
 - The token response includes the resolved policy and deadline.
 
 Revocation:
 
-- **Remove** is a revocation action. It adds the identity to `room_bans`, removes the participant, ends the current session, and creates a new session with a new LiveKit room name. Remaining participants receive a new token and reconnect. The removed client's old token is bound to the old room name and cannot rejoin.
+- **Remove** adds the identity to `room_bans` and removes the participant. In Phase 1 the room stays live, so the old token can reconnect until it expires. A host who needs immediate revocation ends the call, which ends the room.
 - **Mute** is not removal. It changes the track state and nothing else.
-- A "kick with rejoin allowed" is not offered in the first release. If it is needed later, a short session ban plus the token TTL can approximate it, but it is not a security boundary.
-- Because rotation reconnects everyone, the UI must warn the host. Use it for removal and bans, never for mute.
+- **Durable-room target:** remove ends the current session and creates a new session with a new LiveKit room name. Remaining participants receive a new token and reconnect. The removed client's old token is bound to the old room name and cannot rejoin.
+- A "kick with rejoin allowed" is not offered in the first release. If it is needed later, a short ban plus the token TTL can approximate it, but it is not a security boundary.
+- Because rotation reconnects everyone, the UI must warn the host. Use it for removal and bans, never for mute. Do not ship rotation until the durable-room ADR is accepted.
 - The 2-hour TTL bounds the residual window in other cases, for example a leaked token for a session that is still live.
 
 Rate limits:
 
 - Token mint: per IP, per user, and per room.
-- Room create: per user and per workspace.
+- Room create: per user. Per workspace is added with durable rooms.
 - Invite accept: per IP and per invite.
 - Report: per user and per room.
 - Store counters in Redis with a fixed window or token bucket.
@@ -98,4 +111,4 @@ No new provider cost. The token endpoint does more database reads, so add a shor
 1. Is 2 hours the right normal TTL, or should it be shorter and accept hourly reconnects? Recommendation: 2 hours, with session rotation for immediate revocation.
 2. Can a cohost end a session? Recommendation: yes, but not change billing or delete the room.
 3. Should guest display names be unique within a room? Recommendation: no, but show a role badge and disambiguate in the participant list.
-4. Should a remove always rotate the session? Recommendation: yes, because removal must revoke access. The UI warns that everyone reconnects.
+4. Should a remove always rotate the session? Recommendation: not in Phase 1. Use a ban plus the token TTL, and end the call for immediate revocation. Revisit rotation when durable rooms ship.

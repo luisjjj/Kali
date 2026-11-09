@@ -3,7 +3,18 @@
 - Status: Proposed
 - Date: 2026-11-09
 - Related: `docs/audit.md` section 7, `docs/unit-economics.md`
-- Decision needed: confirm the plan limits and the Paystack-first rollout
+- Decision needed: confirm the plan limits, the host-account billing owner, and the Paystack-first rollout
+
+## Phase 1 lean override
+
+ADR 0001 defers workspaces. Until workspaces ship:
+
+- The billing account is the host user.
+- `subscriptions`, `entitlements`, and `usage_events` key on `owner_user_id`.
+- Seats and team workspaces are deferred. Keep the seat value in the plan catalog for later, but do not enforce it.
+- When workspaces ship, migrate owner rows to workspace rows with a reversible backfill.
+
+The rest of this ADR is the workspace target.
 
 ## Context
 
@@ -13,11 +24,11 @@ The brief requires an entitlements layer that replaces hard-coded tier checks, r
 
 ## Decision
 
-Use a workspace-level entitlements model:
+Use one entitlements model with a swappable owner:
 
 - `plans` defines the catalog and default limits.
 - `subscriptions` records the provider, status, and billing period.
-- `entitlements` stores the resolved values for a workspace, including overrides and trials.
+- `entitlements` stores the resolved values for an owner, including overrides and trials. The owner is a host user in Phase 1 and a workspace later.
 - `usage_events` is the append-only meter.
 - A resolver returns the effective limits and is cached for 60 seconds.
 
@@ -32,12 +43,12 @@ Plans:
 | Video recording | none | none | 3 hours/mo, then $3/hour |
 | Live captions | none | 5 hours/mo | 10 hours/mo |
 | Transcripts and summaries | none | none | 10 hours/mo |
-| Chat retention | 7 days | 90 days | 180 days or workspace setting |
+| Chat retention | 7 days | 90 days | 180 days or account setting later |
 | Recording retention | not applicable | not applicable | 30 days |
 | Custom room slug | no | yes | yes |
 | Custom domain | no | no | yes |
 | API and embed | no | no | 1,000 participant minutes/mo, then metered |
-| Workspace seats | 1 | 3 | 10 |
+| Team seats (deferred until workspaces) | 1 | 3 | 10 |
 | Support | community | email | priority email |
 
 Enforcement:
@@ -88,7 +99,7 @@ Recommendation: **B**. Use Paystack for Nigeria and Stripe for international. A 
 
 Positive:
 
-- One place to answer "what is this workspace allowed to do".
+- One place to answer "what is this account allowed to do".
 - Billing and usage can be reconciled.
 - Trials, overrides, and support credits are possible.
 - The free cap can be removed without losing cost control.

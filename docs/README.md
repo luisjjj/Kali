@@ -4,6 +4,8 @@ This is the Phase 0 package for the transition from a casual meeting app to a du
 
 No feature code is included. The purpose is to agree on the shape of the system before changing it.
 
+Phase 1 is deliberately lean. The full architecture is the target, but durable rooms and workspaces are deferred. For now, a room is a single call: ending the call ends the room. The one addition is a 1:1 session record so metering, recordings, and transcripts have a stable id.
+
 ## Read in this order
 
 1. [Audit](audit.md): what exists today, confirmed from code, and what is missing.
@@ -34,7 +36,7 @@ No feature code is included. The purpose is to agree on the shape of the system 
 
 | # | Decision | Recommendation | ADR |
 | --- | --- | --- | --- |
-| 1 | Schema shape and workspace timing | Rooms plus sessions, personal workspace from day one | 0001 |
+| 1 | Room and session shape | Keep `meetings` terminal; add a 1:1 session record for metering; defer durable rooms and workspaces | 0001 |
 | 2 | Token lifetime and revocation | Central token service, 2-hour tokens, session rotation for bans | 0002 |
 | 3 | Presence and worker hosting | Redis TTL plus SSE, Vercel Pro cron for hosted | 0003 |
 | 4 | Data saver target | 240p for the 100 MB claim, 360p as an adaptive step | 0004 |
@@ -49,9 +51,9 @@ No feature code is included. The purpose is to agree on the shape of the system 
 | Phase | Scope | Exit criteria |
 | --- | --- | --- |
 | 0 | Docs only | Decisions confirmed |
-| 1 | Metering, entitlements, observability, webhooks, sessions | Webhook-driven sessions, usage events, SLOs measured, tests green, no behavior regression |
+| 1 | Metering, entitlements, observability, webhooks, session records | Webhook-driven sessions, usage events, SLOs measured, tests green, no behavior regression; ending a call still ends the room |
 | 2 | Low-data profiles, meter, auto-fallback, harness | Published MB per participant-hour at 3G with 5 to 10 percent loss |
-| 3 | Persistent rooms, presence, knock, lobby, social layer | Rooms survive empty, dashboard presence under 5 seconds |
+| 3 | Durable rooms, cross-call chat, presence, knock, lobby, social layer | Rooms survive empty only after the durable-room ADR is accepted; dashboard presence under 5 seconds |
 | 4 | Paystack, plan enforcement, remove the free cap | Billing webhooks idempotent, plans enforced at token issue, no plan loses money at modeled usage |
 | 5 | Captions and summaries, embed SDK and API | Accuracy report, graceful degradation, embed demo with API keys |
 | 6 | Self-host compose, docs, community mode | One-command compose, feature flags, contribution and security docs |
@@ -74,19 +76,19 @@ Phase 2 must replace these with real numbers on a throttled 3G profile with 5 to
 
 **What is risky:**
 
-- The schema migration in Phase 1 is the highest-risk change. It needs a feature flag, a backfill, and a snapshot.
+- The schema migration in Phase 1 is the highest-risk change, but the lean model keeps it additive: sessions, usage, webhooks, bans, and entitlements only. It still needs a flag, a backfill, and a snapshot.
 - Free-tier cost is unbounded by calls and bounded only by participants and fair use. Data saver defaults and conversion rates decide whether it is affordable.
 - Recording is expensive. Any unlimited recording bundle loses money.
 - Caption accuracy for Nigerian English and Pidgin is unproven. The provider evaluation must happen before the feature is marketed.
 - The auth stack is a beta managed service. The adapter boundary is needed before self-hosting is credible.
 - Naira revenue against USD infrastructure costs needs a quarterly price review.
 
-**What is proposed next:** confirm the nine decisions in `docs/adr/README.md`, then start Phase 1 with the webhook pipeline, session records, entitlements foundation, observability, and tests. Do not start low-data profiles until the measurement harness exists.
+**What is proposed next:** confirm the nine decisions in `docs/adr/README.md`, then start Phase 1 with the webhook pipeline, session records, entitlements foundation, observability, and tests. The Phase 1 schema is the lean subset in `docs/architecture.md` section 6. Do not start low-data profiles until the measurement harness exists.
 
 ## Working agreement
 
 - One concern per pull request.
-- Keep guest join, persistent chat, screen share, and host controls working at every step.
+- Keep guest join, chat for the life of the room, screen share, and host controls working at every step.
 - Add a reversible migration for every schema change.
 - Present two or three options with costs when a decision has real tradeoffs.
 - Report misses and wrong assumptions with numbers, not adjectives.

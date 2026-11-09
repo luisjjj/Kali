@@ -5,6 +5,7 @@
 - Currency: USD unless marked NGN
 - FX assumption: NGN 1,550 per USD. This is an assumption, not a quoted rate.
 - Important: every usage number in this document is an estimate. Phase 2 must replace the bandwidth estimates with measurements. The model is built so those inputs can be swapped without changing the structure.
+- Phase 1 uses the host account as the billing account. The word "workspace" below means one billing account. Until workspaces ship, one host maps to one workspace and the numbers do not change.
 
 ## 1. What this model answers
 

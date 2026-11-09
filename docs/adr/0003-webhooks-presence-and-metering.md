@@ -3,7 +3,19 @@
 - Status: Proposed
 - Date: 2026-11-09
 - Related: `docs/audit.md` sections 5 and 6, `docs/architecture.md` sections 4.4 to 4.6
-- Decision needed: confirm Redis and the worker hosting model
+- Decision needed: confirm the webhook, metering, and worker hosting model; presence is deferred
+
+## Phase 1 lean override
+
+ADR 0001 keeps rooms terminal in Phase 1. Until durable rooms ship:
+
+- Webhooks, 1:1 session records, participant updates, and `usage_events` are Phase 1.
+- Redis presence and the SSE endpoint are deferred. In-room participant lists still come from LiveKit.
+- The deadline worker and `deleteRoom` are still needed for the call cap.
+- `usage_events` keys on `owner_user_id` (the host) instead of a workspace.
+- The `room_finished` webhook closes participant rows and sets `meetings.ended_at`, so the room is terminal.
+
+The presence sections below are the durable-room target.
 
 ## Context
 

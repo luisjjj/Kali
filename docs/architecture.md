@@ -8,11 +8,22 @@
 
 1. **The server owns permissions and time.** The UI is a convenience. Every token, room policy, duration, recording, transcript, and plan limit is resolved on the server.
 2. **Media stays on LiveKit.** No media through Vercel, no custom SFU, no custom TURN, no custom signaling.
-3. **A room is durable; a session is disposable.** The link people share is a room. A call is a session inside it. Ending a call does not kill the room.
+3. **A room is single use in Phase 1.** The link people share is the room and the call. Ending the call ends the room. A 1:1 session record exists for metering and future features. Durable rooms are a deliberate Phase 3 change, not a hidden default.
 4. **Webhooks are the source of truth for what happened.** Token requests express intent. Webhooks record reality. Usage and presence derive from events, not from polling the media server.
 5. **Every feature declares its bandwidth and infrastructure cost.** A feature that cannot be metered cannot be priced.
 6. **Additive, reversible migrations.** Guest join, chat, screen share, and host controls keep working during every step.
 7. **Low-data is a measured property, not a marketing claim.** Profiles ship with a harness and published numbers.
+
+### Phase 1 lean path
+
+The target below is the north star. Phase 1 implements a lean subset because the product decision is that ending a call ends the room.
+
+- The current `meetings` row is the room and the call. `ended_at` is terminal.
+- Add a 1:1 `sessions` row per call for metering and future recordings and transcripts.
+- Add `usage_events`, `webhook_events`, `room_bans`, `plans`, and `entitlements` keyed by host user id.
+- Keep `messages` and `participants` meeting-scoped. Add `session_id` to participants.
+- Do not add `rooms`, `workspaces`, `workspace_members`, or room invites yet.
+- Do not implement durable rooms, presence, lobby, or session rotation until a later ADR changes ADR 0001.
 
 ## 2. Context
 
@@ -71,70 +82,68 @@ Inputs:
 
 Resolution order:
 
-1. Rate limit by IP, user, room, and workspace.
-2. Resolve the room by slug and check `archived_at` and `deleted_at`.
-3. Resolve the caller: workspace member, invited guest, or public guest.
+1. Rate limit by IP, user, and room. Per-workspace limits are added with workspaces.
+2. Resolve the room by code and check `ended_at`.
+3. Resolve the caller: host, invited guest, or public guest. Workspace membership is added with workspaces.
 4. Check the ban list for this room and identity.
-5. Resolve role: owner, cohost, member, or guest.
-6. Resolve the room policy and the workspace entitlements.
-7. Find or create the live session for the room, under a Postgres advisory lock on `room_id`.
+5. Resolve role: host, cohost, member, or guest.
+6. Resolve the room policy and the host-account entitlements.
+7. Find or create the 1:1 session for the room, under a Postgres advisory lock on the meeting id.
 8. Check the session deadline, participant cap, and plan limits.
-9. Mint a LiveKit token scoped to the session's LiveKit room name.
+9. Mint a LiveKit token for the room code.
 10. Return the token, server URL, identity, role, session id, deadline, policy, and ICE configuration if LiveKit requires it.
 
 Token claims:
 
-- `room`: session-scoped LiveKit room name, not the public slug.
+- `room`: the current room code in Phase 1. It becomes a session-scoped name only when durable rooms ship.
 - `identity`: stable per user (`user-<id>`) or per guest connection (`guest-<uuid>`).
 - `name`: display label only, never an authorization input.
-- `ttl`: 2 hours for normal calls, 15 minutes for embed tokens. A long call may reconnect once at the TTL boundary. Session rotation is the immediate revocation path.
-- Grants: `roomJoin`, `canSubscribe`, `canPublish`, `canPublishData` for all roles. `roomAdmin` only for owner and cohost. `canPublishSources` can be narrowed for audio-only or view-only roles later.
+- `ttl`: 2 hours for normal calls, 15 minutes for embed tokens. A long call may reconnect once at the TTL boundary. Ending the call is the immediate revocation path in Phase 1.
+- Grants: `roomJoin`, `canSubscribe`, `canPublish`, `canPublishData` for all roles. `roomAdmin` only for host and cohost. `canPublishSources` can be narrowed for audio-only or view-only roles later.
 - Metadata: `{ role, sessionId, userId?, guest: boolean }` for client UI and server-side webhook correlation.
 
-Why session-scoped room names: a ban can end the session and create a new LiveKit room with a new name. The banned token is bound to the old name and cannot be used to rejoin. This closes the "removed but reconnects" gap without rotating API keys.
+Durable-room target: the room claim becomes a session-scoped LiveKit room name. A ban can end the session and create a new LiveKit room under a new name, so the banned token cannot rejoin. That closes the "removed but reconnects" gap without rotating API keys. Do not build this until ADR 0001 changes.
 
 ### 4.2 Room service
 
+Phase 1 uses the current `meetings` row as the room. It is terminal.
+
 A room owns:
 
-- `slug` (memorable, unique, used in the URL)
+- `code` (existing room code, unique, used in the URL)
 - `name`
-- `room_type`: `instant`, `persistent`, or `embedded`
-- `visibility`: `public`, `unlisted`, or `private`
-- `owner_user_id` and/or `workspace_id`
-- `policy` JSON, validated by Zod:
-  - `max_participants`
-  - `max_duration_minutes` (null means no per-call cap)
-  - `default_profile`
-  - `allow_recording`
-  - `allow_captions`
-  - `allow_guests`
-  - `lobby_enabled`
-  - `chat_retention_days`
-  - `mode` (`standard`, `study`, `creator`; the mode registry from the brief)
-- `archived_at` and `deleted_at`
+- `host_user_id`
+- `created_at`, `ended_at`
+- a small policy object for participant cap, default profile, and guest join, validated by Zod
+- `room_bans` keyed by meeting id and identity
 
 Lifecycle:
 
-- **Instant room**: created by a signed-in host, joinable by link, persists for 30 days after the last session, then archives. It can be rejoined while active.
-- **Persistent room**: created by a host or workspace, sits empty indefinitely, appears on the dashboard with presence, supports invites and a lobby.
-- **Embedded room**: created through the API by a workspace, used only through the embed surface, policy controlled by the API caller.
+- A signed-in host creates a room. The room code is the shareable link.
+- Guests join by link while `ended_at` is null.
+- The host ends the call, or the deadline worker closes it. `ended_at` is set once and is terminal.
+- A new call gets a new room code.
+- No rejoin, no persistent room, no dashboard presence.
 
-The room service also owns invites (`room_invites`), bans (`room_bans`), and the room-level audit log.
+Durable-room target (deferred until ADR 0001 changes):
+
+A durable room owns a slug, name, room type (`instant`, `persistent`, `embedded`), visibility (`public`, `unlisted`, `private`), owner and/or workspace, a policy object, and archive/delete timestamps. Instant rooms persist 30 days after the last session, persistent rooms sit empty indefinitely, and embedded rooms are created through the API. The room service also owns invites (`room_invites`), bans (`room_bans`), and the room-level audit log.
 
 ### 4.3 Session lifecycle
 
-A session is one live occurrence of a room.
+Phase 1 has one session per room.
 
 States: `pending`, `live`, `ended`, `expired`.
 
-1. Token issuance creates a `pending` session with a unique LiveKit room name and a deadline.
+1. Token issuance creates the session if the room has none and `ended_at` is null. The session's LiveKit room name is the room code.
 2. The first `participant_joined` webhook moves it to `live` and sets `started_at`.
 3. Presence heartbeats and webhooks keep participant rows current.
-4. A host end, the deadline worker, or `room_finished` moves it to `ended`.
-5. A `pending` session with no join within 5 minutes becomes `expired`.
+4. A host end, the deadline worker, or `room_finished` moves the session to `ended` and sets `meetings.ended_at`. The room is terminal.
+5. A `pending` session with no join within 5 minutes becomes `expired` and ends the room.
 
-The deadline is `started_at + min(room policy, plan limit)`. If there is no cap, the deadline is the maximum session length allowed by the plan, or null for unlimited. The worker runs every minute, finds `deadline_at < now()`, calls `RoomService.deleteRoom`, and lets the webhook close the session. The client timer remains for UX, but it is not the enforcement.
+The deadline is `started_at + min(room policy, plan limit)`. If there is no cap, the deadline is the maximum call length allowed by the plan, or the current 60-minute anchor until plans exist. The worker runs every minute, finds `deadline_at < now()`, calls `RoomService.deleteRoom`, and lets the webhook close the session. The client timer remains for UX, but it is not the enforcement.
+
+Durable-room target: one room can have many sessions, and ending a session does not end the room. A session gets a unique session-scoped LiveKit room name. Do not build this until ADR 0001 changes.
 
 ### 4.4 Webhooks
 
@@ -223,6 +232,69 @@ The token response includes the resolved policy so the client can render the rig
 Cost note: a LiveKit Cloud-hosted agent adds about $0.01 per agent minute on top of speech. Self-hosting the agent avoids that and is required for the Pro Plus margin in the current model.
 
 ## 6. Target schema
+
+### Phase 1 lean schema
+
+Phase 1 implements this subset. It is additive and reversible.
+
+```text
+meetings (existing, terminal)
+  id, host_user_id, title, room_code unique, scheduled_at, created_at, ended_at
+
+participants (existing, extended)
+  id, meeting_id, identity, display_name, joined_at, left_at, role, session_id, network_summary
+
+sessions
+  id uuid pk
+  meeting_id uuid fk unique
+  livekit_room_name text (the room code)
+  status pending | live | ended | expired
+  started_at, ended_at, deadline_at, end_reason
+  peak_participants, minutes_by_participant
+  created_at
+
+room_bans
+  meeting_id, identity, created_by, created_at
+  pk (meeting_id, identity)
+
+usage_events
+  id uuid pk
+  owner_user_id text
+  session_id uuid null
+  kind text
+  quantity numeric
+  occurred_at
+  idempotency_key text unique
+
+webhook_events
+  id uuid pk
+  provider text
+  event_id text unique
+  payload jsonb
+  received_at, processed_at
+
+plans
+  code text pk
+  name text
+  price_naira int
+  price_usd int
+  limits jsonb
+  active boolean
+
+entitlements
+  owner_user_id text
+  key text
+  value jsonb
+  source text
+  expires_at
+  pk (owner_user_id, key)
+```
+
+No `rooms`, `workspaces`, `workspace_members`, `room_invites`, `messages.room_id`, `session_participants`, `recordings`, `transcripts`, or `summaries` in Phase 1. Recordings and transcripts can reference `sessions.id` when their phase starts.
+
+### Durable-room target (deferred)
+
+The schema below is the durable-room version. Do not create it until ADR 0001 changes.
 
 Names follow the brief where practical. `session_participants` is the brief's `participants` per session; the name avoids colliding with the current `participants` table during migration.
 
@@ -504,7 +576,7 @@ Error tracking: Sentry or OpenTelemetry, with a self-host opt-out. Start with st
 
 - Unit: entitlement resolution, role-to-grant mapping, room policy validation, time math, retention cutoffs.
 - Integration: token issuance for host, member, guest, banned user, cap reached, plan limit reached; webhook signature, idempotency, replay, out-of-order events; billing webhook idempotency; end and deadline worker.
-- End-to-end: two browser contexts join, chat, host mute, host remove, reconnect, room persists after everyone leaves, rejoin works.
+- End-to-end: two browser contexts join, chat, host mute, host remove, reconnect while the call is live, ending the call ends the room, and no one can rejoin after end.
 - Network harness: Chromium with CDP network emulation for bandwidth and latency; `tc netem` on Linux for 5 to 10 percent packet loss; measure bytes with `RTCPeerConnection.getStats()`. Document results per profile.
 - CI: lint, typecheck, unit, integration with a Postgres service, build, and a migration check. The Windows desktop workflow stays separate.
 
@@ -513,22 +585,24 @@ Error tracking: Sentry or OpenTelemetry, with a self-host opt-out. Start with st
 The migration must not break guest join, chat, screen share, or host controls.
 
 1. **Baseline the current schema.** Create `drizzle/0000_baseline.sql` with `CREATE TABLE IF NOT EXISTS` for `meetings`, `participants`, and `messages`; record it in the Drizzle journal. Stop using `db:push` against the shared database. Verify that Neon Auth tables are untouched.
-2. **Add new tables.** `users`, `workspaces`, `workspace_members`, `rooms`, `room_invites`, `sessions`, `session_participants`, `recordings`, `transcripts`, `summaries`, `plans`, `entitlements`, `subscriptions`, `usage_events`, `webhook_events`, `api_keys`, `room_bans`, `reports`, `audit_log`. All additive. No column drops.
-3. **Backfill.** For each meeting, create a `room` (slug = room code, type `instant`, owner = host), a `session` (started at the earliest participant join, ended at `meetings.ended_at`), and `session_participants` from the participant rows. Collapse duplicates by `(meeting, identity, day)` and mark them `legacy` in metadata. Backfill messages to the room. Do not lose the original rows.
-4. **Dual-write behind a flag.** `DATA_MODEL=v2` makes new code write rooms, sessions, participants, and messages. Old endpoints keep working through an adapter. Reads default to v1 until the backfill is verified.
-5. **Cut over reads.** Enable v2 reads for internal users, then 10 percent, then 100 percent. Keep the rollback flag for one release.
-6. **Remove legacy.** After two releases, drop the old tables and columns. Take a Neon branch snapshot first. The down migration restores the old schema and data from the snapshot, not from a destructive rewrite.
+2. **Add the lean tables.** `sessions`, `usage_events`, `webhook_events`, `room_bans`, `plans`, and `entitlements`. Add nullable `session_id`, `left_at`, `role`, and `network_summary` to `participants`. All additive. No column drops.
+3. **Backfill.** For each existing meeting with participants, create one `legacy` session using the earliest join and `meetings.ended_at`. Collapse duplicate participant rows by `(meeting, identity, day)` and link them to that session. Do not lose the original rows.
+4. **Write behind a flag.** `SESSION_RECORDS=v1` makes new code write sessions, participant updates, and usage events. The current read path stays until the new path is verified.
+5. **Verify.** Compare session counts, participant counts, and usage minutes against the old participant rows. Check that ending a call still ends the room and that no guest can rejoin.
+6. **Keep legacy.** Do not drop anything in Phase 1. The down path is the flag plus a Neon branch snapshot.
 
-Reversibility: every new table is additive; every old table remains until the final step; the feature flag is the rollback path; the snapshot is the last resort.
+The durable-room migration in the target schema is a later delivery. It will need a separate ADR, a backfill from `meetings` to `rooms`, and a dual-write of messages. Do not mix it with Phase 1.
+
+Reversibility: every new table is additive; every old table remains; the feature flag is the rollback path; the snapshot is the last resort.
 
 ## 12. Delivery plan and exit criteria
 
 | Phase | Scope | Exit criteria |
 | --- | --- | --- |
 | 0 | Audit, architecture, ADRs, unit economics | Docs reviewed; decisions confirmed |
-| 1 | Metering and entitlements foundation, observability, webhook pipeline, sessions and participants | Webhook-driven session records; usage events; token latency and join SLOs measured; tests green; no regression in guest join, chat, or host controls |
+| 1 | Metering and entitlements foundation, observability, webhook pipeline, 1:1 session records and participants | Webhook-driven session records; usage events; token latency and join SLOs measured; tests green; no regression in guest join, chat, host controls, or terminal room end |
 | 2 | Low-data profiles, data meter, auto-fallback, measurement harness | Published MB per participant-hour for all three profiles on 3G with 5 to 10 percent loss; audio at or below 15 MB per hour; saver at or below 100 MB per hour or a documented reason |
-| 3 | Persistent rooms, presence, knock, lobby, social layer | Room survives empty; dashboard presence under 5 seconds; guest lobby; invites; reactions and hand raise within bandwidth budget |
+| 3 | Durable rooms, cross-call chat, presence, knock, lobby, social layer | Durable-room ADR accepted; room survives empty; dashboard presence under 5 seconds; guest lobby; invites; reactions and hand raise within bandwidth budget |
 | 4 | Paystack, entitlements enforcement, removal of the free cap | Paid plans change limits at token issue; billing webhooks idempotent; free cap removed; no plan loses money at the modeled usage |
 | 5 | Captions and summaries, embed SDK and API | Accuracy report for Nigerian English and Pidgin; captions degrade gracefully; embed demo with API keys, events, and origin allowlist |
 | 6 | Self-host packaging, docs, community mode | One-command compose; app, Postgres, LiveKit, optional Egress and agent; feature flags for paid services; contribution and security docs |
@@ -537,7 +611,7 @@ Reversibility: every new table is additive; every old table remains until the fi
 
 These are the decisions with real tradeoffs. Each is documented in an ADR and should be confirmed before implementation.
 
-1. **Schema shape:** rooms plus sessions plus a personal workspace from day one, or defer workspaces. Recommendation: personal workspace from day one, hidden in the UI.
+1. **Schema shape:** terminal `meetings` plus a 1:1 session record now, or durable rooms and workspaces now. Recommendation: terminal rooms now; add the 1:1 session record for metering; defer durable rooms and workspaces to Phase 3.
 2. **Presence cache:** Upstash Redis, or Postgres-only polling. Recommendation: Redis with a Postgres fallback.
 3. **Recording storage:** Cloudflare R2, or S3. Recommendation: R2.
 4. **Speech provider:** AssemblyAI, Deepgram, LiveKit Inference, or self-hosted Whisper. Recommendation: evaluate two on Nigerian English and Pidgin, keep the interface swappable, self-host the agent.
