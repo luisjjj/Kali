@@ -205,7 +205,7 @@ Risks, ordered by severity:
 | Severity | Risk | Evidence | Mitigation |
 | --- | --- | --- | --- |
 | High | One-hour cap can be bypassed; token valid 6 hours | `lib/livekit.ts`, client timer | Webhooks, session deadline worker, shorter tokens |
-| High | Host removal does not revoke reconnect | `remove/route.ts` | Ban list, short tokens, session-scoped room names, immediate room rotation on ban |
+| High | Host removal does not revoke reconnect | `remove/route.ts` | Ban list, shorter tokens, end the call for immediate revocation; session rotation deferred with durable rooms |
 | High | Production auth can fall back to a public cookie secret | `lib/auth/server.ts` | Fail closed when `NODE_ENV=production` |
 | High | No rate limits on token, room creation, chat, or expire | API routes | Redis token bucket per IP, user, and room |
 | Medium | Chat identity spoofing | `messages/route.ts` POST | Bind sender to session identity; reject mismatches |
@@ -214,7 +214,7 @@ Risks, ordered by severity:
 | Medium | No security headers or CSP | `next.config.ts` | CSP, Permissions-Policy, HSTS, frame-ancestors for embed |
 | Medium | Local `.env.example` contains real-looking keys | local file, untracked | Sanitize; rotate if shared; commit a placeholder example |
 | Low | No audit log for host actions | host routes | `audit_log` table |
-| Low | Unsigned desktop installer | electron-builder config | Sign when volume justifies it; document SmartScreen |
+| Low | Unsigned desktop installer | electron-builder config | Sign when volume justifies it; document SmartScreen; portable ZIP fallback |
 
 ## 10. Debt register
 
