@@ -57,12 +57,17 @@ secrets stay on the server.
 
 ```bash
 npm run desktop        # run the shell against the deployed site
-npm run desktop:dist   # build release/Kali-Setup-0.1.0.exe locally
+npm run desktop:dist   # build release/Kali-Setup-0.1.1.exe and the portable zip locally
 ```
 
-Pushing a `desktop-v*` tag, or running the `Desktop app` workflow manually, builds the installer
-on GitHub Actions and publishes it as a release. The installer is not code signed yet, so Windows
-shows a SmartScreen warning on first run.
+Pushing a `desktop-v*` tag, or running the `Desktop app` workflow manually, builds both the
+installer and a portable ZIP on GitHub Actions and publishes them as a release. The installer is
+not code signed yet, so Windows shows a SmartScreen warning on first run.
+
+The installer is a one-click per-user install. It does not request elevation and it does not launch
+the app automatically. If it hangs, close any running Kali process, remove a partial
+`%LOCALAPPDATA%\Programs\Kali` folder, and retry. The ZIP is the fallback: unzip it and run
+`Kali.exe`.
 
 ## Project map
 
