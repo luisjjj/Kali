@@ -88,7 +88,7 @@ Compatibility:
 
 - One session row per call and one participant row per real join. The volume is small.
 - No extra LiveKit cost. The LiveKit room name is unchanged.
-- No Redis or worker cost for presence in Phase 1. The deadline worker still runs for the call cap.
+- No Redis cost for presence in Phase 1. The deadline worker is still needed for the call cap and is budgeted separately in ADR 0003.
 - The migration is cheaper than option C: no rooms, workspaces, room members, invites, or dual-write of messages.
 
 ## Open questions
