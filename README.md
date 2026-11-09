@@ -64,6 +64,12 @@ Pushing a `desktop-v*` tag, or running the `Desktop app` workflow manually, buil
 on GitHub Actions and publishes it as a release. The installer is not code signed yet, so Windows
 shows a SmartScreen warning on first run.
 
+## Engineering docs
+
+The Phase 0 audit, target architecture, ADRs, and unit economics are in
+[`docs/`](docs/README.md). They are proposals for the next phase, not a description
+of the current app.
+
 ## Project map
 
 - `app/page.tsx` — landing page (pink hero, chunky cards)
