@@ -29,7 +29,7 @@ export function JoinForm({ tone = "light", idPrefix = "join" }: JoinFormProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3">
       <Field>
         <Label
           htmlFor={`${idPrefix}-code`}

@@ -1,5 +1,6 @@
 const { app, BrowserWindow, desktopCapturer, session, shell } = require("electron");
 const path = require("node:path");
+const { pathToFileURL } = require("node:url");
 
 // The desktop app is a thin, locked down shell around the deployed web app.
 // Secrets and the LiveKit signing stay on the server, so nothing sensitive
@@ -63,6 +64,16 @@ function closeSplash() {
   splashWindow = null;
 }
 
+function offlineUrl() {
+  const url = new URL(pathToFileURL(OFFLINE_PAGE).toString());
+  url.searchParams.set("url", DESKTOP_URL);
+  return url.toString();
+}
+
+function loadOffline() {
+  mainWindow?.loadURL(offlineUrl());
+}
+
 function createSplashWindow() {
   splashStartedAt = Date.now();
   splashWindow = new BrowserWindow({
@@ -89,7 +100,7 @@ function createSplashWindow() {
   splashWindow.on("closed", () => {
     splashWindow = null;
   });
-  splashWindow.loadFile(SPLASH_PAGE);
+  splashWindow.loadURL(pathToFileURL(SPLASH_PAGE).toString());
 }
 
 function revealMainWindow(immediate = false) {
@@ -109,7 +120,7 @@ function showOffline() {
   clearLoadFallback();
   mainRevealScheduled = true;
   closeSplash();
-  mainWindow?.loadFile(OFFLINE_PAGE, { query: { url: DESKTOP_URL } });
+  loadOffline();
   mainWindow?.show();
 }
 
@@ -156,7 +167,7 @@ function createWindow() {
   loadFallbackTimer = setTimeout(() => {
     if (!mainWindow) return;
     if (mainWindow.webContents.isLoadingMainFrame()) {
-      mainWindow.loadFile(OFFLINE_PAGE, { query: { url: DESKTOP_URL } });
+      loadOffline();
     }
     mainRevealScheduled = true;
     closeSplash();

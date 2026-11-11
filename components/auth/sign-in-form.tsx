@@ -9,7 +9,7 @@ export function SignInForm({ idPrefix = "signin" }: { idPrefix?: string }) {
   const [state, formAction, isPending] = useActionState(signInWithEmail, null);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form action={formAction} className="flex flex-col gap-3">
       <Field>
         <Label htmlFor={`${idPrefix}-email`}>Email</Label>
         <Input
