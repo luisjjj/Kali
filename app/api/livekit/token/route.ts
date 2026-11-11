@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { eq, min } from "drizzle-orm";
 import { db } from "@/lib/db/client";
-import { meetings, participants } from "@/lib/db/schema";
+import { meetings, participants, sessions } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/server";
 import { livekitEnv, signJoinToken } from "@/lib/livekit";
 import { CALL_LIMIT_MS } from "@/lib/limits";
@@ -62,16 +62,46 @@ export async function POST(req: Request) {
 
   const token = await signJoinToken({ identity, name, roomCode, isHost });
 
+  // One session per terminal meeting. The webhook promotes it to live and
+  // closes it; the token route just makes sure the row exists before a join.
+  const [callSession] = await db
+    .insert(sessions)
+    .values({
+      meetingId: meeting.id,
+      livekitRoomName: roomCode,
+      status: "pending",
+    })
+    .onConflictDoUpdate({
+      target: sessions.meetingId,
+      set: { livekitRoomName: roomCode },
+    })
+    .returning();
+
   // The clock starts at the first join and never moves, so refreshes and
   // rejoins cannot stretch the call. Record and read together: if the read
   // lands before our own insert on a first join, we fall back to right now,
   // which is that same first join.
   const [, anchorRows] = await Promise.all([
-    db.insert(participants).values({
-      meetingId: meeting.id,
-      userId: session?.user?.id ?? null,
-      displayName: name,
-    }),
+    db
+      .insert(participants)
+      .values({
+        meetingId: meeting.id,
+        sessionId: callSession.id,
+        identity,
+        userId: session?.user?.id ?? null,
+        displayName: name,
+        role: isHost ? "host" : "guest",
+      })
+      .onConflictDoUpdate({
+        target: [participants.meetingId, participants.identity],
+        set: {
+          sessionId: callSession.id,
+          userId: session?.user?.id ?? null,
+          displayName: name,
+          role: isHost ? "host" : "guest",
+          leftAt: null,
+        },
+      }),
     db
       .select({ startedAt: min(participants.joinedAt) })
       .from(participants)
