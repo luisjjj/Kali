@@ -32,16 +32,18 @@ cp .env.example .env.local
 | `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET` | LiveKit Cloud → project → Keys (see `LIVEKIT_SETUP.md`) |
 | `NEXT_PUBLIC_APP_URL` | `http://localhost:3000` locally, your Vercel URL in prod |
 
-2. Install + push schema + run:
+2. Install, migrate, and run:
 
 ```bash
 npm install
-npm run db:push
+npm run db:migrate
 npm run dev
 ```
 
-Auth tables are managed by Neon Auth itself — Kali creates
-`meetings`, `participants`, `messages` (see `lib/db/schema.ts`).
+Auth tables are managed by Neon Auth itself. Kali creates
+`meetings`, `participants`, and `messages` (see `lib/db/schema.ts`). Use
+`npm run db:migrate`, not `db:push`, on a database that already contains Neon
+Auth tables.
 
 ## Deploy to Vercel
 
