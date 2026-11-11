@@ -1,18 +1,11 @@
-"use client";
-
-import { useActionState } from "react";
 import Link from "next/link";
 import { KaliWordmark } from "@/components/ui/brand";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Field, Input, Label } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Doodles } from "@/components/ui/doodles";
-import { signInWithEmail } from "./actions";
+import { SignInForm } from "@/components/auth/sign-in-form";
 
 export default function SignInPage() {
-  const [state, formAction, isPending] = useActionState(signInWithEmail, null);
-
   return (
     <div className="relative isolate flex min-h-screen overflow-hidden">
       <ThemeToggle className="absolute top-5 right-5 z-20" />
@@ -36,24 +29,9 @@ export default function SignInPage() {
           </div>
           <h1 className="mt-4 text-3xl font-bold tracking-tight">Sign in</h1>
           <p className="mt-1 text-kali-ink/65 dark:text-kali-paper/65">Good to see you again.</p>
-          <form action={formAction} className="mt-6 flex flex-col gap-4">
-            <Field>
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" name="email" type="email" placeholder="you@cute.dev" required />
-            </Field>
-            <Field>
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" name="password" type="password" placeholder="••••••••" required />
-            </Field>
-            {state?.error && (
-              <p className="rounded-2xl bg-kali-danger/10 px-4 py-3 text-sm font-bold text-kali-danger">
-                {state.error}
-              </p>
-            )}
-            <Button type="submit" variant="primary" size="lg" disabled={isPending}>
-              {isPending ? "Saying hi…" : "Sign in"}
-            </Button>
-          </form>
+          <div className="mt-6">
+            <SignInForm />
+          </div>
           <p className="mt-4 text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/65">
             New here?{" "}
             <Link href="/auth/sign-up" className="font-bold text-kali-ink underline dark:text-kali-paper">

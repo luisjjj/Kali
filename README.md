@@ -59,8 +59,15 @@ secrets stay on the server.
 
 ```bash
 npm run desktop        # run the shell against the deployed site
-npm run desktop:dist   # build release/Kali-Setup-0.1.1.exe and the portable zip locally
+npm run desktop:dist   # build release/Kali-Setup-0.1.2.exe and the portable zip locally
 ```
+
+The desktop app opens on a short splash screen, then the combined sign-in and join page. It does
+not open the marketing landing page. Same-origin links stay in the app; external links open in the
+default browser.
+
+Set `KALI_DESKTOP_URL` to `http://localhost:3000` to point the shell at a local dev server, and
+`KALI_SPLASH_MS` to a larger number to keep the splash on screen while testing.
 
 Pushing a `desktop-v*` tag, or running the `Desktop app` workflow manually, builds both the
 installer and a portable ZIP on GitHub Actions and publishes them as a release. The installer is
