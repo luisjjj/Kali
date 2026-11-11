@@ -203,6 +203,8 @@ Enforcement points:
 
 The token response includes the resolved policy so the client can render the right UI, but the client never decides entitlement.
 
+Phase 1 resolves entitlements by host user id, not workspace. The free plan defaults live in `lib/entitlements-core.ts`; active `entitlements` rows override them for support, trials, or a future subscription. `plans` rows stay dormant until billing, and prices are not shown in the UI.
+
 ## 5. Data plane
 
 ### 5.1 Video

@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
 import { eq, min } from "drizzle-orm";
 import { db } from "@/lib/db/client";
-import { meetings, participants } from "@/lib/db/schema";
+import { meetings, participants, sessions } from "@/lib/db/schema";
 import { getRoomService } from "@/lib/livekit";
 import { CALL_LIMIT_MS } from "@/lib/limits";
 import { roomCodeSchema } from "@/lib/validations";
 
 export const dynamic = "force-dynamic";
 
-// Objective backstop for the quiet 60 minute limit. Anyone in the call may
-// hit it, host or guest: the server re-checks the clock itself, so there is
-// nothing to abuse. Past the limit it stamps ended_at and frees the room.
+// Objective backstop for the session deadline. Anyone in the call may hit it,
+// host or guest: the server re-checks the clock itself, so there is nothing to
+// abuse. Past the deadline it stamps ended_at and frees the room.
 export async function POST(
   _req: Request,
   { params }: { params: Promise<{ roomCode: string }> }
@@ -30,15 +30,25 @@ export async function POST(
     return NextResponse.json({ ended: true });
   }
 
-  const [anchor] = await db
-    .select({ startedAt: min(participants.joinedAt) })
-    .from(participants)
-    .where(eq(participants.meetingId, meeting.id));
-  if (!anchor?.startedAt) {
-    return NextResponse.json({ ended: false });
-  }
+  const [anchorRows, sessionRows] = await Promise.all([
+    db
+      .select({ startedAt: min(participants.joinedAt) })
+      .from(participants)
+      .where(eq(participants.meetingId, meeting.id)),
+    db
+      .select({ deadlineAt: sessions.deadlineAt })
+      .from(sessions)
+      .where(eq(sessions.meetingId, meeting.id)),
+  ]);
 
-  if (anchor.startedAt.getTime() + CALL_LIMIT_MS > Date.now()) {
+  const anchor = anchorRows[0];
+  const deadlineAt =
+    sessionRows[0]?.deadlineAt ??
+    (anchor?.startedAt
+      ? new Date(anchor.startedAt.getTime() + CALL_LIMIT_MS)
+      : null);
+
+  if (!deadlineAt || deadlineAt.getTime() > Date.now()) {
     return NextResponse.json({ ended: false });
   }
 
