@@ -4,6 +4,7 @@ import { db } from "@/lib/db/client";
 import { meetings } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/server";
 import { generateRoomCode, meetingLink } from "@/lib/utils";
+import { isRoomId, looksLikeCompactRoomCode, slugifyRoomName } from "@/lib/room-code";
 import { createMeetingSchema } from "@/lib/validations";
 
 export const dynamic = "force-dynamic";
@@ -45,23 +46,76 @@ export async function POST(req: Request) {
     );
   }
 
-  // Short unique room code, retry on collision.
-  let roomCode = generateRoomCode();
-  for (let i = 0; i < 5; i++) {
-    const existing = await db.select().from(meetings).where(eq(meetings.roomCode, roomCode));
-    if (existing.length === 0) break;
+  // Custom room names are optional. Otherwise, pick a short unique code and
+  // retry on collision.
+  const roomName = parsed.data.roomName?.trim() ?? "";
+  let roomCode: string;
+  if (roomName) {
+    const slug = slugifyRoomName(roomName);
+    if (!isRoomId(slug) || looksLikeCompactRoomCode(slug)) {
+      return NextResponse.json(
+        {
+          error:
+            "Pick a room name with lowercase letters, numbers, or dashes. If it's nine characters, add a dash so it isn't mistaken for a code.",
+        },
+        { status: 400 }
+      );
+    }
+    const existing = await db
+      .select({ id: meetings.id })
+      .from(meetings)
+      .where(eq(meetings.roomCode, slug))
+      .limit(1);
+    if (existing.length > 0) {
+      return NextResponse.json(
+        { error: `kali/m/${slug} is taken. Try another name.` },
+        { status: 409 }
+      );
+    }
+    roomCode = slug;
+  } else {
     roomCode = generateRoomCode();
+    for (let i = 0; i < 5; i++) {
+      const existing = await db
+        .select({ id: meetings.id })
+        .from(meetings)
+        .where(eq(meetings.roomCode, roomCode))
+        .limit(1);
+      if (existing.length === 0) break;
+      if (i === 4) {
+        return NextResponse.json(
+          { error: "Couldn't find a free room code. Try again." },
+          { status: 503 }
+        );
+      }
+      roomCode = generateRoomCode();
+    }
   }
 
-  const [meeting] = await db
-    .insert(meetings)
-    .values({
-      hostUserId: session.user.id,
-      title: parsed.data.title || "Quick catch-up",
-      roomCode,
-      scheduledAt: parsed.data.scheduledAt ? new Date(parsed.data.scheduledAt) : null,
-    })
-    .returning();
+  let meeting;
+  try {
+    [meeting] = await db
+      .insert(meetings)
+      .values({
+        hostUserId: session.user.id,
+        title: parsed.data.title || "Quick catch-up",
+        roomCode,
+        scheduledAt: parsed.data.scheduledAt ? new Date(parsed.data.scheduledAt) : null,
+      })
+      .returning();
+  } catch (err) {
+    const code =
+      typeof err === "object" && err !== null && "code" in err
+        ? (err as { code?: string }).code
+        : undefined;
+    if (roomName && code === "23505") {
+      return NextResponse.json(
+        { error: `kali/m/${roomCode} was just taken. Try another name.` },
+        { status: 409 }
+      );
+    }
+    throw err;
+  }
 
   return NextResponse.json(
     { meeting, link: meetingLink(roomCode, process.env.NEXT_PUBLIC_APP_URL) },

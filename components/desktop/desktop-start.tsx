@@ -36,7 +36,7 @@ export function DesktopStart({ user }: DesktopStartProps) {
             Start a call, or join one<span className="text-kali-ink dark:text-kali-pink">.</span>
           </h1>
           <p className="mt-2 text-base text-kali-ink/70 dark:text-kali-paper/70">
-            Sign in to host your own room, or use a code to jump into a call.
+            Sign in to host your own room, or use a room name to jump into a call.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export function DesktopStart({ user }: DesktopStartProps) {
                 </p>
                 <h2 className="display-tight mt-1 text-3xl font-semibold">Sign in</h2>
                 <p className="mt-2 text-kali-ink/65 dark:text-kali-paper/65">
-                  Hosts need a free account. Guests can join with a code.
+                  Hosts need a free account. Guests can join with a link.
                 </p>
                 <div className="mt-5">
                   <SignInForm idPrefix="desktop" />
@@ -91,10 +91,10 @@ export function DesktopStart({ user }: DesktopStartProps) {
               Join a call
             </p>
             <h2 className="display-tight mt-1 text-3xl font-semibold">
-              Got a code? You&apos;re in<span className="text-kali-pink">.</span>
+              Got a link? You&apos;re in<span className="text-kali-pink">.</span>
             </h2>
             <p className="mt-2 text-white/65">
-              No account needed. Just the code and whatever we should call you.
+              No account needed. Just the room name and whatever we should call you.
             </p>
             <div className="mt-5">
               <JoinForm tone="dark" idPrefix="desktop" />

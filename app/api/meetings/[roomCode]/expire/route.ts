@@ -18,13 +18,13 @@ export async function POST(
   const { roomCode: raw } = await params;
   const parsed = roomCodeSchema.safeParse(raw);
   if (!parsed.success) {
-    return NextResponse.json({ error: "That code doesn't look right." }, { status: 400 });
+    return NextResponse.json({ error: "That room name doesn't look right." }, { status: 400 });
   }
 
   const rows = await db.select().from(meetings).where(eq(meetings.roomCode, parsed.data));
   const meeting = rows[0];
   if (!meeting) {
-    return NextResponse.json({ error: "No meeting with that code." }, { status: 404 });
+    return NextResponse.json({ error: "No meeting with that name." }, { status: 404 });
   }
   if (meeting.endedAt) {
     return NextResponse.json({ ended: true });

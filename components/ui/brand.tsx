@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HomeLink } from "@/components/ui/home-link";
 import { cn } from "@/lib/utils";
 
 /** Kali's own simple wordmark. Lowercase, chunky, with a pink dot. Original, no trademarks. */
@@ -6,13 +7,13 @@ export function KaliWordmark({
   className,
   dark,
   tone = "auto",
-  href = "/",
+  href,
 }: {
   className?: string;
   dark?: boolean;
   /** "ink" / "paper" pin the color (use on always-pink panels); "auto" follows light/dark mode. */
   tone?: "ink" | "paper" | "auto";
-  /** Pass null to render the wordmark without a link. */
+  /** Pass null to render the wordmark without a link. Defaults to Home. */
   href?: string | null;
 }) {
   const color =
@@ -38,10 +39,18 @@ export function KaliWordmark({
     return <span className={classes}>{mark}</span>;
   }
 
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {mark}
+      </Link>
+    );
+  }
+
   return (
-    <Link href={href} className={classes}>
+    <HomeLink className={classes}>
       {mark}
-    </Link>
+    </HomeLink>
   );
 }
 

@@ -1,3 +1,5 @@
+import { cache } from "react";
+import type { Metadata } from "next";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { meetings } from "@/lib/db/schema";
@@ -8,10 +10,62 @@ import { EndedScreen } from "@/components/meeting/ended-screen";
 import { ErrorState } from "@/components/ui/states";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Doodles } from "@/components/ui/doodles";
-import Link from "next/link";
+import { HomeLink } from "@/components/ui/home-link";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
+
+const findMeeting = cache(async (roomCode: string) => {
+  const rows = await db
+    .select()
+    .from(meetings)
+    .where(eq(meetings.roomCode, roomCode))
+    .limit(1);
+  return rows[0] ?? null;
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ roomCode: string }>;
+}): Promise<Metadata> {
+  const { roomCode: raw } = await params;
+  const parsed = roomCodeSchema.safeParse(raw);
+  if (!parsed.success) {
+    return { title: "Room not found · Kali", robots: { index: false, follow: false } };
+  }
+
+  const meeting = await findMeeting(parsed.data);
+  if (!meeting) {
+    return { title: "Room not found · Kali", robots: { index: false, follow: false } };
+  }
+
+  const path = `/m/${meeting.roomCode}`;
+  const title = meeting.endedAt
+    ? `${meeting.title} · call ended on Kali`
+    : `${meeting.title} · join on Kali`;
+  const description = meeting.endedAt
+    ? `“${meeting.title}” has ended. Start your own free call on Kali in seconds.`
+    : `Tap to join “${meeting.title}” on Kali. No account or download needed. Room: kali/m/${meeting.roomCode}.`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      siteName: "Kali",
+      title,
+      description,
+      url: path,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 
 export default async function MeetingPage({
   params,
@@ -29,14 +83,13 @@ export default async function MeetingPage({
       <Shell>
         <ErrorState
           title="That link looks off"
-          body="Room codes look like abc-def-ghi. Check the link and try again."
+          body="Room links look like kali/m/study-gang or kali/m/abc-def-ghi. Check the link and try again."
         />
       </Shell>
     );
   }
 
-  const rows = await db.select().from(meetings).where(eq(meetings.roomCode, parsed.data));
-  const meeting = rows[0];
+  const meeting = await findMeeting(parsed.data);
 
   if (!meeting) {
     return (
@@ -76,11 +129,11 @@ function Shell({ children }: { children: React.ReactNode }) {
       <Doodles className="-z-10" />
       <KaliWordmark />
       <div className="w-full max-w-md">{children}</div>
-      <Link href="/">
+      <HomeLink>
         <Button variant="ghost" size="sm">
           Back home
         </Button>
-      </Link>
+      </HomeLink>
     </div>
   );
 }

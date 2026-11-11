@@ -43,6 +43,7 @@ import { motion } from "framer-motion";
 import type { JoinResult } from "./lobby";
 import { ChatPanel } from "./chat-panel";
 import { ParticipantsPanel } from "./participants-panel";
+import { ShareWhatsApp } from "./share-whatsapp";
 import { SharpVideo } from "./sharp-video";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -413,11 +414,12 @@ function RoomShell({
       <header className="flex items-center justify-between gap-2 px-4 py-3 sm:px-6">
         <div className="flex min-w-0 items-center gap-2">
           <span className="truncate text-lg font-bold tracking-tight">{title}</span>
-          <Badge tone="pink" className="hidden sm:inline-flex">
+          <Badge tone="pink" className="hidden max-w-[12rem] truncate sm:inline-flex">
             {roomCode}
           </Badge>
         </div>
         <div className="flex items-center gap-2">
+          <ShareWhatsApp roomCode={roomCode} title={title} />
           <button
             onClick={copyLink}
             className="kali-press flex items-center gap-1.5 rounded-full bg-kali-pink-pale px-4 py-2 text-sm font-bold text-kali-ink"

@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   ]);
   const meeting = meetingRows[0];
   if (!meeting) {
-    return NextResponse.json({ error: "No meeting with that code." }, { status: 404 });
+    return NextResponse.json({ error: "No meeting with that name." }, { status: 404 });
   }
   if (meeting.endedAt) {
     return NextResponse.json({ error: "This meeting has ended." }, { status: 410 });

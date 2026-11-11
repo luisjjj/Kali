@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Kali desktop",
-  description: "Sign in to host a call or join with a code.",
+  description: "Sign in to host a call or join with a room link.",
 };
 
 export default async function DesktopPage() {

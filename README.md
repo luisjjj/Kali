@@ -6,8 +6,10 @@ Neon Postgres (Drizzle) + Neon Auth. Deploy target: Vercel.
 ## Features
 
 - **Auth** — sign up / sign in / sign out via Neon Auth (`@neondatabase/auth`). Guests join by link with a display name.
-- **Dashboard** — instant meeting, scheduling, join-with-code, upcoming + past lists.
-- **Shareable rooms** — short `xxx-xxx-xxx` room codes, links at `/m/[room_code]`.
+- **Dashboard** — instant meeting, scheduling, join-with-link, upcoming + past lists.
+- **Shareable rooms** — memorable names like `/m/study-gang`, or short `xxx-xxx-xxx` codes.
+  One-tap WhatsApp sharing and rich link previews with the call title and room name.
+- **Guest funnel** — every guest lobby and join page includes “Start your own call, free”.
 - **Pre-join lobby** — camera/mic preview, live mic meter, device pickers, display name.
 - **Meeting room** — speaker-highlighted video grid, floating pill control bar (mic, camera,
   screen share, chat, people, leave), per-participant connection quality, audio-only
@@ -89,7 +91,7 @@ of the current app.
 - `app/page.tsx` — landing page (pink hero, chunky cards)
 - `app/auth/sign-in|sign-up` — Neon Auth email/password forms (zod-validated)
 - `app/dashboard` — New / Schedule / Join + meeting lists
-- `app/m/[roomCode]` — lobby → room → left/ended flow
+- `app/m/[roomCode]` — lobby → room → left/ended flow, plus dynamic link previews
 - `app/api/meetings` — create/list (auth), meeting info (public), end-for-all (host), chat history/persist (public, code-gated)
 - `app/api/livekit/token|mute|remove` — signed JWTs + server-side host controls
 - `components/ui` — Kali design system: `button`, `card`, `input`, `badge`,

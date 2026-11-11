@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
-import { formatRoomCode, isRoomCode } from "@/lib/room-code";
+import { isRoomId, normalizeRoomId } from "@/lib/room-code";
 
 type JoinFormProps = {
   tone?: "light" | "dark";
@@ -20,12 +20,13 @@ export function JoinForm({ tone = "light", idPrefix = "join" }: JoinFormProps) {
   const dark = tone === "dark";
 
   const join = () => {
-    if (!isRoomCode(code)) {
-      setError("That code doesn't look right. It looks like abc-def-ghi.");
+    const roomId = normalizeRoomId(code);
+    if (!isRoomId(roomId)) {
+      setError("That room name doesn't look right. Try study-gang or abc-def-ghi.");
       return;
     }
     const q = name.trim() ? `?name=${encodeURIComponent(name.trim().slice(0, 40))}` : "";
-    router.push(`/m/${code.trim()}${q}`);
+    router.push(`/m/${roomId}${q}`);
   };
 
   return (
@@ -35,23 +36,27 @@ export function JoinForm({ tone = "light", idPrefix = "join" }: JoinFormProps) {
           htmlFor={`${idPrefix}-code`}
           className={dark ? "text-white/80" : "dark:text-kali-ink"}
         >
-          Room code
+          Room name or code
         </Label>
         <Input
           id={`${idPrefix}-code`}
           value={code}
           onChange={(e) => {
-            setCode(formatRoomCode(e.target.value));
+            setCode(e.target.value);
             if (error) setError(null);
           }}
-          placeholder="abc-def-ghi"
+          onBlur={() => {
+            const roomId = normalizeRoomId(code);
+            if (roomId && roomId !== code) setCode(roomId);
+          }}
+          placeholder="study-gang or abc-def-ghi"
           autoComplete="off"
           autoCapitalize="none"
           spellCheck={false}
           className={
             dark
-              ? "border-2 border-kali-pink bg-white/10 text-center text-lg font-semibold tracking-widest text-white placeholder:text-white/40"
-              : "border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-widest dark:bg-kali-pink-pale/60 dark:text-kali-ink dark:placeholder:text-kali-ink/40"
+              ? "border-2 border-kali-pink bg-white/10 text-center text-lg font-semibold tracking-wide text-white placeholder:text-white/40"
+              : "border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-wide dark:bg-kali-pink-pale/60 dark:text-kali-ink dark:placeholder:text-kali-ink/40"
           }
           onKeyDown={(e) => {
             if (e.key === "Enter") join();
