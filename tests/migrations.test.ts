@@ -1,45 +1,14 @@
 import assert from "node:assert/strict";
-import { readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import test from "node:test";
 import { PGlite } from "@electric-sql/pglite";
-
-const migrationsDir = join(process.cwd(), "drizzle");
-const migrationFiles = readdirSync(migrationsDir)
-  .filter((file) => file.endsWith(".sql"))
-  .sort();
-const baselineFile = migrationFiles.find(
-  (file) => file.startsWith("0000_baseline") && file.endsWith(".sql")
-);
-const laterFiles = migrationFiles.filter((file) => file !== baselineFile);
-
-async function runMigration(db: PGlite, file: string) {
-  const sql = readFileSync(join(migrationsDir, file), "utf8");
-  const statements = sql
-    .split("--> statement-breakpoint")
-    .map((statement) => statement.trim())
-    .filter(Boolean);
-
-  for (const statement of statements) {
-    await db.exec(statement);
-  }
-}
+import { applyAllMigrations } from "./helpers/migrations";
 
 test("migrations create the phase 1 lean schema", async () => {
-  assert.ok(baselineFile, "drizzle/0000_baseline.sql must exist");
-
   const db = new PGlite();
   await db.waitReady;
 
   try {
-    // The baseline must be safe against a database that already has the
-    // original meeting tables. Run it twice before applying later migrations.
-    await runMigration(db, baselineFile);
-    await runMigration(db, baselineFile);
-
-    for (const file of laterFiles) {
-      await runMigration(db, file);
-    }
+    await applyAllMigrations(db);
 
     const tables = await db.query<{ table_name: string }>(
       `select table_name

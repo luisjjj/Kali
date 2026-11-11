@@ -29,7 +29,20 @@ NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
 Only `NEXT_PUBLIC_*` vars are exposed to the browser. `LIVEKIT_API_SECRET`
-stays server-side — the token endpoint (next step) signs JWTs with it.
+stays server-side. The token endpoint signs JWTs with it.
+
+## Webhooks
+
+In LiveKit Cloud, add this URL under the project webhook settings:
+
+```text
+https://<your-app>/api/livekit/webhook
+```
+
+Use the same project API key and secret. Kali verifies the signed JWT and the
+raw body hash, records every event, and uses room and participant events to
+keep `sessions`, `participants`, and `usage_events` in sync. The endpoint is
+not behind user auth. The signature is the auth.
 
 ## 3. Optional: local dev without Cloud
 
