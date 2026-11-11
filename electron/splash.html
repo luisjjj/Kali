@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Kali</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #ffa8cd;
+        color: #17120f;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        user-select: none;
+        -webkit-app-region: drag;
+      }
+      .splash {
+        width: 100%;
+        padding: 38px 44px;
+        text-align: center;
+      }
+      .mark {
+        margin: 0;
+        font-size: 54px;
+        font-weight: 800;
+        letter-spacing: -0.06em;
+        line-height: 1;
+      }
+      .dot {
+        color: #17120f;
+      }
+      .tagline {
+        margin: 12px 0 0;
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(23, 18, 15, 0.65);
+      }
+      .loader {
+        width: 168px;
+        height: 6px;
+        margin: 28px auto 0;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(23, 18, 15, 0.14);
+      }
+      .loader::after {
+        content: "";
+        display: block;
+        width: 44%;
+        height: 100%;
+        border-radius: inherit;
+        background: #17120f;
+        animation: slide 1.2s ease-in-out infinite;
+      }
+      @keyframes slide {
+        0% {
+          transform: translateX(-110%);
+        }
+        100% {
+          transform: translateX(370%);
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #000000;
+          color: #fffbf9;
+        }
+        .dot {
+          color: #ffa8cd;
+        }
+        .tagline {
+          color: rgba(255, 251, 249, 0.62);
+        }
+        .loader {
+          background: rgba(255, 255, 255, 0.16);
+        }
+        .loader::after {
+          background: #ffa8cd;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .loader::after {
+          width: 100%;
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="splash">
+      <p class="mark">kali<span class="dot">.</span></p>
+      <p class="tagline">Getting your call ready</p>
+      <div class="loader" aria-hidden="true"></div>
+    </div>
+  </body>
+</html>

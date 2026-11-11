@@ -1,39 +1,11 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
-import { Field, Input, Label } from "@/components/ui/input";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Doodles } from "@/components/ui/doodles";
-
-function formatCode(raw: string): string {
-  const clean = raw.toLowerCase().replace(/[^a-z2-9]/g, "").slice(0, 9);
-  return [clean.slice(0, 3), clean.slice(3, 6), clean.slice(6, 9)]
-    .filter(Boolean)
-    .join("-");
-}
-
-const CODE_RE = /^[a-z2-9]{3}-[a-z2-9]{3}-[a-z2-9]{3}$/;
+import { JoinForm } from "@/components/join/join-form";
 
 export default function JoinPage() {
-  const router = useRouter();
-  const [code, setCode] = useState("");
-  const [name, setName] = useState("");
-  const [error, setError] = useState<string | null>(null);
-
-  const join = () => {
-    if (!CODE_RE.test(code.trim())) {
-      setError("That code doesn't look right. It looks like abc-def-ghi.");
-      return;
-    }
-    const q = name.trim() ? `?name=${encodeURIComponent(name.trim().slice(0, 40))}` : "";
-    router.push(`/m/${code.trim()}${q}`);
-  };
-
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-hidden">
       <Doodles className="-z-10" />
@@ -61,45 +33,8 @@ export default function JoinPage() {
             No account needed. Just the code and whatever we should call you.
           </p>
 
-          <div className="mt-6 flex flex-col gap-4">
-            <Field>
-              <Label htmlFor="code" className="dark:text-kali-ink">Room code</Label>
-              <Input
-                id="code"
-                value={code}
-                onChange={(e) => setCode(formatCode(e.target.value))}
-                placeholder="abc-def-ghi"
-                autoComplete="off"
-                autoCapitalize="none"
-                spellCheck={false}
-                className="border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-widest dark:bg-kali-pink-pale/60 dark:text-kali-ink dark:placeholder:text-kali-ink/40"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") join();
-                }}
-              />
-            </Field>
-            <Field>
-              <Label htmlFor="name" className="dark:text-kali-ink">Your name (optional)</Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="What should we call you?"
-                maxLength={40}
-                className="dark:bg-kali-pink-pale dark:text-kali-ink dark:placeholder:text-kali-ink/40"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") join();
-                }}
-              />
-            </Field>
-            {error && (
-              <p className="rounded-2xl bg-kali-danger/10 px-4 py-3 text-sm font-bold text-kali-danger">
-                {error}
-              </p>
-            )}
-            <Button variant="primary" size="lg" onClick={join}>
-              Join the call <ArrowRight className="h-5 w-5" />
-            </Button>
+          <div className="mt-6">
+            <JoinForm />
           </div>
 
           <p className="mt-5 text-center text-sm font-semibold text-kali-ink/65">

@@ -6,11 +6,14 @@ export function KaliWordmark({
   className,
   dark,
   tone = "auto",
+  href = "/",
 }: {
   className?: string;
   dark?: boolean;
   /** "ink" / "paper" pin the color (use on always-pink panels); "auto" follows light/dark mode. */
   tone?: "ink" | "paper" | "auto";
+  /** Pass null to render the wordmark without a link. */
+  href?: string | null;
 }) {
   const color =
     tone === "ink"
@@ -23,12 +26,21 @@ export function KaliWordmark({
   // The brand dot must stay visible on pink surfaces, so it only goes pink on dark ones.
   const dot =
     tone === "paper" ? "text-kali-pink" : tone === "ink" ? "text-kali-ink" : "text-kali-ink dark:text-kali-pink";
+  const classes = cn("inline-flex items-center gap-1 select-none", className);
+  const mark = (
+    <span className={cn("text-3xl font-bold tracking-tighter", color)}>
+      kali
+      <span className={dot}>.</span>
+    </span>
+  );
+
+  if (href === null) {
+    return <span className={classes}>{mark}</span>;
+  }
+
   return (
-    <Link href="/" className={cn("inline-flex items-center gap-1 select-none", className)}>
-      <span className={cn("text-3xl font-bold tracking-tighter", color)}>
-        kali
-        <span className={dot}>.</span>
-      </span>
+    <Link href={href} className={classes}>
+      {mark}
     </Link>
   );
 }
