@@ -18,6 +18,10 @@ export interface JoinResult {
   isHost: boolean;
   roomCode: string;
   endsAt: string;
+  policy?: {
+    maxParticipants: number;
+    maxDurationMinutes: number;
+  };
 }
 
 interface Device {

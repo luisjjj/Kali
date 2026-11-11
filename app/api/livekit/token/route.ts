@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { eq, min } from "drizzle-orm";
+import { and, count, eq, gt, isNull, ne, or } from "drizzle-orm";
 import { db } from "@/lib/db/client";
 import { meetings, participants, sessions } from "@/lib/db/schema";
 import { auth } from "@/lib/auth/server";
+import { resolveEntitlements } from "@/lib/entitlements";
 import { livekitEnv, signJoinToken } from "@/lib/livekit";
-import { CALL_LIMIT_MS } from "@/lib/limits";
+import { resolveSessionWindow } from "@/lib/session-window";
 import { tokenRequestSchema } from "@/lib/validations";
 
 export const dynamic = "force-dynamic";
@@ -55,21 +56,49 @@ export async function POST(req: Request) {
   const identity = session?.user
     ? `user-${session.user.id}`
     : `guest-${randomUUID().slice(0, 8)}`;
-  const name =
-    session?.user?.name?.trim() ||
-    (session?.user ? displayName : displayName) ||
-    "Guest";
+  const name = session?.user?.name?.trim() || displayName || "Guest";
 
-  const token = await signJoinToken({ identity, name, roomCode, isHost });
+  const entitlements = await resolveEntitlements(meeting.hostUserId);
+  const limitMs = entitlements.maxDurationMinutes * 60_000;
+  const now = new Date();
+  const activeSince = new Date(now.getTime() - limitMs);
 
-  // One session per terminal meeting. The webhook promotes it to live and
-  // closes it; the token route just makes sure the row exists before a join.
+  // The host can always enter. Everyone else is capped by the host's plan.
+  // The count comes from webhook-backed participant rows, not token intent,
+  // so abandoned tokens do not occupy seats. Exclude the caller's own stable
+  // identity so a signed-in rejoin does not get blocked by its own row.
+  if (!isHost) {
+    const [activeRow] = await db
+      .select({ active: count() })
+      .from(participants)
+      .where(
+        and(
+          eq(participants.meetingId, meeting.id),
+          isNull(participants.leftAt),
+          gt(participants.joinedAt, activeSince),
+          or(isNull(participants.identity), ne(participants.identity, identity))
+        )
+      );
+
+    if ((activeRow?.active ?? 0) >= entitlements.maxParticipants) {
+      return NextResponse.json(
+        { error: "This call is full. Try again when someone leaves." },
+        { status: 403 }
+      );
+    }
+  }
+
+  // One session per terminal meeting. The first token opens the clock; the
+  // webhook promotes the row to live and closes it. A refresh reuses the
+  // existing started_at and deadline.
   const [callSession] = await db
     .insert(sessions)
     .values({
       meetingId: meeting.id,
       livekitRoomName: roomCode,
       status: "pending",
+      startedAt: now,
+      deadlineAt: new Date(now.getTime() + limitMs),
     })
     .onConflictDoUpdate({
       target: sessions.meetingId,
@@ -77,43 +106,27 @@ export async function POST(req: Request) {
     })
     .returning();
 
-  // The clock starts at the first join and never moves, so refreshes and
-  // rejoins cannot stretch the call. Record and read together: if the read
-  // lands before our own insert on a first join, we fall back to right now,
-  // which is that same first join.
-  const [, anchorRows] = await Promise.all([
-    db
-      .insert(participants)
-      .values({
-        meetingId: meeting.id,
-        sessionId: callSession.id,
-        identity,
-        userId: session?.user?.id ?? null,
-        displayName: name,
-        role: isHost ? "host" : "guest",
-      })
-      .onConflictDoUpdate({
-        target: [participants.meetingId, participants.identity],
-        set: {
-          sessionId: callSession.id,
-          userId: session?.user?.id ?? null,
-          displayName: name,
-          role: isHost ? "host" : "guest",
-          leftAt: null,
-        },
-      }),
-    db
-      .select({ startedAt: min(participants.joinedAt) })
-      .from(participants)
-      .where(eq(participants.meetingId, meeting.id)),
-  ]);
-  const startedAt = anchorRows[0]?.startedAt ?? new Date();
-  const endsAt = new Date(startedAt.getTime() + CALL_LIMIT_MS);
+  const window = resolveSessionWindow(callSession, now, limitMs);
 
-  if (endsAt.getTime() <= Date.now()) {
-    await db.update(meetings).set({ endedAt: new Date() }).where(eq(meetings.id, meeting.id));
+  if (window.needsUpdate) {
+    await db
+      .update(sessions)
+      .set({ startedAt: window.startedAt, deadlineAt: window.endsAt })
+      .where(eq(sessions.id, callSession.id));
+  }
+
+  if (window.endsAt.getTime() <= now.getTime()) {
+    await Promise.all([
+      db.update(meetings).set({ endedAt: now }).where(eq(meetings.id, meeting.id)),
+      db
+        .update(sessions)
+        .set({ status: "ended", endedAt: now, endReason: "deadline" })
+        .where(eq(sessions.id, callSession.id)),
+    ]);
     return NextResponse.json({ error: "This meeting has ended." }, { status: 410 });
   }
+
+  const token = await signJoinToken({ identity, name, roomCode, isHost });
 
   return NextResponse.json({
     serverUrl: env.url,
@@ -121,6 +134,10 @@ export async function POST(req: Request) {
     identity,
     isHost,
     roomCode,
-    endsAt: endsAt.toISOString(),
+    endsAt: window.endsAt.toISOString(),
+    policy: {
+      maxParticipants: entitlements.maxParticipants,
+      maxDurationMinutes: entitlements.maxDurationMinutes,
+    },
   });
 }
