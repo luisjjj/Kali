@@ -1,10 +1,14 @@
 import { z } from "zod";
+import { isRoomId, normalizeRoomId } from "./room-code";
 
 export const roomCodeSchema = z
   .string()
   .trim()
-  .toLowerCase()
-  .regex(/^[a-z2-9]{3}-[a-z2-9]{3}-[a-z2-9]{3}$/, "That code doesn't look right. Try xxx-xxx-xxx.");
+  .transform((value) => normalizeRoomId(value))
+  .refine(
+    (value) => isRoomId(value),
+    "That room name doesn't look right. Use lowercase letters, numbers, or dashes."
+  );
 
 export const displayNameSchema = z
   .string()
@@ -14,6 +18,12 @@ export const displayNameSchema = z
 
 export const createMeetingSchema = z.object({
   title: z.string().trim().min(1, "Give your call a title.").max(120).default("Quick catch-up"),
+  roomName: z
+    .string()
+    .trim()
+    .max(40, "Keep room names under 40 characters.")
+    .optional()
+    .nullable(),
   scheduledAt: z.string().datetime({ offset: true }).nullable().optional(),
 });
 

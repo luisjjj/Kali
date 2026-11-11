@@ -104,7 +104,7 @@ const FAQS = [
   },
   {
     q: "Is my call private?",
-    a: "Every call gets its own secret code and everything stays scrambled in transit. Only the host can mute, remove, or end things. Guests can just relax.",
+    a: "Every call gets its own private link. Pick a name you'll remember, or let Kali make a random code. Only the host can mute, remove, or end things. Guests can just relax.",
   },
   {
     q: "What happens to chat history?",
@@ -132,6 +132,7 @@ const PLANS = [
     features: [
       "Group calls up to an hour",
       "Guests join with a link, no account",
+      "Room links you can remember",
       "Live chat that saves itself",
       "Audio-only mode for rough wifi",
       "Screen sharing",
@@ -147,7 +148,6 @@ const PLANS = [
     features: [
       "Everything in Free",
       "Calls up to three hours",
-      "Custom room links you can remember",
       "Pinned rooms waiting on your dashboard",
       "First dibs on new features",
     ],
@@ -247,7 +247,7 @@ export default async function Home() {
               </Link>
               <Link href="/join">
                 <Button variant="outline" size="lg" className="border-kali-ink/15 bg-white">
-                  Join with a code
+                  Join with a link
                 </Button>
               </Link>
             </div>
@@ -304,7 +304,7 @@ export default async function Home() {
               style={{ "--float-rot": "-3deg", animationDelay: "1.2s" } as React.CSSProperties}
             >
               <p className="text-xs font-semibold text-white">Link copied!</p>
-              <p className="text-xs font-bold text-white/60">kali/m/abc-def-ghi</p>
+              <p className="text-xs font-bold text-white/60">kali/m/study-gang</p>
             </div>
           </div>
           </section>
@@ -385,7 +385,7 @@ export default async function Home() {
                   size="lg"
                   className="border-white/20 bg-transparent text-white hover:bg-white/10"
                 >
-                  I have a code
+                  I have a link
                 </Button>
               </Link>
             </div>

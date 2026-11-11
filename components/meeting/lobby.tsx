@@ -9,6 +9,9 @@ import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Doodles } from "@/components/ui/doodles";
+import { DesktopNav } from "@/components/desktop/desktop-nav";
+import { ShareWhatsApp } from "@/components/meeting/share-whatsapp";
+import { PoweredByKali, StartYourOwnCall } from "@/components/join/host-cta";
 import { cn } from "@/lib/utils";
 
 export interface JoinResult {
@@ -217,9 +220,15 @@ export function Lobby({
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-hidden">
       <Doodles className="-z-10" />
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5">
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-5 py-5">
         <KaliWordmark />
-        <Badge tone="pink">{roomCode}</Badge>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          <DesktopNav />
+          <Badge tone="pink" className="max-w-[12rem] truncate">
+            {roomCode}
+          </Badge>
+          <ShareWhatsApp roomCode={roomCode} title={title} />
+        </div>
       </header>
 
       <main className="mx-auto grid w-full max-w-5xl flex-1 gap-6 px-5 pb-12 lg:grid-cols-2">
@@ -352,8 +361,18 @@ export function Lobby({
           <p className="text-sm font-semibold text-kali-ink/75">
             No account needed. Be kind, unmute to say hi.
           </p>
+          <div className="border-t border-kali-ink/15 pt-4">
+            <p className="mb-2 text-sm font-semibold text-kali-ink/75">
+              Hosting next time? Make your own room in seconds.
+            </p>
+            <StartYourOwnCall variant="outline" size="md" className="w-full" />
+          </div>
         </div>
       </main>
+
+      <footer className="mx-auto flex w-full max-w-5xl items-center justify-center px-5 pb-8">
+        <PoweredByKali />
+      </footer>
     </div>
   );
 }

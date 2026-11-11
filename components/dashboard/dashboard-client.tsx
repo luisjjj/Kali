@@ -18,6 +18,13 @@ import { Field, Input, Label } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/states";
 import { SchedulePicker } from "@/components/dashboard/schedule-picker";
+import { ShareWhatsApp } from "@/components/meeting/share-whatsapp";
+import {
+  isRoomId,
+  looksLikeCompactRoomCode,
+  normalizeRoomId,
+  slugifyRoomName,
+} from "@/lib/room-code";
 import type { Meeting } from "@/lib/db/schema";
 
 export function DashboardClient({
@@ -31,6 +38,7 @@ export function DashboardClient({
 }) {
   const router = useRouter();
   const [title, setTitle] = useState("");
+  const [roomName, setRoomName] = useState("");
   const [scheduledAt, setScheduledAt] = useState<Date | null>(null);
   const [joinCode, setJoinCode] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
@@ -40,6 +48,15 @@ export function DashboardClient({
   const [copied, setCopied] = useState<string | null>(null);
 
   const create = async (kind: "instant" | "scheduled") => {
+    const cleanRoomName = roomName.trim();
+    const customRoom = cleanRoomName ? slugifyRoomName(cleanRoomName) : "";
+    if (
+      cleanRoomName &&
+      (!customRoom || !isRoomId(customRoom) || looksLikeCompactRoomCode(customRoom))
+    ) {
+      setError("Room names use lowercase letters, numbers, or dashes (like study-gang).");
+      return;
+    }
     setBusy(kind);
     setError(null);
     setSavedNote(null);
@@ -49,7 +66,7 @@ export function DashboardClient({
       id: `temp-${kind}-${Date.now()}`,
       hostUserId: "",
       title: guessTitle,
-      roomCode: "···",
+      roomCode: customRoom || "···",
       scheduledAt: kind === "scheduled" && scheduledAt ? scheduledAt : null,
       createdAt: new Date(),
       endedAt: null,
@@ -60,6 +77,7 @@ export function DashboardClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title.trim() || (kind === "instant" ? "Quick catch-up" : "Scheduled call"),
+          roomName: cleanRoomName || null,
           scheduledAt: kind === "scheduled" && scheduledAt ? scheduledAt.toISOString() : null,
         }),
       });
@@ -71,6 +89,7 @@ export function DashboardClient({
       }
       // Scheduled: stay here, refresh the lists, confirm what was saved.
       setTitle("");
+      setRoomName("");
       setScheduledAt(null);
       setBusy(null);
       setOptimistic(null);
@@ -93,9 +112,9 @@ export function DashboardClient({
   };
 
   const join = () => {
-    const code = joinCode.trim().toLowerCase();
-    if (!/^[a-z2-9]{3}-[a-z2-9]{3}-[a-z2-9]{3}$/.test(code)) {
-      setError("That code doesn't look right. Try xxx-xxx-xxx.");
+    const code = normalizeRoomId(joinCode);
+    if (!isRoomId(code)) {
+      setError("That room name doesn't look right. Try study-gang or abc-def-ghi.");
       return;
     }
     router.push(`/m/${code}`);
@@ -145,6 +164,27 @@ export function DashboardClient({
                 className="border-0"
               />
             </Field>
+            <Field className="mt-3">
+              <Label htmlFor="mroom" className="text-white/80">
+                Room name (optional)
+              </Label>
+              <div className="flex items-center gap-3">
+                <span className="shrink-0 text-sm font-bold text-white/55">kali/m/</span>
+                <Input
+                  id="mroom"
+                  value={roomName}
+                  onChange={(e) => setRoomName(e.target.value)}
+                  placeholder="study-gang"
+                  maxLength={40}
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  className="border-0"
+                />
+              </div>
+              <p className="text-xs font-semibold text-white/55">
+                Make it memorable. Leave blank for a random code.
+              </p>
+            </Field>
             <Button
               variant="secondary"
               size="md"
@@ -190,17 +230,20 @@ export function DashboardClient({
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
                 <SignIn className="h-5 w-5" weight="bold" />
               </span>
-              Got a code
+              Got a link
             </p>
             <Field className="mt-4">
               <Label htmlFor="joinCode" className="text-white/80">
-                Room code
+                Room name or code
               </Label>
               <Input
                 id="joinCode"
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value)}
-                placeholder="xxx-xxx-xxx"
+                onBlur={() => setJoinCode(normalizeRoomId(joinCode))}
+                placeholder="study-gang or xxx-xxx-xxx"
+                autoCapitalize="none"
+                spellCheck={false}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") join();
                 }}
@@ -250,7 +293,9 @@ export function DashboardClient({
               <div className="min-w-0 flex-1">
                 <p className="truncate font-bold">{m.title}</p>
                 <p className="text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/65">
-                  {m.roomCode}
+                  <span className="font-bold text-kali-ink/80 dark:text-kali-paper/80">
+                    kali/m/{m.roomCode}
+                  </span>
                   {m.scheduledAt ? ` · ${new Date(m.scheduledAt).toLocaleString()}` : " · anytime"}
                 </p>
               </div>
@@ -261,6 +306,12 @@ export function DashboardClient({
               >
                 {copied === m.roomCode ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
               </button>
+              <ShareWhatsApp
+                roomCode={m.roomCode}
+                title={m.title}
+                showLabel={false}
+                className="p-2.5"
+              />
               <Button variant="primary" size="sm" className="shrink-0" onClick={() => router.push(`/m/${m.roomCode}`)}>
                 Open <ArrowRight className="h-4 w-4" />
               </Button>
@@ -281,7 +332,7 @@ export function DashboardClient({
             <Card key={m.id} className="!p-5 opacity-75">
               <p className="truncate font-bold">{m.title}</p>
               <p className="text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/65">
-                {m.roomCode} · ended{" "}
+                kali/m/{m.roomCode} · ended{" "}
                 {m.endedAt ? new Date(m.endedAt).toLocaleString() : "a while ago"}
               </p>
             </Card>

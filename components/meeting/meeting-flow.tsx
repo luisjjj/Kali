@@ -8,6 +8,7 @@ import { DoorOpen } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Doodles } from "@/components/ui/doodles";
+import { HomeLink } from "@/components/ui/home-link";
 import Link from "next/link";
 
 type Stage =
@@ -61,6 +62,11 @@ export function MeetingFlow({
                 Dashboard
               </Button>
             </Link>
+            <HomeLink>
+              <Button variant="ghost" size="md">
+                Home
+              </Button>
+            </HomeLink>
           </div>
         </div>
       </div>

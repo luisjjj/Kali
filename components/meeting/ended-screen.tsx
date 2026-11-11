@@ -5,6 +5,8 @@ import { HandWaving } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Doodles } from "@/components/ui/doodles";
+import { HomeLink } from "@/components/ui/home-link";
+import { StartYourOwnCall } from "@/components/join/host-cta";
 
 export function EndedScreen({ title }: { title: string }) {
   return (
@@ -20,16 +22,17 @@ export function EndedScreen({ title }: { title: string }) {
           “{title}” is all wrapped up. Thanks for hanging out!
         </p>
         <div className="mt-2 flex flex-wrap justify-center gap-3">
+          <StartYourOwnCall variant="primary" size="md" />
           <Link href="/dashboard">
-            <Button variant="primary" size="md">
+            <Button variant="ghost" size="md">
               Back to dashboard
             </Button>
           </Link>
-          <Link href="/">
+          <HomeLink>
             <Button variant="ghost" size="md">
               Home
             </Button>
-          </Link>
+          </HomeLink>
         </div>
       </div>
     </div>

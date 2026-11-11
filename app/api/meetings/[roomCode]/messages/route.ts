@@ -8,9 +8,9 @@ export const dynamic = "force-dynamic";
 
 async function findMeeting(raw: string) {
   const parsed = roomCodeSchema.safeParse(raw);
-  if (!parsed.success) return { error: "That code doesn't look right." as const };
+  if (!parsed.success) return { error: "That room name doesn't look right." as const };
   const rows = await db.select().from(meetings).where(eq(meetings.roomCode, parsed.data));
-  if (!rows[0]) return { error: "No meeting with that code." as const };
+  if (!rows[0]) return { error: "No meeting with that name." as const };
   return { meeting: rows[0] };
 }
 
