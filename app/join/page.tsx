@@ -28,11 +28,11 @@ export default function JoinPage() {
       <main className="mx-auto grid w-full max-w-6xl flex-1 items-center gap-12 px-5 py-12 lg:grid-cols-2 lg:py-20">
         <section className="hidden lg:block">
           <p className="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-kali-muted uppercase">
-            <span className="h-px w-5 bg-kali-pink" />
+            <span className="h-px w-5 bg-kali-accent" />
             Join as a guest
           </p>
           <h1 className="display-tight mt-4 max-w-md text-5xl leading-[1.03] font-semibold">
-            Someone saved you a seat<span className="text-kali-pink">.</span>
+            Someone saved you a seat<span className="text-kali-accent">.</span>
           </h1>
           <p className="mt-4 max-w-md text-lg leading-relaxed text-kali-muted">
             Drop the room name and your name. You&apos;re in the call in seconds, no account and no
@@ -42,7 +42,7 @@ export default function JoinPage() {
             {["Works on any phone, laptop or tablet", "No account or app store", "Leave whenever you like"].map(
               (t) => (
                 <li key={t} className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-kali-pink-pale text-kali-pink">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-surface text-kali-pink">
                     <Check className="h-3.5 w-3.5" weight="bold" />
                   </span>
                   {t}
@@ -69,7 +69,7 @@ export default function JoinPage() {
             Join as a guest
           </p>
           <h1 className="display-tight mt-2 text-3xl font-semibold sm:text-4xl">
-            Got a link or code? You&apos;re in<span className="text-kali-pink">.</span>
+            Got a link or code? You&apos;re in<span className="text-kali-accent">.</span>
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-kali-muted">
             No account needed. Just the room name and whatever we should call you.

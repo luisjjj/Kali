@@ -85,7 +85,7 @@ function createSplashWindow() {
     show: false,
     alwaysOnTop: true,
     skipTaskbar: true,
-    backgroundColor: "#f4f1ed",
+    backgroundColor: "#ffb3cd",
     title: "Kali",
     webPreferences: {
       contextIsolation: true,
@@ -140,7 +140,7 @@ function createWindow() {
     height: 820,
     minWidth: 960,
     minHeight: 620,
-    backgroundColor: "#f4f1ed",
+    backgroundColor: "#ffb3cd",
     title: "Kali",
     icon: path.join(__dirname, "icon.png"),
     autoHideMenuBar: true,

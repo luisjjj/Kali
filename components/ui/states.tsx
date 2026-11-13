@@ -7,7 +7,7 @@ export function PageLoader({ message = "Warming up…" }: { message?: string }) 
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
       <motion.div
-        className="h-2.5 w-2.5 rounded-full bg-kali-pink"
+        className="h-2.5 w-2.5 rounded-full bg-kali-accent"
         animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
         transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
       />

@@ -161,7 +161,7 @@ export function Doodles({
           className={cn(
             "animate-doodle absolute",
             m.accent
-              ? "text-kali-pink/45"
+              ? "text-kali-paper/70 dark:text-kali-pink/45"
               : "text-foreground/[0.12] dark:text-foreground/[0.16]",
             m.pos
           )}
@@ -212,7 +212,7 @@ function Art({ kind }: { kind: Kind }) {
           strokeLinejoin="round"
         />
         <circle cx="12.5" cy="12.9" r="1.55" fill="currentColor" />
-        <circle cx="20" cy="12.9" r="1.55" fill="var(--kali-pink)" opacity="0.75" />
+        <circle cx="20" cy="12.9" r="1.55" className="fill-kali-paper dark:fill-kali-pink" opacity="0.8" />
         <circle cx="27.5" cy="12.9" r="1.55" fill="currentColor" />
       </svg>
     );

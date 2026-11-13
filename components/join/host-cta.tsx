@@ -30,7 +30,7 @@ export function PoweredByKali({ className }: { className?: string }) {
     >
       Powered by
       <span className="font-bold tracking-tight">
-        kali<span className="text-kali-pink">.</span>
+        kali<span className="text-kali-accent">.</span>
       </span>
     </Link>
   );

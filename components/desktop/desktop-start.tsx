@@ -32,11 +32,11 @@ export function DesktopStart({ user }: DesktopStartProps) {
       <main className="relative mx-auto flex w-full max-w-5xl flex-1 flex-col justify-start px-5 py-10 pb-8 [@media(min-height:760px)]:justify-center">
         <div className="mb-8 max-w-2xl">
           <p className="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-kali-muted uppercase">
-            <span className="h-px w-5 bg-kali-pink" />
+            <span className="h-px w-5 bg-kali-accent" />
             Kali for Windows
           </p>
           <h1 className="display-tight mt-3 text-4xl font-semibold">
-            Start a call, or join one<span className="text-kali-pink">.</span>
+            Start a call, or join one<span className="text-kali-accent">.</span>
           </h1>
           <p className="mt-2 text-base leading-relaxed text-kali-muted">
             Sign in to host your own room, or use a room name to jump into a call.
@@ -103,7 +103,7 @@ export function DesktopStart({ user }: DesktopStartProps) {
               Join a call
             </p>
             <h2 className="display-tight mt-1 text-2xl font-semibold">
-              Got a link? You&apos;re in<span className="text-kali-pink">.</span>
+              Got a link? You&apos;re in<span className="text-kali-accent">.</span>
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-kali-muted">
               No account needed. Just the room name and whatever we should call you.

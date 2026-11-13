@@ -15,7 +15,7 @@ export function KaliWordmark({
   const mark = (
     <span className="text-3xl font-semibold tracking-tighter text-foreground">
       kali
-      <span className="text-kali-pink">.</span>
+      <span className="text-kali-accent">.</span>
     </span>
   );
 

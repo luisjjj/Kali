@@ -436,7 +436,9 @@ function RoomShell({
             }
             className={cn(
               "kali-press hidden items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-sm font-medium sm:flex",
-              sharp ? "bg-kali-pink text-kali-ink" : "bg-surface text-foreground hover:bg-[var(--surface-muted)]"
+              sharp
+                ? "bg-[var(--action-bg)] text-[var(--action-fg)]"
+                : "bg-surface text-foreground hover:bg-[var(--surface-muted)]"
             )}
           >
             <Sparkle className="h-4 w-4" weight={sharp ? "fill" : "regular"} />
@@ -447,7 +449,9 @@ function RoomShell({
             title="Low-bandwidth mode: audio only"
             className={cn(
               "kali-press flex items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-sm font-medium",
-              lowBandwidth ? "bg-kali-pink text-kali-ink" : "bg-surface text-foreground hover:bg-[var(--surface-muted)]"
+              lowBandwidth
+                ? "bg-[var(--action-bg)] text-[var(--action-fg)]"
+                : "bg-surface text-foreground hover:bg-[var(--surface-muted)]"
             )}
           >
             <Gauge className="h-4 w-4" />

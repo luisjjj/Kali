@@ -22,7 +22,7 @@ export default function SignUpPage() {
         <KaliWordmark className="relative z-10" />
         <div className="relative z-10">
           <h2 className="display-tight max-w-md text-5xl leading-[1.03] font-semibold">
-            Come say hi. Stay for the call<span className="text-kali-pink">.</span>
+            Come say hi. Stay for the call<span className="text-kali-accent">.</span>
           </h2>
           <p className="mt-4 max-w-sm text-lg leading-relaxed text-kali-muted">
             Free rooms, friendly chat, zero downloads. You bring the conversation, we&apos;ll bring
@@ -31,7 +31,7 @@ export default function SignUpPage() {
           <ul className="mt-8 flex flex-col gap-3 text-sm font-medium">
             {["Rooms in seconds", "Guests join with a link", "Free while we're little"].map((t) => (
               <li key={t} className="flex items-center gap-3">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-kali-pink-pale text-kali-pink">
+                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface text-kali-pink">
                   <Check className="h-3.5 w-3.5" weight="bold" />
                 </span>
                 {t}

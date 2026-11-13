@@ -15,7 +15,7 @@ export default function SignInPage() {
         <KaliWordmark className="relative z-10" />
         <div className="relative z-10">
           <h2 className="display-tight max-w-md text-5xl leading-[1.03] font-semibold">
-            Welcome back. Your rooms are waiting<span className="text-kali-pink">.</span>
+            Welcome back. Your rooms are waiting<span className="text-kali-accent">.</span>
           </h2>
           <p className="mt-4 max-w-sm text-lg leading-relaxed text-kali-muted">
             Pick up where you left off. One tap and the link is ready to share.
@@ -24,7 +24,7 @@ export default function SignInPage() {
             {["Your rooms and chats, saved", "Guest links ready to copy", "Full host controls"].map(
               (t) => (
                 <li key={t} className="flex items-center gap-3">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-kali-pink-pale text-kali-pink">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-surface text-kali-pink">
                     <Check className="h-3.5 w-3.5" weight="bold" />
                   </span>
                   {t}

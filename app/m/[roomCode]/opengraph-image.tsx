@@ -48,8 +48,8 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#f4f1ed",
-          backgroundImage: "radial-gradient(#d9d3cc 1px, transparent 1px)",
+          backgroundColor: "#ffb3cd",
+          backgroundImage: "radial-gradient(rgba(23,20,18,0.12) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
           color: "#171412",
           padding: "60px 72px",
@@ -63,16 +63,16 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
           }}
         >
           <div style={{ display: "flex", fontSize: 54, fontWeight: 800, letterSpacing: -3 }}>
-            kali<span style={{ color: "#ef5b8f" }}>.</span>
+            kali<span style={{ color: "#171412" }}>.</span>
           </div>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 10,
-              backgroundColor: "#ffffff",
+              backgroundColor: "#fffbf9",
               color: "#171412",
-              border: "1px solid rgba(23,20,18,0.12)",
+              border: "1px solid rgba(23,20,18,0.14)",
               borderRadius: 999,
               padding: "12px 26px",
               fontSize: 24,
@@ -118,13 +118,13 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
             <div
               style={{
                 display: "flex",
-                backgroundColor: "#ffffff",
-                border: "1px solid rgba(23,20,18,0.12)",
+                backgroundColor: "#fffbf9",
+                border: "1px solid rgba(23,20,18,0.14)",
                 borderRadius: 16,
                 padding: "12px 26px",
                 fontSize: 28,
                 fontWeight: 600,
-                color: "#4a4340",
+                color: "#6f4a58",
               }}
             >
               kali/m/{room}
@@ -139,14 +139,14 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", fontSize: 26, fontWeight: 500, color: "#766e68" }}>
+          <div style={{ display: "flex", fontSize: 26, fontWeight: 500, color: "#6f4a58" }}>
             No account. No download. Just tap.
           </div>
           <div
             style={{
               display: "flex",
-              backgroundColor: "#ef5b8f",
-              color: "#ffffff",
+              backgroundColor: "#171412",
+              color: "#fffbf9",
               borderRadius: 999,
               padding: "14px 30px",
               fontSize: 26,

@@ -218,22 +218,18 @@ export default async function Home() {
         {/* Hero */}
         <section className="relative overflow-hidden">
           <div className="kali-canvas pointer-events-none absolute inset-0 -z-10 opacity-70 [mask-image:radial-gradient(ellipse_at_top,black,transparent_72%)]" />
-          <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 pt-14 pb-12 lg:grid-cols-[1.02fr_0.98fr] lg:pt-24 lg:pb-20">
+          <div className="mx-auto grid w-full max-w-6xl items-center gap-12 px-5 pt-9 pb-12 lg:grid-cols-[1.02fr_0.98fr] lg:pt-16 lg:pb-20">
             <div className="flex flex-col items-start gap-6">
-              <span className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1 text-xs font-medium text-kali-muted">
-                <span className="h-1.5 w-1.5 rounded-full bg-kali-pink" />
-                Video calls, without the fuss
-              </span>
-              <h1 className="display-tight animate-fade-up delay-1 text-[2.85rem] leading-[1.02] font-semibold sm:text-6xl lg:text-[4.25rem]">
+              <h1 className="display-tight animate-fade-up text-[2.85rem] leading-[1.02] font-semibold sm:text-6xl lg:text-[4.25rem]">
                 Start a call,
                 <br />
-                no fuss<span className="text-kali-pink">.</span>
+                no fuss<span className="text-kali-accent">.</span>
               </h1>
-              <p className="animate-fade-up delay-2 max-w-lg text-lg leading-relaxed text-kali-muted">
+              <p className="animate-fade-up delay-1 max-w-lg text-lg leading-relaxed text-kali-muted">
                 Kali skips the boring parts of video calls. Instant rooms, guest links, and live
                 chat that saves itself. Free while we&apos;re little.
               </p>
-              <div className="animate-fade-up delay-3 flex flex-wrap gap-3">
+              <div className="animate-fade-up delay-2 flex flex-wrap gap-3">
                 <Link href={ctaHref}>
                   <Button size="lg">
                     {session?.user ? "Go to dashboard" : "Start a free call"}{" "}
@@ -246,10 +242,10 @@ export default async function Home() {
                   </Button>
                 </Link>
               </div>
-              <div className="animate-fade-up delay-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-kali-muted">
+              <div className="animate-fade-up delay-3 flex flex-wrap gap-x-6 gap-y-2 text-sm text-kali-muted">
                 {["Free, no card", "No downloads", "Guests need no account"].map((t) => (
                   <span key={t} className="inline-flex items-center gap-1.5">
-                    <Check className="h-3.5 w-3.5 text-kali-pink" weight="bold" /> {t}
+                    <Check className="h-3.5 w-3.5 text-kali-accent" weight="bold" /> {t}
                   </span>
                 ))}
               </div>
@@ -313,7 +309,7 @@ export default async function Home() {
                 className="inline-flex items-center gap-8 text-[11px] font-semibold tracking-[0.18em] whitespace-nowrap text-kali-muted uppercase"
               >
                 {t}
-                <span className="h-1 w-1 rounded-full bg-kali-pink" />
+                <span className="h-1 w-1 rounded-full bg-kali-accent" />
               </span>
             ))}
           </div>
@@ -323,7 +319,7 @@ export default async function Home() {
         <section id="features" className="mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 lg:py-24">
           <Eyebrow>Why Kali</Eyebrow>
           <h2 className="display-tight mt-3 max-w-2xl text-3xl font-semibold sm:text-[2.75rem] sm:leading-[1.08]">
-            Everything you need. None of the blah<span className="text-kali-pink">.</span>
+            Everything you need. None of the blah<span className="text-kali-accent">.</span>
           </h2>
           <p className="mt-3 max-w-lg text-lg leading-relaxed text-kali-muted">
             Built for friend groups, study sessions, standups and long-distance gossip, not board
@@ -347,7 +343,7 @@ export default async function Home() {
           <div className="mx-auto w-full max-w-6xl px-5 py-16 lg:py-24">
             <Eyebrow>How it works</Eyebrow>
             <h2 className="display-tight mt-3 max-w-xl text-3xl font-semibold sm:text-[2.75rem] sm:leading-[1.08]">
-              Live in three tiny steps<span className="text-kali-pink">.</span>
+              Live in three tiny steps<span className="text-kali-accent">.</span>
             </h2>
             <div className="mt-10 grid gap-4 md:grid-cols-3">
               {STEPS.map((s) => (
@@ -379,7 +375,7 @@ export default async function Home() {
             <div>
               <Eyebrow>For hosts</Eyebrow>
               <h2 className="display-tight mt-3 text-3xl font-semibold sm:text-[2.75rem] sm:leading-[1.08]">
-                You&apos;re the host. Act like it<span className="text-kali-pink">.</span>
+                You&apos;re the host. Act like it<span className="text-kali-accent">.</span>
               </h2>
               <p className="mt-3 max-w-md text-lg leading-relaxed text-kali-muted">
                 Real host powers that always work. No fine print, no funny business.
@@ -392,7 +388,7 @@ export default async function Home() {
                   "See who's struggling with live connection dots",
                 ].map((t) => (
                   <li key={t} className="flex items-center gap-3 text-sm font-medium">
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-kali-pink-pale text-kali-pink">
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-surface text-kali-pink">
                       <Check className="h-3.5 w-3.5" weight="bold" />
                     </span>
                     {t}
@@ -429,7 +425,7 @@ export default async function Home() {
           <Eyebrow>Pricing</Eyebrow>
           <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
             <h2 className="display-tight max-w-xl text-3xl font-semibold sm:text-[2.75rem] sm:leading-[1.08]">
-              Simple prices, zero surprises<span className="text-kali-pink">.</span>
+              Simple prices, zero surprises<span className="text-kali-accent">.</span>
             </h2>
             <Badge tone="pink">Billing not switched on yet</Badge>
           </div>
@@ -504,7 +500,7 @@ export default async function Home() {
                     </Link>
                   ) : (
                     <Button
-                      variant={p.featured ? "primary" : "outline"}
+                      variant="outline"
                       className="w-full"
                       disabled
                     >
@@ -525,7 +521,7 @@ export default async function Home() {
         <section id="faq" className="mx-auto w-full max-w-3xl scroll-mt-20 px-5 pb-16 lg:pb-24">
           <Eyebrow className="justify-center">FAQ</Eyebrow>
           <h2 className="display-tight mt-3 text-center text-3xl font-semibold sm:text-[2.75rem] sm:leading-[1.08]">
-            Asking for a friend<span className="text-kali-pink">?</span>
+            Asking for a friend<span className="text-kali-accent">?</span>
           </h2>
           <Faq items={FAQS} />
         </section>
@@ -543,7 +539,10 @@ export default async function Home() {
               </h2>
               <div className="flex flex-wrap justify-center gap-3">
                 <Link href={ctaHref}>
-                  <Button size="lg">
+                  <Button
+                    size="lg"
+                    className="bg-kali-paper text-kali-ink hover:bg-white"
+                  >
                     {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
                     <ArrowRight className="h-5 w-5" />
                   </Button>
@@ -607,7 +606,7 @@ function Eyebrow({
         className
       )}
     >
-      <span className="h-px w-5 bg-kali-pink" />
+      <span className="h-px w-5 bg-kali-accent" />
       {children}
     </p>
   );

@@ -9,7 +9,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-kali-pink text-kali-ink shadow-[0_1px_2px_rgba(23,20,18,0.12)] hover:bg-kali-pink-hover",
+          "bg-[var(--action-bg)] text-[var(--action-fg)] shadow-[0_1px_2px_rgba(23,20,18,0.18)] hover:bg-[var(--action-bg-hover)]",
         ghost:
           "bg-transparent text-foreground hover:bg-[var(--surface-muted)]",
         danger: "bg-kali-danger text-white hover:brightness-95",

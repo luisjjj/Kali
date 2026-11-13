@@ -66,7 +66,7 @@ export function DesktopNav({
         href="/desktop"
         className="kali-press kali-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium transition-colors hover:bg-[var(--surface-muted)]"
       >
-        <House className="h-4 w-4 text-kali-pink" weight="bold" />
+        <House className="h-4 w-4 text-kali-accent" weight="bold" />
         Home
       </Link>
     </nav>

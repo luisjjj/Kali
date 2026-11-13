@@ -158,7 +158,7 @@ export function DashboardOverview({
     <div className="flex flex-col gap-8">
       <header className="flex flex-col gap-5 border-b border-line pb-7 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex items-center gap-4">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-kali-pink-pale text-lg font-semibold text-foreground">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-surface text-lg font-semibold text-foreground">
             {initial}
           </span>
           <div className="min-w-0">
