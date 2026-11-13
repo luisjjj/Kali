@@ -9,7 +9,6 @@ import { MeetingFlow } from "@/components/meeting/meeting-flow";
 import { EndedScreen } from "@/components/meeting/ended-screen";
 import { ErrorState } from "@/components/ui/states";
 import { KaliWordmark } from "@/components/ui/brand";
-import { Doodles } from "@/components/ui/doodles";
 import { HomeLink } from "@/components/ui/home-link";
 import { Button } from "@/components/ui/button";
 
@@ -126,7 +125,6 @@ export default async function MeetingPage({
 function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative isolate flex min-h-screen flex-col items-center gap-6 overflow-x-clip px-5 py-10">
-      <Doodles className="-z-10" />
       <KaliWordmark />
       <div className="w-full max-w-md">{children}</div>
       <HomeLink>

@@ -31,10 +31,10 @@ export function Faq({ items }: { items: FaqItem[] }) {
           <div
             key={f.q}
             className={cn(
-              "rounded-[24px] px-6 py-5 transition-colors duration-300",
+              "rounded-2xl border px-6 py-5 transition-colors duration-300",
               isOpen
-                ? "bg-kali-ink text-white"
-                : "bg-white text-kali-ink shadow-[0_18px_44px_-30px_rgba(23,18,15,0.4)]",
+                ? "border-kali-ink bg-kali-ink text-kali-paper dark:border-kali-pink/40"
+                : "border-line bg-surface text-foreground hover:border-foreground/20",
             )}
           >
             <button
@@ -63,7 +63,7 @@ export function Faq({ items }: { items: FaqItem[] }) {
                   transition={transition}
                   className="overflow-hidden"
                 >
-                  <p className="pt-2 leading-relaxed text-white/70">{f.a}</p>
+                  <p className="pt-2 leading-relaxed text-kali-paper/75">{f.a}</p>
                 </motion.div>
               )}
             </AnimatePresence>

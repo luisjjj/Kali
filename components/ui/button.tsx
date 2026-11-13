@@ -4,28 +4,26 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "kali-press kali-focus inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition-colors select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-5 [&_svg]:shrink-0",
+  "kali-press kali-focus inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition-colors select-none disabled:pointer-events-none disabled:opacity-45 [&_svg]:size-4.5 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        // Primary: black pill, white text
-        primary: "bg-kali-ink text-white shadow-[0_12px_28px_-14px_rgba(23,18,15,0.5)] hover:bg-black",
-        // Secondary: pink pill, black text
+        primary:
+          "bg-kali-ink text-kali-paper shadow-[0_1px_2px_rgba(23,20,18,0.2)] hover:bg-black dark:bg-kali-pink dark:text-kali-ink dark:hover:bg-kali-pink-hover",
         secondary:
-          "bg-kali-pink text-kali-ink shadow-[0_12px_28px_-16px_rgba(23,18,15,0.4)] hover:bg-kali-pink-hover",
-        // Ghost: pale pink fill
-        ghost: "bg-kali-pink-pale text-kali-ink hover:bg-kali-pink/40",
-        // Danger: red pill for leave / end call
+          "bg-kali-pink text-kali-ink shadow-[0_1px_2px_rgba(23,20,18,0.12)] hover:bg-kali-pink-hover",
+        ghost:
+          "bg-transparent text-foreground hover:bg-[var(--surface-muted)]",
         danger: "bg-kali-danger text-white hover:brightness-95",
-        // Outline: soft fill fallback for low emphasis
-        outline: "bg-white text-kali-ink border-2 border-kali-pink-pale hover:bg-kali-pink-pale/60",
+        outline:
+          "border border-line bg-surface text-foreground hover:bg-[var(--surface-muted)]",
       },
       size: {
-        sm: "h-10 px-5 text-sm",
-        md: "h-12 px-7 text-base",
-        lg: "h-14 px-9 text-lg",
-        icon: "h-12 w-12",
-        "icon-lg": "h-14 w-14",
+        sm: "h-9 px-4 text-sm",
+        md: "h-11 px-5 text-sm",
+        lg: "h-12 px-6 text-base",
+        icon: "h-10 w-10",
+        "icon-lg": "h-12 w-12",
       },
     },
     defaultVariants: { variant: "primary", size: "md" },

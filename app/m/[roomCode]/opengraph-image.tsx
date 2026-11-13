@@ -48,8 +48,10 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#FFA8CD",
-          color: "#17120F",
+          backgroundColor: "#f4f1ed",
+          backgroundImage: "radial-gradient(#d9d3cc 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+          color: "#171412",
           padding: "60px 72px",
         }}
       >
@@ -61,19 +63,31 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
           }}
         >
           <div style={{ display: "flex", fontSize: 54, fontWeight: 800, letterSpacing: -3 }}>
-            kali.
+            kali<span style={{ color: "#ef5b8f" }}>.</span>
           </div>
           <div
             style={{
               display: "flex",
-              backgroundColor: "#17120F",
-              color: "#FFFBF9",
+              alignItems: "center",
+              gap: 10,
+              backgroundColor: "#ffffff",
+              color: "#171412",
+              border: "1px solid rgba(23,20,18,0.12)",
               borderRadius: 999,
               padding: "12px 26px",
               fontSize: 24,
-              fontWeight: 700,
+              fontWeight: 600,
             }}
           >
+            <div
+              style={{
+                display: "flex",
+                width: 12,
+                height: 12,
+                borderRadius: 999,
+                backgroundColor: ended ? "#cf3349" : "#168a53",
+              }}
+            />
             {ended ? "Call ended" : "You're invited"}
           </div>
         </div>
@@ -92,9 +106,9 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
             style={{
               display: "flex",
               fontSize: 76,
-              fontWeight: 800,
+              fontWeight: 700,
               lineHeight: 1.05,
-              letterSpacing: -2,
+              letterSpacing: -2.5,
               maxWidth: 1000,
             }}
           >
@@ -104,11 +118,13 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
             <div
               style={{
                 display: "flex",
-                backgroundColor: "#FFFBF9",
-                borderRadius: 999,
+                backgroundColor: "#ffffff",
+                border: "1px solid rgba(23,20,18,0.12)",
+                borderRadius: 16,
                 padding: "12px 26px",
                 fontSize: 28,
-                fontWeight: 700,
+                fontWeight: 600,
+                color: "#4a4340",
               }}
             >
               kali/m/{room}
@@ -123,18 +139,18 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", fontSize: 26, fontWeight: 600, color: "rgba(23,18,15,0.65)" }}>
+          <div style={{ display: "flex", fontSize: 26, fontWeight: 500, color: "#766e68" }}>
             No account. No download. Just tap.
           </div>
           <div
             style={{
               display: "flex",
-              backgroundColor: "#17120F",
-              color: "#FFFBF9",
+              backgroundColor: "#ef5b8f",
+              color: "#ffffff",
               borderRadius: 999,
               padding: "14px 30px",
               fontSize: 26,
-              fontWeight: 700,
+              fontWeight: 600,
             }}
           >
             Join the call

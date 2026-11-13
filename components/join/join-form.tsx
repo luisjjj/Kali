@@ -8,16 +8,14 @@ import { Field, Input, Label } from "@/components/ui/input";
 import { isRoomId, normalizeRoomId } from "@/lib/room-code";
 
 type JoinFormProps = {
-  tone?: "light" | "dark";
   idPrefix?: string;
 };
 
-export function JoinForm({ tone = "light", idPrefix = "join" }: JoinFormProps) {
+export function JoinForm({ idPrefix = "join" }: JoinFormProps) {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const dark = tone === "dark";
 
   const join = () => {
     const roomId = normalizeRoomId(code);
@@ -30,14 +28,9 @@ export function JoinForm({ tone = "light", idPrefix = "join" }: JoinFormProps) {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-4">
       <Field>
-        <Label
-          htmlFor={`${idPrefix}-code`}
-          className={dark ? "text-white/80" : "dark:text-kali-ink"}
-        >
-          Room name or code
-        </Label>
+        <Label htmlFor={`${idPrefix}-code`}>Room name or code</Label>
         <Input
           id={`${idPrefix}-code`}
           value={code}
@@ -53,51 +46,31 @@ export function JoinForm({ tone = "light", idPrefix = "join" }: JoinFormProps) {
           autoComplete="off"
           autoCapitalize="none"
           spellCheck={false}
-          className={
-            dark
-              ? "border-2 border-kali-pink bg-white/10 text-center text-lg font-semibold tracking-wide text-white placeholder:text-white/40"
-              : "border-2 border-kali-pink bg-kali-pink-pale/60 text-center text-lg font-semibold tracking-wide dark:bg-kali-pink-pale/60 dark:text-kali-ink dark:placeholder:text-kali-ink/40"
-          }
+          className="h-12 text-base font-semibold"
           onKeyDown={(e) => {
             if (e.key === "Enter") join();
           }}
         />
       </Field>
       <Field>
-        <Label
-          htmlFor={`${idPrefix}-name`}
-          className={dark ? "text-white/80" : "dark:text-kali-ink"}
-        >
-          Your name (optional)
-        </Label>
+        <Label htmlFor={`${idPrefix}-name`}>Your name (optional)</Label>
         <Input
           id={`${idPrefix}-name`}
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="What should we call you?"
           maxLength={40}
-          className={
-            dark
-              ? "border-white/20 bg-white/10 text-white placeholder:text-white/40"
-              : "dark:bg-kali-pink-pale dark:text-kali-ink dark:placeholder:text-kali-ink/40"
-          }
           onKeyDown={(e) => {
             if (e.key === "Enter") join();
           }}
         />
       </Field>
       {error && (
-        <p
-          className={
-            dark
-              ? "rounded-2xl bg-kali-danger/20 px-4 py-3 text-sm font-bold text-white"
-              : "rounded-2xl bg-kali-danger/10 px-4 py-3 text-sm font-bold text-kali-danger"
-          }
-        >
+        <p role="alert" className="rounded-xl bg-kali-danger/10 px-4 py-3 text-sm font-semibold text-kali-danger">
           {error}
         </p>
       )}
-      <Button type="button" variant={dark ? "secondary" : "primary"} size="lg" onClick={join}>
+      <Button type="button" size="lg" onClick={join}>
         Join the call <ArrowRight className="h-5 w-5" />
       </Button>
     </div>

@@ -16,7 +16,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       localStorage.setItem("kali-theme", next ? "dark" : "light");
     } catch {}
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", next ? "#000000" : "#ffa8cd");
+    if (meta) meta.setAttribute("content", next ? "#0a0a0b" : "#f4f1ed");
   }
 
   return (
@@ -26,12 +26,12 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label="Toggle light and dark mode"
       title="Toggle light and dark mode"
       className={cn(
-        "kali-press kali-focus inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-kali-ink/10 bg-white text-kali-ink hover:border-kali-ink/30 dark:border-white/20 dark:bg-black dark:text-kali-paper dark:hover:border-white/40",
+        "kali-press kali-focus inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-line bg-surface text-foreground hover:bg-[var(--surface-muted)]",
         className
       )}
     >
-      <SunDim className="h-5 w-5 dark:hidden" weight="bold" />
-      <MoonStars className="hidden h-5 w-5 dark:block" weight="bold" />
+      <SunDim className="h-4.5 w-4.5 dark:hidden" weight="bold" />
+      <MoonStars className="hidden h-4.5 w-4.5 dark:block" weight="bold" />
     </button>
   );
 }

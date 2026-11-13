@@ -1,14 +1,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 export function Input({ className, ...props }: InputProps) {
   return (
     <input
       className={cn(
-        "kali-focus h-13 w-full rounded-2xl bg-kali-pink-pale px-5 py-3.5 text-base font-medium text-kali-ink placeholder:text-kali-ink/40 border-2 border-transparent focus:border-kali-pink",
-        "dark:bg-white/10 dark:text-kali-paper dark:placeholder:text-kali-paper/40",
+        "kali-focus h-11 w-full rounded-xl border border-line bg-surface px-4 py-2.5 text-sm font-medium text-foreground placeholder:text-kali-muted/70 transition-colors focus:border-kali-pink",
         className
       )}
       {...props}
@@ -19,7 +18,7 @@ export function Input({ className, ...props }: InputProps) {
 export function Label({ className, ...props }: React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
-      className={cn("mb-1.5 block text-sm font-semibold text-kali-ink dark:text-kali-paper", className)}
+      className={cn("mb-1.5 block text-[13px] font-semibold text-foreground", className)}
       {...props}
     />
   );
@@ -29,5 +28,5 @@ export function Field({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  return <div className={cn("flex flex-col gap-1", className)} {...props} />;
+  return <div className={cn("flex flex-col gap-1.5", className)} {...props} />;
 }

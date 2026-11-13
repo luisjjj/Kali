@@ -48,7 +48,7 @@ export function DesktopNav({
     <nav
       aria-label="Desktop navigation"
       className={cn(
-        "kali-desktop-only items-center gap-0.5 rounded-full bg-kali-ink p-1 text-white shadow-xl shadow-kali-ink/25 ring-1 ring-white/10",
+        "kali-desktop-only items-center gap-0.5 rounded-full border border-line bg-surface/95 p-1 text-foreground shadow-lg backdrop-blur",
         fixed && "fixed bottom-4 left-4 z-[60]",
         className
       )}
@@ -56,15 +56,15 @@ export function DesktopNav({
       <button
         type="button"
         onClick={goBack}
-        className="kali-press kali-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors hover:bg-white/10"
+        className="kali-press kali-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium transition-colors hover:bg-[var(--surface-muted)]"
       >
         <ArrowLeft className="h-4 w-4" weight="bold" />
         Back
       </button>
-      <span aria-hidden className="h-4 w-px bg-white/20" />
+      <span aria-hidden className="h-4 w-px bg-line" />
       <Link
         href="/desktop"
-        className="kali-press kali-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-bold transition-colors hover:bg-white/10"
+        className="kali-press kali-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium transition-colors hover:bg-[var(--surface-muted)]"
       >
         <House className="h-4 w-4 text-kali-pink" weight="bold" />
         Home

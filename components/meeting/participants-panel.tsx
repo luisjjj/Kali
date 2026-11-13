@@ -43,13 +43,13 @@ export function ParticipantsPanel({
   };
 
   return (
-    <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5 max-sm:fixed max-sm:inset-x-4 max-sm:top-24 max-sm:bottom-36 max-sm:z-30 max-sm:w-auto max-sm:shadow-2xl">
-      <div className="flex items-center justify-between px-5 py-3">
-        <h2 className="font-bold">People ({participants.length})</h2>
+    <aside className="flex w-full flex-col overflow-hidden rounded-2xl border border-line bg-surface sm:w-80 sm:shrink-0 max-sm:fixed max-sm:inset-x-4 max-sm:top-24 max-sm:bottom-36 max-sm:z-30 max-sm:w-auto max-sm:shadow-2xl">
+      <div className="flex items-center justify-between border-b border-line px-4 py-3">
+        <h2 className="text-sm font-semibold">People ({participants.length})</h2>
         <button
           onClick={onClose}
           aria-label="Close participants"
-          className="kali-press rounded-full bg-kali-pink-pale p-2 text-kali-ink"
+          className="kali-press rounded-md p-1.5 text-kali-muted hover:bg-[var(--surface-muted)] hover:text-foreground"
         >
           <X className="h-4 w-4" />
         </button>
@@ -57,7 +57,7 @@ export function ParticipantsPanel({
 
       <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-4 pb-4">
         {notice && (
-          <p className="rounded-2xl bg-kali-pink-pale/70 px-4 py-2 text-xs font-bold text-kali-ink dark:bg-white/10 dark:text-kali-paper">
+          <p className="rounded-lg bg-[var(--surface-muted)] px-3 py-2 text-xs font-medium text-kali-muted">
             {notice}
           </p>
         )}
@@ -67,16 +67,16 @@ export function ParticipantsPanel({
           return (
             <div
               key={p.identity}
-              className="flex items-center gap-3 rounded-2xl bg-kali-pink-pale/50 px-3 py-2.5 text-kali-ink dark:bg-white/10 dark:text-kali-paper"
+              className="flex items-center gap-3 rounded-xl border border-line bg-[var(--surface-muted)] px-3 py-2.5"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-kali-pink text-sm font-bold text-kali-ink">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-kali-pink text-sm font-semibold text-white">
                 {(name[0] ?? "?").toUpperCase()}
               </div>
               <div className="flex min-w-0 flex-1 flex-col">
-                <span className="truncate text-sm font-bold">
+                <span className="truncate text-sm font-medium">
                   {name} {mine ? "(you)" : ""}
                 </span>
-                <span className="flex items-center gap-1.5 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">
+                <span className="flex items-center gap-1.5 text-[11px] font-medium text-kali-muted">
                   {!p.isMicrophoneEnabled && (
                     <span className="inline-flex items-center gap-0.5">
                       <MicrophoneSlash className="h-3 w-3" /> muted
@@ -92,7 +92,7 @@ export function ParticipantsPanel({
                     disabled={busy !== null}
                     title={`Mute ${name}`}
                     aria-label={`Mute ${name}`}
-                    className="kali-press rounded-full bg-white p-2 text-kali-ink disabled:opacity-40"
+                    className="kali-press rounded-md border border-line bg-surface p-1.5 text-foreground hover:bg-[var(--surface-muted)] disabled:opacity-40"
                   >
                     <MicrophoneSlash className="h-4 w-4" />
                   </button>
@@ -101,7 +101,7 @@ export function ParticipantsPanel({
                     disabled={busy !== null}
                     title={`Remove ${name}`}
                     aria-label={`Remove ${name}`}
-                    className="kali-press rounded-full bg-kali-danger/10 p-2 text-kali-danger disabled:opacity-40"
+                    className="kali-press rounded-md bg-kali-danger/10 p-1.5 text-kali-danger disabled:opacity-40"
                   >
                     <UserMinus className="h-4 w-4" />
                   </button>
@@ -111,7 +111,7 @@ export function ParticipantsPanel({
           );
         })}
         {isHost && (
-          <p className="flex items-center gap-1.5 px-1 pt-1 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">
+          <p className="flex items-center gap-1.5 px-1 pt-1 text-[11px] font-medium text-kali-muted">
             <Crown className="h-3 w-3" /> You&apos;re the host. <Badge tone="pink">mute</Badge> and
             remove away.
           </p>

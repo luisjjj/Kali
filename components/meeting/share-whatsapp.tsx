@@ -27,7 +27,7 @@ export function ShareWhatsApp({
       title="Share to WhatsApp"
       aria-label={`Share ${title} to WhatsApp`}
       className={cn(
-        "kali-press inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#25D366] px-4 py-2 text-sm font-bold text-white",
+        "kali-press inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-[#1faf55] px-4 py-2 text-sm font-semibold text-white hover:bg-[#199a49]",
         className
       )}
     >

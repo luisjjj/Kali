@@ -1,21 +1,24 @@
 @import "tailwindcss";
 
-/* Kali runs one fixed look: dark ink with pink. The dark: utilities follow the
-   .dark class on <html>, never the OS setting, so there is no light mode. */
+/* Theme follows the .dark class on <html> (see ThemeToggle), never the OS. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --color-kali-pink: #ffa8cd;
-  --color-kali-pink-hover: #ff8cbf;
-  --color-kali-pink-pale: #ffe3ef;
-  --color-kali-ink: #17120f;
-  --color-kali-paper: #fffbf9;
-  --color-kali-success: #2ebd6b;
-  --color-kali-danger: #e63950;
-  --color-kali-muted: #8a7f7a;
+@theme inline {
+  --color-kali-pink: var(--kali-pink);
+  --color-kali-pink-hover: var(--kali-pink-hover);
+  --color-kali-pink-pale: var(--kali-pink-pale);
+  --color-kali-ink: var(--kali-ink);
+  --color-kali-paper: var(--kali-paper);
+  --color-kali-success: var(--kali-success);
+  --color-kali-danger: var(--kali-danger);
+  --color-kali-muted: var(--kali-muted);
 
-  --color-background: #fffbf9;
-  --color-foreground: #17120f;
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-line: var(--line);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
   /* Inter, self-hosted via next/font. Professional, neutral, minimal. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
@@ -23,36 +26,41 @@
 }
 
 :root {
-  /* Kali brand tokens. Klarna-inspired, original assets only */
-  --kali-pink: #ffa8cd;
-  --kali-pink-hover: #ff8cbf;
-  --kali-pink-pale: #ffe3ef;
-  --kali-ink: #17120f;
-  --kali-paper: #fffbf9;
-  --kali-white: #ffffff;
-  --kali-success: #2ebd6b;
-  --kali-danger: #e63950;
-  --kali-muted: #8a7f7a;
+  /* Kali brand tokens. A sharper rose on a warm neutral canvas. */
+  --kali-pink: #ef5b8f;
+  --kali-pink-hover: #d94b7e;
+  --kali-pink-pale: #fceef3;
+  --kali-ink: #171412;
+  --kali-paper: #faf9f7;
+  --kali-success: #168a53;
+  --kali-danger: #cf3349;
+  --kali-muted: #766e68;
 
-  --background: var(--kali-pink);
-  --foreground: #17120f;
-  --color-background: var(--kali-pink);
-  --color-foreground: #17120f;
+  --background: #f4f1ed;
+  --foreground: #171412;
+  --surface: #ffffff;
+  --surface-muted: #f7f5f2;
+  --line: rgba(23, 20, 18, 0.09);
 
   --radius-pill: 9999px;
-  --radius-card: 28px;
-  --radius-tile: 24px;
+  --radius-card: 20px;
+  --radius-tile: 16px;
 
   color-scheme: light;
 }
 
-/* Theme is user-controlled via the .dark class on <html> (see ThemeToggle) */
 .dark {
-  --background: #000000;
-  --foreground: #fffbf9;
-  --color-background: #000000;
-  --color-foreground: #fffbf9;
-  --kali-muted: #b8a9a3;
+  --background: #0a0a0b;
+  --foreground: #f7f5f2;
+  --surface: #141416;
+  --surface-muted: #0f0f10;
+  --line: rgba(255, 255, 255, 0.1);
+  --kali-pink: #ff77a6;
+  --kali-pink-hover: #ff8fb5;
+  --kali-pink-pale: #2a1720;
+  --kali-muted: #a8a09a;
+  --kali-success: #45c97f;
+  --kali-danger: #ff5c72;
   color-scheme: dark;
 }
 
@@ -74,9 +82,28 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* SF-style display type. iOS-like: semibold at size, gentle tracking */
+/* Shared surface recipes. Borders do the structure, shadows stay quiet. */
+@layer components {
+  .kali-card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgba(23, 20, 18, 0.04);
+  }
+  .dark .kali-card {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Subtle dot texture for split marketing panels. */
+  .kali-canvas {
+    background-image: radial-gradient(var(--line) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+}
+
+/* Display type. Tight, calm, confident. */
 .display-tight {
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
 }
 
 /* Springy press animation for big tap targets */
@@ -85,7 +112,7 @@ body {
     box-shadow 0.18s ease;
 }
 .kali-press:active {
-  transform: scale(0.96);
+  transform: scale(0.97);
 }
 
 /* Lift-on-hover for cards */
@@ -93,7 +120,7 @@ body {
   transition: transform 0.25s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.25s ease;
 }
 .kali-lift:hover {
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 }
 
 /* Active speaker pink ring */
@@ -103,20 +130,20 @@ body {
 
 /* Friendly focus rings. Soft fills over outlines */
 .kali-focus:focus-visible {
-  outline: 3px solid var(--kali-pink);
+  outline: 2px solid var(--kali-pink);
   outline-offset: 2px;
 }
 
 ::selection {
   background: var(--kali-pink);
-  color: var(--kali-ink);
+  color: #ffffff;
 }
 
 /* Entrance + ambient motion (pure CSS so landing stays a server component) */
 @keyframes kali-fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -130,7 +157,7 @@ body {
     transform: translateY(0) rotate(var(--float-rot, 0deg));
   }
   50% {
-    transform: translateY(-10px) rotate(var(--float-rot, 0deg));
+    transform: translateY(-8px) rotate(var(--float-rot, 0deg));
   }
 }
 
@@ -159,7 +186,7 @@ body {
 .skeleton-shimmer {
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 12px;
 }
 .skeleton-shimmer::after {
   content: "";
@@ -169,7 +196,7 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 168, 205, 0.45),
+    rgba(239, 91, 143, 0.18),
     transparent
   );
   animation: kali-shimmer 1.4s ease-in-out infinite;
@@ -236,6 +263,32 @@ body {
   .animate-marquee,
   .animate-pulse-dot,
   .skeleton-shimmer::after {
+    animation: none;
+  }
+}
+
+/* Dialogs live in the browser top layer; keep the entrance quiet. */
+dialog.kali-dialog[open] {
+  animation: kali-dialog-in 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+dialog.kali-dialog::backdrop {
+  animation: kali-fade-in 0.2s ease-out both;
+}
+@keyframes kali-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+}
+@keyframes kali-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog.kali-dialog[open],
+  dialog.kali-dialog::backdrop {
     animation: none;
   }
 }

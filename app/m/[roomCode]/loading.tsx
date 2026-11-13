@@ -4,23 +4,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function MeetingLoading() {
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-5">
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-4">
         <KaliWordmark />
-        <Skeleton className="h-10 w-24 !rounded-full" />
+        <Skeleton className="h-9 w-32 !rounded-full" />
       </header>
       <main className="mx-auto grid w-full max-w-5xl flex-1 gap-6 px-5 pb-12 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <Skeleton className="aspect-video w-full !rounded-[24px]" />
+          <Skeleton className="aspect-video w-full !rounded-xl" />
           <div className="grid gap-3 sm:grid-cols-2">
-            <Skeleton className="h-12 w-full !rounded-2xl" />
-            <Skeleton className="h-12 w-full !rounded-2xl" />
+            <Skeleton className="h-11 w-full !rounded-xl" />
+            <Skeleton className="h-11 w-full !rounded-xl" />
           </div>
         </div>
-        <div className="rounded-[28px] bg-kali-pink p-8 sm:p-10">
-          <Skeleton className="h-4 w-32 !rounded-full bg-kali-ink/10" />
-          <Skeleton className="mt-3 h-10 w-3/4 !rounded-2xl bg-kali-ink/10" />
-          <Skeleton className="mt-6 h-13 w-full !rounded-2xl bg-white/70" />
-          <Skeleton className="mt-4 h-14 w-full !rounded-full bg-kali-ink/80" />
+        <div className="kali-card h-fit p-7 sm:p-9">
+          <Skeleton className="h-3 w-28 !rounded" />
+          <Skeleton className="mt-3 h-9 w-3/4 !rounded-lg" />
+          <Skeleton className="mt-2 h-4 w-32 !rounded" />
+          <Skeleton className="mt-6 h-11 w-full !rounded-xl" />
+          <Skeleton className="mt-4 h-12 w-full !rounded-full" />
         </div>
       </main>
     </div>

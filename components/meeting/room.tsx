@@ -410,10 +410,10 @@ function RoomShell({
   const sharing = localParticipant?.isScreenShareEnabled ?? false;
 
   return (
-    <div className="flex h-dvh flex-col bg-kali-paper dark:bg-black">
-      <header className="flex items-center justify-between gap-2 px-4 py-3 sm:px-6">
+    <div className="flex h-dvh flex-col bg-background">
+      <header className="flex items-center justify-between gap-2 border-b border-line px-4 py-3 sm:px-6">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-lg font-bold tracking-tight">{title}</span>
+          <span className="truncate text-base font-semibold tracking-tight">{title}</span>
           <Badge tone="pink" className="hidden max-w-[12rem] truncate sm:inline-flex">
             {roomCode}
           </Badge>
@@ -422,7 +422,7 @@ function RoomShell({
           <ShareWhatsApp roomCode={roomCode} title={title} />
           <button
             onClick={copyLink}
-            className="kali-press flex items-center gap-1.5 rounded-full bg-kali-pink-pale px-4 py-2 text-sm font-bold text-kali-ink"
+            className="kali-press flex items-center gap-1.5 rounded-full border border-line bg-surface px-3.5 py-2 text-sm font-medium text-foreground hover:bg-[var(--surface-muted)]"
           >
             {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
             <span className="hidden sm:inline">{copied ? "Copied!" : "Copy link"}</span>
@@ -435,8 +435,8 @@ function RoomShell({
                 : "Sharpen video for a crisper picture. Uses a little more GPU."
             }
             className={cn(
-              "kali-press hidden items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold sm:flex",
-              sharp ? "bg-kali-ink text-white" : "bg-kali-pink-pale text-kali-ink"
+              "kali-press hidden items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-sm font-medium sm:flex",
+              sharp ? "bg-kali-ink text-white" : "bg-surface text-foreground hover:bg-[var(--surface-muted)]"
             )}
           >
             <Sparkle className="h-4 w-4" weight={sharp ? "fill" : "regular"} />
@@ -446,8 +446,8 @@ function RoomShell({
             onClick={() => setLowBandwidth((v) => !v)}
             title="Low-bandwidth mode: audio only"
             className={cn(
-              "kali-press flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-bold",
-              lowBandwidth ? "bg-kali-ink text-white" : "bg-kali-pink-pale text-kali-ink"
+              "kali-press flex items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-sm font-medium",
+              lowBandwidth ? "bg-kali-ink text-white" : "bg-surface text-foreground hover:bg-[var(--surface-muted)]"
             )}
           >
             <Gauge className="h-4 w-4" />
@@ -459,12 +459,12 @@ function RoomShell({
       <div className="flex min-h-0 flex-1 gap-3 px-4 pb-3 sm:px-6">
         <main className="flex min-h-0 flex-1 flex-col">
           {lowBandwidth && (
-            <p className="mb-2 rounded-2xl bg-kali-ink px-4 py-2 text-center text-xs font-bold text-white">
+            <p className="mb-2 rounded-xl bg-kali-ink px-4 py-2 text-center text-xs font-medium text-white">
               Audio-only mode is on. Video is paused to save data.
             </p>
           )}
           {showReminder && (
-            <div className="mb-2 flex items-center gap-2.5 rounded-2xl bg-kali-ink px-4 py-2.5 text-sm font-bold text-white">
+            <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-kali-ink px-4 py-2.5 text-sm font-medium text-white">
               <Timer className="h-5 w-5 shrink-0 text-kali-pink" weight="bold" />
               <span className="flex-1">Heads up. This call wraps up in 5 minutes.</span>
               <button
@@ -477,7 +477,7 @@ function RoomShell({
             </div>
           )}
           {showNudge && !showReminder && (
-            <div className="mb-2 flex items-center gap-2.5 rounded-2xl bg-kali-ink px-4 py-2.5 text-sm font-bold text-white">
+            <div className="mb-2 flex items-center gap-2.5 rounded-xl bg-kali-ink px-4 py-2.5 text-sm font-medium text-white">
               <WifiLow className="h-5 w-5 shrink-0 text-kali-pink" weight="bold" />
               <span className="flex-1">Connection is struggling. Voices work without video.</span>
               <button
@@ -499,7 +499,7 @@ function RoomShell({
             </div>
           )}
           {connState !== ConnectionState.Connected && (
-            <p className="mb-2 flex items-center justify-center gap-2 rounded-2xl bg-kali-pink-pale/70 px-4 py-2 text-center text-sm font-bold text-kali-ink dark:bg-white/10 dark:text-kali-paper">
+            <p className="mb-2 flex items-center justify-center gap-2 rounded-xl border border-line bg-[var(--surface-muted)] px-4 py-2 text-center text-sm font-medium text-foreground">
               <CircleNotch className="h-4 w-4 animate-spin" weight="bold" />
               {connState === ConnectionState.Reconnecting ||
               connState === ConnectionState.SignalReconnecting
@@ -523,7 +523,7 @@ function RoomShell({
           >
             {connState !== ConnectionState.Connected
               ? [0, 1].map((i) => (
-                  <Skeleton key={i} className="aspect-video w-full !rounded-[24px]" />
+                  <Skeleton key={i} className="aspect-video w-full !rounded-xl" />
                 ))
               : participants.map((p) => (
                   <ParticipantCard
@@ -559,7 +559,7 @@ function RoomShell({
         <motion.div
           initial={{ y: 24, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="flex items-center gap-1.5 rounded-full bg-kali-ink px-3 py-2.5 text-white shadow-xl sm:gap-2 sm:px-4 max-w-[calc(100vw-2rem)] overflow-x-auto max-sm:gap-1 max-sm:px-2"
+          className="flex max-w-[calc(100vw-2rem)] items-center gap-1.5 overflow-x-auto rounded-full bg-kali-ink px-3 py-2.5 text-white shadow-lg ring-1 ring-white/10 sm:gap-2 sm:px-4 max-sm:gap-1 max-sm:px-2"
         >
           <CtrlButton
             active={micOn}
@@ -647,7 +647,7 @@ function CtrlButton({
       aria-label={label}
       className={cn(
         "relative flex h-12 w-12 items-center justify-center rounded-full transition-colors",
-        active ? "bg-white/15 text-white hover:bg-white/25" : "bg-kali-danger text-white"
+        active ? "bg-white/10 text-white hover:bg-white/20" : "bg-kali-danger text-white"
       )}
     >
       {children}
@@ -692,7 +692,7 @@ function ParticipantCard({
   return (
     <div
       className={cn(
-        "relative aspect-video overflow-hidden rounded-[24px] bg-kali-ink transition-shadow duration-300",
+        "relative aspect-video overflow-hidden rounded-xl bg-kali-ink transition-shadow duration-300 ring-1 ring-inset ring-white/5",
         speaking && "kali-speaking"
       )}
     >
@@ -707,7 +707,7 @@ function ParticipantCard({
           <div
             className={cn(
               "flex h-16 w-16 items-center justify-center rounded-full text-xl font-bold sm:h-20 sm:w-20 sm:text-2xl",
-              isLocal ? "bg-kali-pink text-kali-ink" : "bg-white/15 text-white"
+              isLocal ? "bg-kali-pink text-white" : "bg-white/15 text-white"
             )}
           >
             {(name[0] ?? "?").toUpperCase()}
@@ -720,17 +720,17 @@ function ParticipantCard({
       </div>
 
       <div className="absolute bottom-2.5 left-2.5 flex max-w-[calc(100%-1.25rem)] items-center gap-1.5">
-        <span className="truncate rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white backdrop-blur">
+        <span className="truncate rounded-md bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur">
           {name}
           {isLocal ? " (you)" : ""}
         </span>
         {screenRef && !lowBandwidth && (
-          <span className="rounded-lg bg-kali-pink p-1 text-kali-ink">
+          <span className="rounded-md bg-kali-pink p-1 text-white">
             <MonitorArrowUp className="h-3 w-3" weight="bold" />
           </span>
         )}
         {!participant.isMicrophoneEnabled && (
-          <span className="rounded-full bg-kali-danger p-1.5 text-white">
+          <span className="rounded-md bg-kali-danger p-1 text-white">
             <MicrophoneSlash className="h-3 w-3" />
           </span>
         )}

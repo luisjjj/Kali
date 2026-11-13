@@ -1,17 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { WarningCircle } from "@phosphor-icons/react";
+import { VideoCamera, WarningCircle } from "@phosphor-icons/react";
 
 export function PageLoader({ message = "Warming up…" }: { message?: string }) {
   return (
     <div className="flex min-h-[50vh] flex-col items-center justify-center gap-4">
       <motion.div
-        className="h-12 w-12 rounded-full bg-kali-pink"
-        animate={{ scale: [1, 1.25, 1], opacity: [1, 0.6, 1] }}
+        className="h-2.5 w-2.5 rounded-full bg-kali-pink"
+        animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
         transition={{ duration: 1.1, repeat: Infinity, ease: "easeInOut" }}
       />
-      <p className="font-bold text-kali-ink/65 dark:text-kali-paper/65">{message}</p>
+      <p className="text-sm font-medium text-kali-muted">{message}</p>
     </div>
   );
 }
@@ -29,16 +29,13 @@ export function EmptyState({
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex flex-col items-center gap-3 rounded-[28px] bg-kali-pink-pale/60 px-8 py-12 text-center"
+      className="kali-card flex flex-col items-center gap-3 px-8 py-12 text-center"
     >
-      <img
-        aria-hidden
-        src="/images/art-empty.svg"
-        alt=""
-        className="-my-2 h-32 w-auto"
-      />
-      <h3 className="text-xl font-bold text-kali-ink">{title}</h3>
-      {body && <p className="max-w-sm leading-relaxed text-kali-ink/65">{body}</p>}
+      <span className="flex h-12 w-12 items-center justify-center rounded-full border border-line bg-[var(--surface-muted)] text-kali-muted">
+        <VideoCamera className="h-6 w-6" weight="duotone" />
+      </span>
+      <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
+      {body && <p className="max-w-sm text-sm leading-relaxed text-kali-muted">{body}</p>}
       {action}
     </motion.div>
   );
@@ -46,12 +43,12 @@ export function EmptyState({
 
 export function ErrorState({ title, body }: { title: string; body?: string }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-[28px] bg-kali-danger/10 px-8 py-12 text-center">
-      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-danger/10 text-kali-danger">
-        <WarningCircle className="h-7 w-7" weight="duotone" />
+    <div className="kali-card flex flex-col items-center gap-3 px-8 py-12 text-center">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-kali-danger/10 text-kali-danger">
+        <WarningCircle className="h-6 w-6" weight="duotone" />
       </span>
-      <h3 className="text-xl font-bold text-kali-danger">{title}</h3>
-      {body && <p className="max-w-sm leading-relaxed text-kali-danger/80">{body}</p>}
+      <h3 className="text-lg font-semibold tracking-tight">{title}</h3>
+      {body && <p className="max-w-sm text-sm leading-relaxed text-kali-muted">{body}</p>}
     </div>
   );
 }

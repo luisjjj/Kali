@@ -112,52 +112,45 @@ export function SchedulePicker({
   const ampm = value ? (value.getHours() >= 12 ? "PM" : "AM") : "AM";
 
   return (
-    <div className="relative">
+    <div>
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         aria-controls={panelId}
-        className="kali-press kali-focus flex w-full items-center gap-2.5 rounded-2xl bg-white/10 px-4 py-3 text-left text-sm font-bold text-white"
+        className="kali-press kali-focus flex h-11 w-full items-center gap-2.5 rounded-xl border border-line bg-surface px-4 text-left text-sm font-semibold text-foreground"
       >
-        <CalendarBlank className="h-5 w-5 shrink-0 text-kali-pink" weight="bold" />
-        <span className={cn("flex-1 truncate", !value && "text-white/60")}>{pretty(value)}</span>
-        <CaretDown className={cn("h-4 w-4 shrink-0 transition-transform", open && "rotate-180")} />
+        <CalendarBlank className="h-4.5 w-4.5 shrink-0 text-kali-pink" weight="bold" />
+        <span className={cn("flex-1 truncate", !value && "text-kali-muted")}>{pretty(value)}</span>
+        <CaretDown className={cn("h-4 w-4 shrink-0 text-kali-muted transition-transform", open && "rotate-180")} />
       </button>
 
       {open && (
-        <>
-          <button
-            type="button"
-            aria-label="Close calendar"
-            onClick={() => setOpen(false)}
-            className="fixed inset-0 z-20 cursor-default bg-transparent"
-          />
-          <div
-            id={panelId}
-            className="absolute z-30 mt-2 w-[320px] max-w-[calc(100vw-3rem)] rounded-3xl bg-white p-5 text-kali-ink shadow-2xl"
-          >
+        <div
+          id={panelId}
+          className="mt-2 rounded-xl border border-line bg-surface p-4 text-foreground shadow-sm"
+        >
             <div className="flex items-center justify-between">
               <button
                 type="button"
                 onClick={() => moveMonth(-1)}
                 aria-label="Previous month"
-                className="kali-press rounded-full bg-kali-pink-pale p-2"
+                className="kali-press kali-focus rounded-full p-2 text-kali-muted hover:bg-[var(--surface-muted)] hover:text-foreground"
               >
                 <CaretLeft className="h-4 w-4" weight="bold" />
               </button>
-              <p className="font-bold">{monthLabel}</p>
+              <p className="text-sm font-semibold">{monthLabel}</p>
               <button
                 type="button"
                 onClick={() => moveMonth(1)}
                 aria-label="Next month"
-                className="kali-press rounded-full bg-kali-pink-pale p-2"
+                className="kali-press kali-focus rounded-full p-2 text-kali-muted hover:bg-[var(--surface-muted)] hover:text-foreground"
               >
                 <CaretRight className="h-4 w-4" weight="bold" />
               </button>
             </div>
 
-            <div className="mt-3 grid grid-cols-7 gap-1 text-center text-[11px] font-bold text-kali-ink/50">
+            <div className="mt-3 grid grid-cols-7 gap-1 text-center text-[11px] font-semibold text-kali-muted">
               {WEEKDAYS.map((d) => (
                 <span key={d} className="py-1">
                   {d}
@@ -177,14 +170,14 @@ export function SchedulePicker({
                     onClick={() => pickDay(date)}
                     aria-label={date.toLocaleDateString()}
                     className={cn(
-                      "flex aspect-square items-center justify-center rounded-full text-sm font-bold transition-colors",
+                      "flex aspect-square items-center justify-center rounded-lg text-sm font-semibold transition-colors",
                       !inMonth && "invisible",
                       selected
-                        ? "bg-kali-ink text-white"
+                        ? "bg-kali-ink text-kali-paper dark:bg-kali-pink dark:text-kali-ink"
                         : disabled
-                          ? "text-kali-ink/25"
-                          : "hover:bg-kali-pink-pale",
-                      !selected && !disabled && isToday && "ring-2 ring-kali-pink ring-inset"
+                          ? "text-kali-muted/35"
+                          : "hover:bg-[var(--surface-muted)]",
+                      !selected && !disabled && isToday && "ring-1 ring-kali-pink ring-inset"
                     )}
                   >
                     {date.getDate()}
@@ -193,7 +186,7 @@ export function SchedulePicker({
               })}
             </div>
 
-            <p className="mt-4 mb-1.5 text-[11px] font-bold tracking-widest text-kali-ink/50 uppercase">
+            <p className="mt-4 mb-1.5 text-[11px] font-semibold tracking-wider text-kali-muted uppercase">
               Time
             </p>
             <div className="grid grid-cols-3 gap-2">
@@ -225,20 +218,19 @@ export function SchedulePicker({
                   onChange(null);
                   setOpen(false);
                 }}
-                className="kali-press flex-1 rounded-full bg-kali-pink-pale py-2.5 text-sm font-bold"
+                className="kali-press kali-focus flex-1 rounded-lg border border-line py-2 text-sm font-semibold hover:bg-[var(--surface-muted)]"
               >
                 Clear
               </button>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="kali-press flex-1 rounded-full bg-kali-ink py-2.5 text-sm font-bold text-white"
+                className="kali-press kali-focus flex-1 rounded-lg bg-kali-ink py-2 text-sm font-semibold text-kali-paper dark:bg-kali-pink dark:text-kali-ink"
               >
                 Done
               </button>
             </div>
           </div>
-        </>
       )}
     </div>
   );
@@ -263,7 +255,7 @@ function TimeSelect({
         aria-label={ariaLabel}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="kali-focus w-full appearance-none rounded-2xl bg-kali-pink-pale/60 px-3 py-2.5 pr-8 text-center text-sm font-bold outline-none"
+        className="kali-focus w-full appearance-none rounded-lg border border-line bg-[var(--surface-muted)] px-3 py-2 pr-7 text-center text-sm font-semibold outline-none"
       >
         {options.map((o) => (
           <option key={o} value={o}>
@@ -271,7 +263,7 @@ function TimeSelect({
           </option>
         ))}
       </select>
-      <CaretDown className="pointer-events-none absolute top-1/2 right-2.5 h-4 w-4 -translate-y-1/2 text-kali-ink/50" />
+      <CaretDown className="pointer-events-none absolute top-1/2 right-2 h-3.5 w-3.5 -translate-y-1/2 text-kali-muted" />
     </span>
   );
 }

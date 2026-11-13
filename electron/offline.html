@@ -7,6 +7,14 @@
     <style>
       :root {
         color-scheme: light dark;
+        --bg: #f4f1ed;
+        --ink: #171412;
+        --muted: #766e68;
+        --accent: #ef5b8f;
+        --accent-hover: #d94b7e;
+        --surface: #ffffff;
+        --line: rgba(23, 20, 18, 0.1);
+        --line-dot: rgba(23, 20, 18, 0.08);
       }
       * {
         box-sizing: border-box;
@@ -18,65 +26,77 @@
         align-items: center;
         justify-content: center;
         padding: 24px;
-        background: #ffa8cd;
-        color: #17120f;
+        background-color: var(--bg);
+        background-image: radial-gradient(var(--line-dot) 1px, transparent 1px);
+        background-size: 26px 26px;
+        color: var(--ink);
         font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       }
       .card {
         width: 100%;
-        max-width: 420px;
-        border-radius: 28px;
-        background: #ffffff;
-        padding: 40px 44px;
+        max-width: 400px;
+        border-radius: 20px;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        padding: 36px 36px 32px;
         text-align: center;
-        box-shadow: 0 30px 60px -30px rgba(23, 18, 15, 0.45);
+        box-shadow: 0 20px 50px -30px rgba(23, 20, 18, 0.4);
+      }
+      .mark {
+        margin: 0 0 20px;
+        font-size: 30px;
+        font-weight: 600;
+        letter-spacing: -0.055em;
+      }
+      .dot {
+        color: var(--accent);
       }
       h1 {
-        margin: 0 0 10px;
-        font-size: 28px;
+        margin: 0 0 8px;
+        font-size: 22px;
+        font-weight: 600;
         letter-spacing: -0.02em;
       }
       p {
         margin: 0 0 24px;
-        line-height: 1.5;
-        color: rgba(23, 18, 15, 0.65);
+        font-size: 14px;
+        line-height: 1.55;
+        color: var(--muted);
       }
       button {
         border: 0;
         border-radius: 999px;
-        background: #17120f;
+        background: var(--accent);
         color: #ffffff;
         font: inherit;
+        font-size: 14px;
         font-weight: 600;
-        padding: 14px 28px;
+        padding: 11px 24px;
         cursor: pointer;
       }
       button:hover {
-        background: #000000;
+        background: var(--accent-hover);
       }
       @media (prefers-color-scheme: dark) {
-        body {
-          background: #000000;
-          color: #fffbf9;
-        }
-        .card {
-          background: #17120f;
-        }
-        p {
-          color: rgba(255, 251, 249, 0.65);
+        :root {
+          --bg: #0a0a0b;
+          --ink: #f7f5f2;
+          --muted: #a8a09a;
+          --accent: #ff77a6;
+          --accent-hover: #ff8fb5;
+          --surface: #141416;
+          --line: rgba(255, 255, 255, 0.1);
+          --line-dot: rgba(255, 255, 255, 0.06);
         }
         button {
-          background: #ffa8cd;
-          color: #17120f;
-        }
-        button:hover {
-          background: #f890bd;
+          color: #171412;
         }
       }
     </style>
   </head>
   <body>
     <div class="card">
+      <p class="mark">kali<span class="dot">.</span></p>
       <h1>Can&apos;t reach Kali</h1>
       <p>Check your internet connection, then try again. Calls need a network anyway.</p>
       <button id="retry" type="button">Try again</button>

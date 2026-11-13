@@ -7,7 +7,6 @@ import { EndedScreen } from "./ended-screen";
 import { DoorOpen } from "@phosphor-icons/react";
 import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
-import { Doodles } from "@/components/ui/doodles";
 import { HomeLink } from "@/components/ui/home-link";
 import Link from "next/link";
 
@@ -38,23 +37,18 @@ export function MeetingFlow({
 
   if (stage.name === "left") {
     return (
-      <div className="relative isolate flex min-h-screen flex-col items-center justify-center gap-5 overflow-hidden px-5">
-        <Doodles className="-z-10" />
+      <div className="relative isolate flex min-h-screen flex-col items-center justify-center gap-6 overflow-x-clip px-5">
         <KaliWordmark />
-        <div className="flex w-full max-w-md flex-col items-center gap-3 rounded-[28px] bg-white px-8 py-12 text-center dark:bg-transparent">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink text-kali-ink">
+        <div className="kali-card flex w-full max-w-md flex-col items-center gap-3 px-8 py-12 text-center">
+          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink-pale text-kali-pink">
             <DoorOpen className="h-7 w-7" weight="duotone" />
           </span>
-          <h1 className="text-2xl font-bold tracking-tight">You left the call</h1>
-          <p className="font-medium text-kali-ink/65 dark:text-kali-paper/65">
+          <h1 className="display-tight text-2xl font-semibold tracking-tight">You left the call</h1>
+          <p className="text-sm leading-relaxed text-kali-muted">
             Nice seeing you. The room is still open if you want to hop back in.
           </p>
           <div className="mt-2 flex flex-wrap justify-center gap-3">
-            <Button
-              variant="secondary"
-              size="md"
-              onClick={() => setStage({ name: "lobby" })}
-            >
+            <Button size="md" onClick={() => setStage({ name: "lobby" })}>
               Rejoin
             </Button>
             <Link href="/dashboard">

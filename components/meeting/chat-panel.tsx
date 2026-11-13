@@ -85,13 +85,13 @@ export function ChatPanel({
   }, [draft, sending, send, roomCode, displayName]);
 
   return (
-    <aside className="flex w-full flex-col overflow-hidden rounded-[24px] bg-white sm:w-80 sm:shrink-0 dark:bg-white/5 max-sm:fixed max-sm:inset-x-4 max-sm:top-24 max-sm:bottom-36 max-sm:z-30 max-sm:w-auto max-sm:shadow-2xl">
-      <div className="flex items-center justify-between px-5 py-3">
-        <h2 className="font-bold">Chat</h2>
+    <aside className="flex w-full flex-col overflow-hidden rounded-2xl border border-line bg-surface sm:w-80 sm:shrink-0 max-sm:fixed max-sm:inset-x-4 max-sm:top-24 max-sm:bottom-36 max-sm:z-30 max-sm:w-auto max-sm:shadow-2xl">
+      <div className="flex items-center justify-between border-b border-line px-4 py-3">
+        <h2 className="text-sm font-semibold">Chat</h2>
         <button
           onClick={onClose}
           aria-label="Close chat"
-          className="kali-press rounded-full bg-kali-pink-pale p-2 text-kali-ink"
+          className="kali-press rounded-md p-1.5 text-kali-muted hover:bg-[var(--surface-muted)] hover:text-foreground"
         >
           <X className="h-4 w-4" />
         </button>
@@ -99,7 +99,7 @@ export function ChatPanel({
 
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-4 py-2">
         {history.length === 0 && live.length === 0 && (
-          <p className="rounded-2xl bg-kali-pink-pale/60 px-4 py-6 text-center text-sm font-semibold text-kali-ink/65 dark:text-kali-paper/70">
+          <p className="rounded-xl bg-[var(--surface-muted)] px-4 py-6 text-center text-sm text-kali-muted">
             No messages yet. Say hi. It saves here automatically.
           </p>
         )}
@@ -125,7 +125,7 @@ export function ChatPanel({
           }}
           placeholder="Type something sweet…"
           maxLength={2000}
-          className="kali-focus h-11 min-w-0 flex-1 rounded-full bg-kali-pink-pale/60 px-4 text-sm font-medium text-kali-ink placeholder:text-kali-ink/40 dark:bg-white/10 dark:text-kali-paper dark:placeholder:text-kali-paper/40"
+          className="kali-focus h-11 min-w-0 flex-1 rounded-xl border border-line bg-[var(--surface-muted)] px-3.5 text-sm text-foreground placeholder:text-kali-muted/70"
         />
         <button
           onClick={sendMessage}
@@ -143,11 +143,11 @@ export function ChatPanel({
 function Bubble({ name, body, mine }: { name: string; body: string; mine: boolean }) {
   return (
     <div className={cn("flex flex-col gap-0.5", mine ? "items-end" : "items-start")}>
-      <span className="px-1 text-[11px] font-bold text-kali-ink/60 dark:text-kali-paper/60">{name}</span>
+      <span className="px-1 text-[11px] font-medium text-kali-muted">{name}</span>
       <p
         className={cn(
-          "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed font-medium break-words",
-          mine ? "rounded-br-md bg-kali-pink text-kali-ink" : "rounded-bl-md bg-kali-pink-pale/70 text-kali-ink dark:bg-white/10 dark:text-kali-paper"
+          "max-w-[85%] rounded-2xl px-3.5 py-2 text-sm leading-relaxed break-words",
+          mine ? "rounded-br-md bg-kali-pink text-white" : "rounded-bl-md bg-[var(--surface-muted)] text-foreground"
         )}
       >
         {body}

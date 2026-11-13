@@ -24,7 +24,7 @@ export function PoweredByKali({ className }: { className?: string }) {
     <Link
       href="/"
       className={cn(
-        "inline-flex items-center gap-1.5 text-xs font-semibold text-kali-ink/50 transition-colors hover:text-kali-ink dark:text-kali-paper/50 dark:hover:text-kali-paper",
+        "inline-flex items-center gap-1.5 text-xs font-medium text-kali-muted transition-colors hover:text-foreground",
         className
       )}
     >

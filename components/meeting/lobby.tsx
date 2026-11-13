@@ -8,7 +8,6 @@ import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Doodles } from "@/components/ui/doodles";
 import { DesktopNav } from "@/components/desktop/desktop-nav";
 import { ShareWhatsApp } from "@/components/meeting/share-whatsapp";
 import { PoweredByKali, StartYourOwnCall } from "@/components/join/host-cta";
@@ -218,9 +217,8 @@ export function Lobby({
   }, [name, roomCode, micOn, camOn, onJoin]);
 
   return (
-    <div className="relative isolate flex min-h-screen flex-col overflow-hidden">
-      <Doodles className="-z-10" />
-      <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-5 py-5">
+    <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
+      <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-5 py-4">
         <KaliWordmark />
         <div className="flex flex-wrap items-center justify-end gap-2">
           <DesktopNav />
@@ -233,14 +231,14 @@ export function Lobby({
 
       <main className="mx-auto grid w-full max-w-5xl flex-1 gap-6 px-5 pb-12 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <div className="relative aspect-video overflow-hidden rounded-[24px] bg-kali-ink">
+          <div className="relative aspect-video overflow-hidden rounded-xl border border-line bg-kali-ink">
             {camOn && videoTrack ? (
               <video ref={videoEl} className="h-full w-full -scale-x-100 object-cover" muted playsInline />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
                 <div
                 className={cn(
-                  "flex h-20 w-20 items-center justify-center rounded-full bg-kali-pink text-2xl font-bold text-kali-ink",
+                  "flex h-20 w-20 items-center justify-center rounded-full bg-kali-pink text-2xl font-semibold text-white",
                   !videoTrack && !previewError && "animate-pulse"
                 )}
               >
@@ -278,7 +276,7 @@ export function Lobby({
           </div>
 
           {previewError && (
-            <p className="rounded-2xl bg-kali-danger/10 px-4 py-3 text-sm font-bold text-kali-danger">
+            <p className="rounded-xl bg-kali-danger/10 px-4 py-3 text-sm font-semibold text-kali-danger">
               {previewError}
             </p>
           )}
@@ -290,7 +288,7 @@ export function Lobby({
                 id="mic"
                 value={audioId}
                 onChange={(e) => switchAudio(e.target.value)}
-                className="kali-focus h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold text-kali-ink"
+                className="kali-focus h-11 w-full rounded-xl border border-line bg-surface px-3 text-sm font-medium text-foreground"
               >
                 <option value="">Default mic</option>
                 {audioIns.map((d) => (
@@ -306,7 +304,7 @@ export function Lobby({
                 id="cam"
                 value={videoId}
                 onChange={(e) => switchVideo(e.target.value)}
-                className="kali-focus h-12 w-full rounded-2xl bg-white px-4 text-sm font-bold text-kali-ink"
+                className="kali-focus h-11 w-full rounded-xl border border-line bg-surface px-3 text-sm font-medium text-foreground"
               >
                 <option value="">Default camera</option>
                 {videoIns.map((d) => (
@@ -319,37 +317,35 @@ export function Lobby({
           </div>
         </div>
 
-        <div className="flex flex-col justify-center gap-5 rounded-[28px] bg-kali-pink p-8 sm:p-10">
+        <div className="flex flex-col justify-center gap-5 rounded-[20px] border border-line bg-surface p-7 sm:p-9">
           <div>
-            <p className="text-sm font-bold tracking-wide text-kali-ink/70 uppercase">
+            <p className="text-xs font-semibold tracking-[0.18em] text-kali-muted uppercase">
               You&apos;re joining
             </p>
-            <h1 className="mt-1 text-3xl font-bold tracking-tight text-kali-ink sm:text-4xl">
+            <h1 className="display-tight mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
               {title}
             </h1>
+            <p className="mt-2 text-sm text-kali-muted">kali/m/{roomCode}</p>
           </div>
           <Field>
-            <Label htmlFor="displayName" className="text-kali-ink dark:text-kali-ink">
-              Display name
-            </Label>
+            <Label htmlFor="displayName">Display name</Label>
             <Input
               id="displayName"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="What should we call you?"
               maxLength={40}
-              className="bg-white dark:bg-white dark:text-kali-ink dark:placeholder:text-kali-ink/40"
               onKeyDown={(e) => {
                 if (e.key === "Enter") join();
               }}
             />
           </Field>
           {joinError && (
-            <p className="rounded-2xl bg-kali-danger px-4 py-3 text-sm font-bold text-white">
+            <p role="alert" className="rounded-xl bg-kali-danger/10 px-4 py-3 text-sm font-semibold text-kali-danger">
               {joinError}
             </p>
           )}
-          <Button variant="primary" size="lg" onClick={join} disabled={joining}>
+          <Button size="lg" onClick={join} disabled={joining}>
             {joining ? (
               <>
                 <CircleNotch className="animate-spin" /> Getting you in…
@@ -358,11 +354,11 @@ export function Lobby({
               "Join the call"
             )}
           </Button>
-          <p className="text-sm font-semibold text-kali-ink/75">
+          <p className="text-sm text-kali-muted">
             No account needed. Be kind, unmute to say hi.
           </p>
-          <div className="border-t border-kali-ink/15 pt-4">
-            <p className="mb-2 text-sm font-semibold text-kali-ink/75">
+          <div className="border-t border-line pt-4">
+            <p className="mb-2 text-sm text-kali-muted">
               Hosting next time? Make your own room in seconds.
             </p>
             <StartYourOwnCall variant="outline" size="md" className="w-full" />
