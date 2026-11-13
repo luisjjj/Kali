@@ -5,10 +5,12 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { HomeLink } from "@/components/ui/home-link";
 import { JoinForm } from "@/components/join/join-form";
 import { PoweredByKali, StartYourOwnCall } from "@/components/join/host-cta";
+import { Doodles } from "@/components/ui/doodles";
 
 export default function JoinPage() {
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
+      <Doodles className="-z-10" />
       <header className="sticky top-0 z-30 border-b border-line bg-[var(--background)]/85 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
           <KaliWordmark />

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignInForm } from "@/components/auth/sign-in-form";
 import { JoinForm } from "@/components/join/join-form";
+import { Doodles } from "@/components/ui/doodles";
 
 type DesktopStartProps = {
   user: { name: string | null } | null;
@@ -14,6 +15,7 @@ type DesktopStartProps = {
 export function DesktopStart({ user }: DesktopStartProps) {
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
+      <Doodles className="-z-10" />
       <header className="border-b border-line bg-[var(--background)]/85 backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-5 py-3.5">
           <KaliWordmark href="/desktop" />

@@ -161,6 +161,26 @@ body {
   }
 }
 
+@keyframes kali-doodle-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes kali-doodle-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--doodle-rot, 0deg));
+  }
+  50% {
+    transform: translate3d(var(--doodle-dx, 0px), var(--doodle-dy, -6px), 0)
+      rotate(calc(var(--doodle-rot, 0deg) + var(--doodle-turn, 1.5deg)));
+  }
+}
+
 @keyframes kali-marquee {
   from {
     transform: translateX(0);
@@ -215,6 +235,20 @@ body {
   animation: kali-float 5s ease-in-out infinite;
 }
 
+/* Doodles: sketch themselves in once, then drift on a very slow loop. */
+.animate-doodle {
+  animation: kali-doodle-drift var(--doodle-dur, 30s) ease-in-out infinite;
+  animation-delay: var(--doodle-delay, 0s);
+  will-change: transform;
+}
+
+.doodle-stroke {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: kali-doodle-draw 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--draw-delay, 0.3s);
+}
+
 .animate-marquee {
   animation: kali-marquee 28s linear infinite;
 }
@@ -260,10 +294,16 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-float,
+  .animate-doodle,
   .animate-marquee,
   .animate-pulse-dot,
   .skeleton-shimmer::after {
     animation: none;
+  }
+
+  .doodle-stroke {
+    animation: none;
+    stroke-dashoffset: 0;
   }
 }
 

@@ -3,6 +3,7 @@ import { Check } from "@phosphor-icons/react/dist/ssr";
 import { KaliWordmark } from "@/components/ui/brand";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignInForm } from "@/components/auth/sign-in-form";
+import { Doodles } from "@/components/ui/doodles";
 
 export default function SignInPage() {
   return (
@@ -10,6 +11,7 @@ export default function SignInPage() {
       <ThemeToggle className="absolute top-5 right-5 z-20" />
       <aside className="relative hidden flex-1 flex-col justify-between overflow-hidden border-r border-line bg-[var(--surface-muted)] p-12 lg:flex">
         <div className="kali-canvas pointer-events-none absolute inset-0 opacity-60" />
+        <Doodles variant="panel" />
         <KaliWordmark className="relative z-10" />
         <div className="relative z-10">
           <h2 className="display-tight max-w-md text-5xl leading-[1.03] font-semibold">

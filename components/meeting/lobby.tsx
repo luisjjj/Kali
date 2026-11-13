@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { DesktopNav } from "@/components/desktop/desktop-nav";
 import { ShareWhatsApp } from "@/components/meeting/share-whatsapp";
 import { PoweredByKali, StartYourOwnCall } from "@/components/join/host-cta";
+import { Doodles } from "@/components/ui/doodles";
 import { cn } from "@/lib/utils";
 
 export interface JoinResult {
@@ -218,6 +219,7 @@ export function Lobby({
 
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
+      <Doodles className="-z-10" />
       <header className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-5 py-4">
         <KaliWordmark />
         <div className="flex flex-wrap items-center justify-end gap-2">

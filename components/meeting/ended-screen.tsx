@@ -6,10 +6,12 @@ import { KaliWordmark } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { HomeLink } from "@/components/ui/home-link";
 import { StartYourOwnCall } from "@/components/join/host-cta";
+import { Doodles } from "@/components/ui/doodles";
 
 export function EndedScreen({ title }: { title: string }) {
   return (
     <div className="relative isolate flex min-h-screen flex-col items-center justify-center gap-6 overflow-x-clip px-5">
+      <Doodles className="-z-10" />
       <KaliWordmark />
       <div className="kali-card flex w-full max-w-md flex-col items-center gap-3 px-8 py-12 text-center">
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-kali-pink-pale text-kali-pink">
