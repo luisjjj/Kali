@@ -173,7 +173,7 @@ export function SchedulePicker({
                       "flex aspect-square items-center justify-center rounded-lg text-sm font-semibold transition-colors",
                       !inMonth && "invisible",
                       selected
-                        ? "bg-kali-ink text-kali-paper dark:bg-kali-pink dark:text-kali-ink"
+                        ? "bg-kali-pink text-kali-ink"
                         : disabled
                           ? "text-kali-muted/35"
                           : "hover:bg-[var(--surface-muted)]",
@@ -225,7 +225,7 @@ export function SchedulePicker({
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="kali-press kali-focus flex-1 rounded-lg bg-kali-ink py-2 text-sm font-semibold text-kali-paper dark:bg-kali-pink dark:text-kali-ink"
+                className="kali-press kali-focus flex-1 rounded-lg bg-kali-pink py-2 text-sm font-semibold text-kali-ink hover:bg-kali-pink-hover"
               >
                 Done
               </button>

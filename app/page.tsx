@@ -502,7 +502,7 @@ export default async function Home() {
                     </Link>
                   ) : (
                     <Button
-                      variant={p.featured ? "secondary" : "outline"}
+                      variant={p.featured ? "primary" : "outline"}
                       className="w-full"
                       disabled
                     >
@@ -541,7 +541,7 @@ export default async function Home() {
               </h2>
               <div className="flex flex-wrap justify-center gap-3">
                 <Link href={ctaHref}>
-                  <Button variant="secondary" size="lg">
+                  <Button size="lg">
                     {session?.user ? "Open your dashboard" : "Make your first room"}{" "}
                     <ArrowRight className="h-5 w-5" />
                   </Button>

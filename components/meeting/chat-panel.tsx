@@ -131,7 +131,7 @@ export function ChatPanel({
           onClick={sendMessage}
           disabled={sending || !draft.trim()}
           aria-label="Send message"
-          className="kali-press flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-kali-ink text-white disabled:opacity-40"
+          className="kali-press flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-kali-pink text-kali-ink transition-colors hover:bg-kali-pink-hover disabled:opacity-40"
         >
           <PaperPlaneRight className="h-5 w-5" />
         </button>
