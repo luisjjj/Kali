@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Faq } from "@/components/ui/faq";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { SiteMenu } from "@/components/ui/site-menu";
 import { Doodles } from "@/components/ui/doodles";
 import { cn } from "@/lib/utils";
 
@@ -172,7 +173,7 @@ export default async function Home() {
   return (
     <div className="relative isolate flex min-h-screen flex-col overflow-x-clip">
       <Doodles className="-z-10" />
-      <header className="sticky top-0 z-40 border-b border-line bg-[var(--background)]/85 backdrop-blur-lg">
+      <header className="sticky top-0 z-40 border-b border-line bg-[var(--background)]">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-3.5">
           <KaliWordmark />
           <nav className="hidden items-center gap-7 text-sm font-medium text-kali-muted md:flex">
@@ -193,7 +194,7 @@ export default async function Home() {
             </a>
           </nav>
           <div className="flex items-center gap-2">
-            <ThemeToggle />
+            <ThemeToggle className="hidden sm:inline-flex" />
             <Link href="/join" className="hidden sm:block">
               <Button variant="outline" size="sm">
                 Join a call
@@ -210,6 +211,7 @@ export default async function Home() {
                 <Button size="sm">Get started</Button>
               </Link>
             )}
+            <SiteMenu />
           </div>
         </div>
       </header>

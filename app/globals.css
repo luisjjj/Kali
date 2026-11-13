@@ -303,12 +303,28 @@ body {
   transform: scaleX(1);
 }
 
+@keyframes kali-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-menu-in {
+  transform-origin: top right;
+  animation: kali-menu-in 0.18s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-up,
   .animate-float,
   .animate-doodle,
   .animate-marquee,
   .animate-pulse-dot,
+  .animate-menu-in,
   .skeleton-shimmer::after {
     animation: none;
   }
