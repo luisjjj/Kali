@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffb3cd",
+  themeColor: "#ffa2c0",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning className={`${inter.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <Script id="kali-theme-init" strategy="beforeInteractive">
-          {`try{var t=localStorage.getItem("kali-theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",d?"#0a0a0b":"#ffb3cd");if(/Electron\\//.test(navigator.userAgent))document.documentElement.setAttribute("data-kali-desktop","true")}catch(e){}`}
+          {`try{var t=localStorage.getItem("kali-theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",d?"#0a0a0b":"#ffa2c0");if(/Electron\\//.test(navigator.userAgent))document.documentElement.setAttribute("data-kali-desktop","true")}catch(e){}`}
         </Script>
         <RouteTransition>{children}</RouteTransition>
         <DesktopNav fixed />

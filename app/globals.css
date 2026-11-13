@@ -35,11 +35,11 @@
   --kali-paper: #fffbf9;
   --kali-success: #168a53;
   --kali-danger: #cf3349;
-  --kali-muted: #6f4a58;
+  --kali-muted: #68424f;
   /* Accent that reads on the pink canvas: ink here, rose in dark. */
   --kali-accent: var(--kali-ink);
 
-  --background: #ffb3cd;
+  --background: #ffa2c0;
   --foreground: #171412;
   --surface: #fffbf9;
   --surface-muted: #ffe6ef;

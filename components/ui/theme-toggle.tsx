@@ -16,7 +16,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       localStorage.setItem("kali-theme", next ? "dark" : "light");
     } catch {}
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", next ? "#0a0a0b" : "#ffb3cd");
+    if (meta) meta.setAttribute("content", next ? "#0a0a0b" : "#ffa2c0");
   }
 
   return (

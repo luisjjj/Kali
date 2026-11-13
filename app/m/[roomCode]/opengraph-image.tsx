@@ -48,7 +48,7 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#ffb3cd",
+          backgroundColor: "#ffa2c0",
           backgroundImage: "radial-gradient(rgba(23,20,18,0.12) 1px, transparent 1px)",
           backgroundSize: "28px 28px",
           color: "#171412",
@@ -124,7 +124,7 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
                 padding: "12px 26px",
                 fontSize: 28,
                 fontWeight: 600,
-                color: "#6f4a58",
+                color: "#68424f",
               }}
             >
               kali/m/{room}
@@ -139,7 +139,7 @@ export default async function Image({ params }: { params: Promise<{ roomCode: st
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", fontSize: 26, fontWeight: 500, color: "#6f4a58" }}>
+          <div style={{ display: "flex", fontSize: 26, fontWeight: 500, color: "#68424f" }}>
             No account. No download. Just tap.
           </div>
           <div
