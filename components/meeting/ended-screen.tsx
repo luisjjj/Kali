@@ -8,7 +8,7 @@ import { HomeLink } from "@/components/ui/home-link";
 import { StartYourOwnCall } from "@/components/join/host-cta";
 import { Doodles } from "@/components/ui/doodles";
 
-export function EndedScreen({ title }: { title: string }) {
+export function EndedScreen({ title, roomCode }: { title: string; roomCode: string }) {
   return (
     <div className="relative isolate flex min-h-screen flex-col items-center justify-center gap-6 overflow-x-clip px-5">
       <Doodles className="-z-10" />
@@ -22,6 +22,11 @@ export function EndedScreen({ title }: { title: string }) {
           “{title}” is all wrapped up. Thanks for hanging out!
         </p>
         <div className="mt-2 flex flex-wrap justify-center gap-3">
+          <Link href={`/m/${roomCode}`}>
+            <Button variant="outline" size="md">
+              View call recap
+            </Button>
+          </Link>
           <StartYourOwnCall variant="primary" size="md" />
           <Link href="/dashboard">
             <Button variant="ghost" size="md">
