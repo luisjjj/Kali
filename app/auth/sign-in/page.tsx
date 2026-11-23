@@ -5,7 +5,13 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { SignInForm } from "@/components/auth/sign-in-form";
 import { Doodles } from "@/components/ui/doodles";
 
-export default function SignInPage() {
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ reset?: string }>;
+}) {
+  const { reset } = await searchParams;
+
   return (
     <div className="relative isolate flex min-h-screen overflow-x-clip">
       <ThemeToggle className="absolute top-5 right-5 z-20" />
@@ -45,6 +51,11 @@ export default function SignInPage() {
             Sign in
           </h1>
           <p className="mt-1.5 text-sm text-kali-muted">Good to see you again.</p>
+          {reset === "1" && (
+            <p className="mt-5 rounded-2xl bg-kali-success/10 px-4 py-3 text-sm font-bold text-kali-success">
+              Password updated. Sign in with your new one.
+            </p>
+          )}
           <div className="mt-7">
             <SignInForm />
           </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { signInWithEmail } from "@/app/auth/sign-in/actions";
 import { Button } from "@/components/ui/button";
 import { Field, Input, Label } from "@/components/ui/input";
@@ -21,7 +22,17 @@ export function SignInForm({ idPrefix = "signin" }: { idPrefix?: string }) {
         />
       </Field>
       <Field>
-        <Label htmlFor={`${idPrefix}-password`}>Password</Label>
+        <div className="flex items-baseline justify-between gap-3">
+          <Label htmlFor={`${idPrefix}-password`} className="mb-0">
+            Password
+          </Label>
+          <Link
+            href="/auth/forgot-password"
+            className="text-[13px] font-semibold text-kali-muted underline-offset-4 hover:text-foreground hover:underline"
+          >
+            Forgot password?
+          </Link>
+        </div>
         <Input
           id={`${idPrefix}-password`}
           name="password"

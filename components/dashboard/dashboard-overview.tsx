@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight,
@@ -321,9 +322,10 @@ export function DashboardOverview({
             <p className="px-6 py-8 text-sm text-kali-muted">Finished calls will show up here.</p>
           ) : (
             past.map((m) => (
-              <div
+              <Link
                 key={m.id}
-                className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-3.5 last:border-b-0"
+                href={`/m/${m.roomCode}`}
+                className="group flex flex-wrap items-center justify-between gap-3 border-b border-line px-5 py-3.5 transition-colors last:border-b-0 hover:bg-[var(--surface-muted)]"
               >
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-foreground/80">{m.title}</p>
@@ -332,8 +334,14 @@ export function DashboardOverview({
                     {m.endedAt ? ` · ended ${new Date(m.endedAt).toLocaleString()}` : ""}
                   </p>
                 </div>
-                <Badge tone="ink">Ended</Badge>
-              </div>
+                <span className="flex items-center gap-2">
+                  <Badge tone="ink">Ended</Badge>
+                  <span className="flex items-center gap-1 text-xs font-semibold text-kali-muted group-hover:text-foreground">
+                    Recap
+                    <ArrowRight className="h-3.5 w-3.5" weight="bold" />
+                  </span>
+                </span>
+              </Link>
             ))
           )}
         </div>

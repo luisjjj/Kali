@@ -33,7 +33,7 @@ export function MeetingFlow({
   const [sessionKey, setSessionKey] = useState(0);
 
   if (stage.name === "ended") {
-    return <EndedScreen title={title} />;
+    return <EndedScreen title={title} roomCode={roomCode} />;
   }
 
   if (stage.name === "left") {
